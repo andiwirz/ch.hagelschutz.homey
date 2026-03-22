@@ -1,0 +1,77 @@
+{
+  "name": {
+    "en": "Hail Warning Sensor",
+    "de": "Hagelwarn-Sensor"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "alarm_generic",
+    "api_error_state",
+    "hail_state"
+  ],
+  "capabilitiesOptions": {
+    "alarm_generic": {
+      "title": {
+        "en": "Hail Warning",
+        "de": "Hagelwarnung"
+      }
+    }
+  },
+  "images": {
+    "small": "/drivers/hagelschutz/assets/images/small.png",
+    "large": "/drivers/hagelschutz/assets/images/large.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "API Configuration",
+        "de": "API-Konfiguration"
+      },
+      "children": [
+        {
+          "id": "device_id",
+          "type": "text",
+          "label": {
+            "en": "Device ID (Serial Number)",
+            "de": "Geräte-ID (Seriennummer / MAC-Adresse)"
+          },
+          "hint": {
+            "en": "12-character serial number (MAC address of your Signalbox), provided after registration at meteo.netitservices.com",
+            "de": "12-stellige Seriennummer (MAC-Adresse der Signalbox), erhalten nach Registrierung auf meteo.netitservices.com"
+          },
+          "value": ""
+        },
+        {
+          "id": "hwtype_id",
+          "type": "number",
+          "label": {
+            "en": "Hardware Type ID (hwtypeId)",
+            "de": "Hardware-Typ-ID (hwtypeId)"
+          },
+          "hint": {
+            "en": "Integer device type identifier provided at registration (see your registration confirmation).",
+            "de": "Ganzzahliger Gerätetyp-Identifikator, erhalten bei der Registrierung (siehe Registrierungsbestätigung)."
+          },
+          "value": 1,
+          "min": 1,
+          "max": 9999,
+          "step": 1
+        }
+      ]
+    }
+  ]
+}

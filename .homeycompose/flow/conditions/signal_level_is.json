@@ -1,0 +1,29 @@
+{
+  "id": "signal_level_is",
+  "title": {
+    "en": "currentState !{{is|is not}} {{level}}",
+    "de": "currentState !{{ist|ist nicht}} {{level}}"
+  },
+  "titleFormatted": {
+    "en": "currentState !{{is|is not}} [[level]]",
+    "de": "currentState !{{ist|ist nicht}} [[level]]"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    },
+    {
+      "name": "level",
+      "type": "number",
+      "title": {
+        "en": "currentState (0 = no hail, 1 = hail, 2 = test alarm)",
+        "de": "currentState (0 = kein Hagel, 1 = Hagel, 2 = Testalarm)"
+      },
+      "min": 0,
+      "max": 2,
+      "step": 1
+    }
+  ]
+}

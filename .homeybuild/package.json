@@ -1,0 +1,22 @@
+{
+  "name": "ch.hagelschutz.homey",
+  "version": "1.0.0",
+  "description": "Hagelschutz - einfach automatisch Homey App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "homey",
+    "hail",
+    "weather",
+    "blinds",
+    "storen",
+    "hagelschutz"
+  ],
+  "author": "Homey User",
+  "license": "MIT",
+  "dependencies": {
+    "homey": "^3.0.0"
+  }
+}

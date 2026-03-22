@@ -1,0 +1,10 @@
+{
+  "id": "force_poll",
+  "title": { "en": "Check hail status now", "de": "Hagelstatus jetzt prüfen" },
+  "titleFormatted": { "en": "Check hail status now on [[device]]", "de": "Hagelstatus jetzt prüfen auf [[device]]" },
+  "hint": {
+    "en": "Immediately triggers an API poll without waiting for the next 120-second interval.",
+    "de": "Löst sofort eine API-Abfrage aus, ohne das nächste 120-Sekunden-Intervall abzuwarten."
+  },
+  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+}

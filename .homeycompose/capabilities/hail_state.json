@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Hail Signal (currentState)",
+    "de": "Hagelsignal (currentState)"
+  },
+  "desc": {
+    "en": "Current state from the hail warning API: 0 = no hail, 1 = hail, 2 = test alarm",
+    "de": "Aktueller Status der Hagelwarn-API: 0 = kein Hagel, 1 = Hagel, 2 = Testalarm"
+  },
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "getable": true,
+  "setable": false,
+  "insights": true
+}

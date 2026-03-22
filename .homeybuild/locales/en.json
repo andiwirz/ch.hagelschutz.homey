@@ -1,0 +1,16 @@
+{
+  "pair": { "device_name": "Hail Warning Sensor" },
+  "state": {
+    "0": "No hail danger",
+    "1": "Hail warning active",
+    "2": "Hail warning active (test alarm)"
+  },
+  "notifications": {
+    "warning_cleared": "Hail warning cleared – blinds can be closed again.",
+    "api_error": "API connection failed – hail status cannot be retrieved.",
+    "api_recovered": "API connection recovered."
+  },
+  "errors": {
+    "api_unreachable": "API unreachable – please check your Device ID, hwtypeId and internet connection."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "API Connection Error",
+    "de": "API-Verbindungsfehler"
+  },
+  "desc": {
+    "en": "True when the last API request failed (non-200 response or timeout).",
+    "de": "Wahr, wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout)."
+  },
+  "uiComponent": "sensor",
+  "uiQuickAction": false,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "icon": "/drivers/hagelschutz/assets/icons/api_error_state.svg"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "ch.hagelschutz.homey",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#1b5e8c",
+  "name": {
+    "en": "Hagelschutz - einfach automatisch",
+    "de": "Hagelschutz - einfach automatisch"
+  },
+  "description": {
+    "en": "Hail protection for your blinds – automatic warning via REST API",
+    "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API"
+  },
+  "category": [
+    "security",
+    "climate"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
+  },
+  "author": {
+    "name": "Andi",
+    "email": "andi@wirzfamily.ch"
+  }
+}

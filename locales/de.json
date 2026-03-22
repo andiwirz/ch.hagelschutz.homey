@@ -1,0 +1,16 @@
+{
+  "pair": { "device_name": "Hagelwarn-Sensor" },
+  "state": {
+    "0": "Keine Hagelgefahr",
+    "1": "Hagelwarnung aktiv",
+    "2": "Hagelwarnung aktiv (Testalarm)"
+  },
+  "notifications": {
+    "warning_cleared": "Hagelwarnung aufgehoben – Storen können wieder geschlossen werden.",
+    "api_error": "API-Verbindung fehlgeschlagen – Hagelstatus kann nicht abgerufen werden.",
+    "api_recovered": "API-Verbindung wiederhergestellt."
+  },
+  "errors": {
+    "api_unreachable": "API nicht erreichbar – bitte Geräte-ID, hwtypeId und Internetverbindung prüfen."
+  }
+}

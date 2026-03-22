@@ -1,0 +1,14 @@
+{
+  "id": "hail_warning_active",
+  "title": { "en": "Hail warning is active", "de": "Hagelwarnung ist aktiv" },
+  "titleFormatted": { "en": "Hail warning is active on [[device]]", "de": "Hagelwarnung ist aktiv auf [[device]]" },
+  "hint": {
+    "en": "Triggered when a hail warning becomes active (currentState changes from 0 to 1 or 2).",
+    "de": "Wird ausgelöst, wenn eine Hagelwarnung aktiv wird (currentState wechselt von 0 auf 1 oder 2)."
+  },
+  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }],
+  "tokens": [
+    { "name": "signal", "type": "number", "title": { "en": "currentState", "de": "currentState" }, "example": 1 },
+    { "name": "description", "type": "string", "title": { "en": "Description", "de": "Beschreibung" }, "example": "Hail warning active" }
+  ]
+}

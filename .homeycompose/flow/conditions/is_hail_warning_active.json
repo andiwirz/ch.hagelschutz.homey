@@ -1,0 +1,6 @@
+{
+  "id": "is_hail_warning_active",
+  "title": { "en": "Hail warning !{{is|is not}} active", "de": "Hagelwarnung !{{ist|ist nicht}} aktiv" },
+  "titleFormatted": { "en": "Hail warning !{{is|is not}} active on [[device]]", "de": "Hagelwarnung !{{ist|ist nicht}} aktiv auf [[device]]" },
+  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+}
