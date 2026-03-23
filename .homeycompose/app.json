@@ -5,12 +5,14 @@
   "sdk": 3,
   "brandColor": "#1b5e8c",
   "name": {
-    "en": "Hagelschutz - einfach automatisch",
-    "de": "Hagelschutz - einfach automatisch"
+    "en": "Hail Protection – for Swiss Households",
+    "de": "Hagelschutz – für Schweizer Haushalte",
+    "fr": "Protection contre la grêle – pour les ménages suisses"
   },
   "description": {
     "en": "Hail protection for your blinds – automatic warning via REST API",
-    "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API"
+    "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API",
+    "fr": "Protection grêle pour vos stores – alerte automatique via REST API"
   },
   "category": [
     "security",

@@ -1,13 +1,37 @@
 {
   "id": "signal_changed",
-  "title": { "en": "Signal value changed", "de": "Signalwert hat sich geändert" },
-  "titleFormatted": { "en": "Signal value changed on [[device]]", "de": "Signalwert hat sich geändert auf [[device]]" },
+  "title": {
+    "en": "Signal value changed",
+    "de": "Signalwert hat sich geändert",
+    "fr": "Valeur du signal modifiée"
+  },
+  "titleFormatted": {
+    "en": "Signal value changed on [[device]]",
+    "de": "Signalwert hat sich geändert auf [[device]]",
+    "fr": "Valeur du signal modifiée sur [[device]]"
+  },
   "hint": {
     "en": "Triggered on every change of currentState.",
-    "de": "Wird bei jeder Änderung von currentState ausgelöst."
+    "de": "Wird bei jeder Änderung von currentState ausgelöst.",
+    "fr": "Déclenché à chaque modification de currentState."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ],
   "tokens": [
-    { "name": "signal", "type": "number", "title": { "en": "New currentState", "de": "Neuer currentState" }, "example": 1 }
+    {
+      "name": "signal",
+      "type": "number",
+      "title": {
+        "en": "New currentState",
+        "de": "Neuer currentState",
+        "fr": "Nouveau currentState"
+      },
+      "example": 1
+    }
   ]
 }

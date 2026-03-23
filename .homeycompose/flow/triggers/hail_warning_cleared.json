@@ -1,10 +1,25 @@
 {
   "id": "hail_warning_cleared",
-  "title": { "en": "Hail warning cleared", "de": "Hagelwarnung aufgehoben" },
-  "titleFormatted": { "en": "Hail warning cleared on [[device]]", "de": "Hagelwarnung aufgehoben auf [[device]]" },
+  "title": {
+    "en": "Hail warning cleared",
+    "de": "Hagelwarnung aufgehoben",
+    "fr": "Alerte grêle levée"
+  },
+  "titleFormatted": {
+    "en": "Hail warning cleared on [[device]]",
+    "de": "Hagelwarnung aufgehoben auf [[device]]",
+    "fr": "Alerte grêle levée sur [[device]]"
+  },
   "hint": {
     "en": "Triggered when a hail warning is no longer active (currentState returns to 0).",
-    "de": "Wird ausgelöst, wenn eine Hagelwarnung nicht mehr aktiv ist (currentState kehrt zu 0 zurück)."
+    "de": "Wird ausgelöst, wenn eine Hagelwarnung nicht mehr aktiv ist (currentState kehrt zu 0 zurück).",
+    "fr": "Déclenché quand une alerte grêle n'est plus active (currentState revient à 0)."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ]
 }

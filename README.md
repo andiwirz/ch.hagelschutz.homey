@@ -88,6 +88,7 @@ DANN:   Push-Benachrichtigung senden
 
 ## Technische Details
 
+- **API-Dokumentation:** [API-Spezifikation PDF](https://www.hagelschutz-einfach-automatisch.ch/files/media/hagelschutz-einfach-automatisch/hagelschutz-einfach-automatisch-anleitung-schnittstelle-api.pdf)
 - **API-Endpunkt:** `GET https://meteo.netitservices.com/api/v1/devices/<deviceId>/poll?hwtypeId=<hwtypeId>`
 - **Fehler-Reporting:** `POST https://meteo.netitservices.com/api/v1/devices/<deviceId>/errorLogs`
 - **Poll-Intervall:** Fest 120 Sekunden (Pflichtanforderung der API-Spezifikation)

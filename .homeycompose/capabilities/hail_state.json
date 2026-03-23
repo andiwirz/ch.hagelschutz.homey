@@ -2,15 +2,18 @@
   "type": "number",
   "title": {
     "en": "Hail Signal (currentState)",
-    "de": "Hagelsignal (currentState)"
+    "de": "Hagelsignal (currentState)",
+    "fr": "Signal grêle (currentState)"
   },
   "desc": {
     "en": "Current state from the hail warning API: 0 = no hail, 1 = hail, 2 = test alarm",
-    "de": "Aktueller Status der Hagelwarn-API: 0 = kein Hagel, 1 = Hagel, 2 = Testalarm"
+    "de": "Aktueller Status der Hagelwarn-API: 0 = kein Hagel, 1 = Hagel, 2 = Testalarm",
+    "fr": "État actuel de l'API d'alerte grêle: 0 = pas de grêle, 1 = grêle, 2 = alarme de test"
   },
   "uiComponent": "sensor",
   "uiQuickAction": false,
   "getable": true,
   "setable": false,
-  "insights": true
+  "insights": true,
+  "icon": "/drivers/hagelschutz/assets/icons/hail_state.svg"
 }

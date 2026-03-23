@@ -1,5 +1,7 @@
 {
-  "pair": { "device_name": "Hagelwarn-Sensor" },
+  "pair": {
+    "device_name": "Hagelwarn-Sensor"
+  },
   "state": {
     "0": "Keine Hagelgefahr",
     "1": "Hagelwarnung aktiv",

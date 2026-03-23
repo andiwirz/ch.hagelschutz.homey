@@ -2,11 +2,13 @@
   "type": "boolean",
   "title": {
     "en": "API Connection Error",
-    "de": "API-Verbindungsfehler"
+    "de": "API-Verbindungsfehler",
+    "fr": "Erreur de connexion API"
   },
   "desc": {
     "en": "True when the last API request failed (non-200 response or timeout).",
-    "de": "Wahr, wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout)."
+    "de": "Wahr, wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout).",
+    "fr": "Vrai si la dernière requête API a échoué (réponse non-200 ou délai dépassé)."
   },
   "uiComponent": "sensor",
   "uiQuickAction": false,

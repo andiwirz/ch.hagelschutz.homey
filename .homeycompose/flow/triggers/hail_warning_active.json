@@ -1,14 +1,47 @@
 {
   "id": "hail_warning_active",
-  "title": { "en": "Hail warning is active", "de": "Hagelwarnung ist aktiv" },
-  "titleFormatted": { "en": "Hail warning is active on [[device]]", "de": "Hagelwarnung ist aktiv auf [[device]]" },
+  "title": {
+    "en": "Hail warning is active",
+    "de": "Hagelwarnung ist aktiv",
+    "fr": "Alerte grêle active"
+  },
+  "titleFormatted": {
+    "en": "Hail warning is active on [[device]]",
+    "de": "Hagelwarnung ist aktiv auf [[device]]",
+    "fr": "Alerte grêle active sur [[device]]"
+  },
   "hint": {
     "en": "Triggered when a hail warning becomes active (currentState changes from 0 to 1 or 2).",
-    "de": "Wird ausgelöst, wenn eine Hagelwarnung aktiv wird (currentState wechselt von 0 auf 1 oder 2)."
+    "de": "Wird ausgelöst, wenn eine Hagelwarnung aktiv wird (currentState wechselt von 0 auf 1 oder 2).",
+    "fr": "Déclenché quand une alerte grêle devient active (currentState passe de 0 à 1 ou 2)."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ],
   "tokens": [
-    { "name": "signal", "type": "number", "title": { "en": "currentState", "de": "currentState" }, "example": 1 },
-    { "name": "description", "type": "string", "title": { "en": "Description", "de": "Beschreibung" }, "example": "Hail warning active" }
+    {
+      "name": "signal",
+      "type": "number",
+      "title": {
+        "en": "currentState",
+        "de": "currentState",
+        "fr": "currentState"
+      },
+      "example": 1
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "title": {
+        "en": "Description",
+        "de": "Beschreibung",
+        "fr": "Description"
+      },
+      "example": "Hail warning active"
+    }
   ]
 }

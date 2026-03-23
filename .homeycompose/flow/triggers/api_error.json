@@ -1,13 +1,37 @@
 {
   "id": "api_error",
-  "title": { "en": "API connection failed", "de": "API-Verbindung fehlgeschlagen" },
-  "titleFormatted": { "en": "API connection failed on [[device]]", "de": "API-Verbindung fehlgeschlagen auf [[device]]" },
+  "title": {
+    "en": "API connection failed",
+    "de": "API-Verbindung fehlgeschlagen",
+    "fr": "Connexion API échouée"
+  },
+  "titleFormatted": {
+    "en": "API connection failed on [[device]]",
+    "de": "API-Verbindung fehlgeschlagen auf [[device]]",
+    "fr": "Connexion API échouée sur [[device]]"
+  },
   "hint": {
     "en": "Triggered when the API returns a non-200 status or times out.",
-    "de": "Wird ausgelöst, wenn die API keinen HTTP 200 zurückgibt oder zeitüberschreitet."
+    "de": "Wird ausgelöst, wenn die API keinen HTTP 200 zurückgibt oder zeitüberschreitet.",
+    "fr": "Déclenché quand l'API retourne un statut non-200 ou expire."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ],
   "tokens": [
-    { "name": "error", "type": "string", "title": { "en": "Error message", "de": "Fehlermeldung" }, "example": "HTTP 503: Service Unavailable" }
+    {
+      "name": "error",
+      "type": "string",
+      "title": {
+        "en": "Error message",
+        "de": "Fehlermeldung",
+        "fr": "Message d'erreur"
+      },
+      "example": "HTTP 503: Service Unavailable"
+    }
   ]
 }

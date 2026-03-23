@@ -2,11 +2,13 @@
   "id": "signal_level_is",
   "title": {
     "en": "currentState !{{is|is not}} {{level}}",
-    "de": "currentState !{{ist|ist nicht}} {{level}}"
+    "de": "currentState !{{ist|ist nicht}} {{level}}",
+    "fr": "currentState !{{est|n'est pas}} {{level}}"
   },
   "titleFormatted": {
     "en": "currentState !{{is|is not}} [[level]]",
-    "de": "currentState !{{ist|ist nicht}} [[level]]"
+    "de": "currentState !{{ist|ist nicht}} [[level]]",
+    "fr": "currentState !{{is|is not}} [[level]]"
   },
   "args": [
     {
@@ -19,7 +21,8 @@
       "type": "number",
       "title": {
         "en": "currentState (0 = no hail, 1 = hail, 2 = test alarm)",
-        "de": "currentState (0 = kein Hagel, 1 = Hagel, 2 = Testalarm)"
+        "de": "currentState (0 = kein Hagel, 1 = Hagel, 2 = Testalarm)",
+        "fr": "currentState (0 = pas de grêle, 1 = grêle, 2 = alarme de test)"
       },
       "min": 0,
       "max": 2,

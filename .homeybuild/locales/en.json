@@ -1,5 +1,7 @@
 {
-  "pair": { "device_name": "Hail Warning Sensor" },
+  "pair": {
+    "device_name": "Hail Warning Sensor"
+  },
   "state": {
     "0": "No hail danger",
     "1": "Hail warning active",

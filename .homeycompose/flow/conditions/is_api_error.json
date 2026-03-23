@@ -1,6 +1,20 @@
 {
   "id": "is_api_error",
-  "title": { "en": "API connection !{{has failed|is working}}", "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}" },
-  "titleFormatted": { "en": "API connection !{{has failed|is working}} on [[device]]", "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}} auf [[device]]" },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+  "title": {
+    "en": "API connection !{{has failed|is working}}",
+    "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}",
+    "fr": "Connexion API !{{a échoué|fonctionne}}"
+  },
+  "titleFormatted": {
+    "en": "API connection !{{has failed|is working}} on [[device]]",
+    "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}} auf [[device]]",
+    "fr": "Connexion API !{{a échoué|fonctionne}} sur [[device]]"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ]
 }

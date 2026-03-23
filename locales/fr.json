@@ -1,0 +1,18 @@
+{
+  "pair": {
+    "device_name": "Capteur d'alerte grêle"
+  },
+  "state": {
+    "0": "Aucun danger de grêle",
+    "1": "Alerte grêle active",
+    "2": "Alerte grêle active (alarme de test)"
+  },
+  "notifications": {
+    "warning_cleared": "Alerte grêle levée – les stores peuvent être refermés.",
+    "api_error": "Connexion API échouée – le statut grêle ne peut pas être récupéré.",
+    "api_recovered": "Connexion API rétablie."
+  },
+  "errors": {
+    "api_unreachable": "API inaccessible – veuillez vérifier l'ID de l'appareil, le hwtypeId et la connexion internet."
+  }
+}

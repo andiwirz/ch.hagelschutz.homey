@@ -1,10 +1,25 @@
 {
   "id": "force_poll",
-  "title": { "en": "Check hail status now", "de": "Hagelstatus jetzt prüfen" },
-  "titleFormatted": { "en": "Check hail status now on [[device]]", "de": "Hagelstatus jetzt prüfen auf [[device]]" },
+  "title": {
+    "en": "Check hail status now",
+    "de": "Hagelstatus jetzt prüfen",
+    "fr": "Vérifier le statut grêle maintenant"
+  },
+  "titleFormatted": {
+    "en": "Check hail status now on [[device]]",
+    "de": "Hagelstatus jetzt prüfen auf [[device]]",
+    "fr": "Vérifier le statut grêle maintenant sur [[device]]"
+  },
   "hint": {
     "en": "Immediately triggers an API poll without waiting for the next 120-second interval.",
-    "de": "Löst sofort eine API-Abfrage aus, ohne das nächste 120-Sekunden-Intervall abzuwarten."
+    "de": "Löst sofort eine API-Abfrage aus, ohne das nächste 120-Sekunden-Intervall abzuwarten.",
+    "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle de 120 secondes."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ]
 }

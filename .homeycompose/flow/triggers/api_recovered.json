@@ -1,10 +1,25 @@
 {
   "id": "api_recovered",
-  "title": { "en": "API connection recovered", "de": "API-Verbindung wiederhergestellt" },
-  "titleFormatted": { "en": "API connection recovered on [[device]]", "de": "API-Verbindung wiederhergestellt auf [[device]]" },
+  "title": {
+    "en": "API connection recovered",
+    "de": "API-Verbindung wiederhergestellt",
+    "fr": "Connexion API rétablie"
+  },
+  "titleFormatted": {
+    "en": "API connection recovered on [[device]]",
+    "de": "API-Verbindung wiederhergestellt auf [[device]]",
+    "fr": "Connexion API rétablie sur [[device]]"
+  },
   "hint": {
     "en": "Triggered when the API responds successfully again after an error.",
-    "de": "Wird ausgelöst, wenn die API nach einem Fehler wieder erfolgreich antwortet."
+    "de": "Wird ausgelöst, wenn die API nach einem Fehler wieder erfolgreich antwortet.",
+    "fr": "Déclenché quand l'API répond à nouveau avec succès après une erreur."
   },
-  "args": [{ "name": "device", "type": "device", "filter": "driver_id=hagelschutz" }]
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ]
 }
