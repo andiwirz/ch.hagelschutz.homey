@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hagelschutz konfigurieren</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f7fafc;
+      color: #2d3748;
+      padding: 28px 24px 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .header img { width: 48px; height: 48px; border-radius: 10px; }
+    .header h1 { font-size: 17px; font-weight: 700; color: #1a202c; }
+    .header p  { font-size: 12px; color: #718096; margin-top: 2px; }
+
+    .info-box {
+      background: #ebf8ff;
+      border: 1px solid #bee3f8;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 12px;
+      color: #2b6cb0;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #2d3748;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      border-color: #1b5e8c;
+      box-shadow: 0 0 0 3px rgba(27,94,140,0.15);
+    }
+    .hint { font-size: 11px; color: #a0aec0; margin-top: 4px; }
+    .error-msg {
+      display: none;
+      background: #fff5f5;
+      border: 1px solid #feb2b2;
+      border-radius: 8px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: #c53030;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .error-msg.visible { display: block; }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: #1b5e8c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+      margin-top: 6px;
+    }
+    .btn:hover { background: #154d73; }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .status {
+      text-align: center;
+      font-size: 12px;
+      color: #718096;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="/app/ch.hagelschutz.homey/assets/icon.svg" alt="" onerror="this.style.display='none'">
+    <div>
+      <h1>Hagelschutz Schweiz</h1>
+      <p>Sensor konfigurieren</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    ℹ️ Sie benötigen eine Registrierung auf <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>
+    Die Geräte-ID (deviceId) und Hardware-Typ-ID (hwtypeId) erhalten Sie nach der Registrierung per E-Mail.
+  </div>
+
+  <div class="form-group">
+    <label for="device_id">Geräte-ID (Seriennummer / MAC-Adresse)</label>
+    <input type="text" id="device_id" placeholder="z.B. A1B2C3D4E5F6"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="12">
+    <p class="hint">12-stellige Seriennummer / MAC-Adresse der Signalbox.</p>
+  </div>
+
+  <div class="form-group">
+    <label for="hwtype_id">Hardware-Typ-ID (hwtypeId)</label>
+    <input type="number" id="hwtype_id" placeholder="z.B. 1" min="1" max="9999" step="1">
+    <p class="hint">Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.</p>
+  </div>
+
+  <div class="form-group">
+    <label for="poll_interval">Abfrageintervall (Sekunden)</label>
+    <input type="number" id="poll_interval" value="120" min="120" max="3600" step="10">
+    <p class="hint">Mindestens 120 Sekunden gemäss API-Spezifikation.</p>
+  </div>
+
+  <div class="error-msg" id="error-msg"></div>
+
+  <button class="btn" id="btn-add" onclick="addDevice()">
+    Sensor hinzufügen
+  </button>
+  <div class="status" id="status"></div>
+
+  <script>
+    var Homey;
+
+    function onHomeyReady(HomeyInstance) {
+      Homey = HomeyInstance;
+      Homey.ready();
+    }
+
+    function setStatus(msg) {
+      document.getElementById('status').textContent = msg;
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('error-msg');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+
+    function hideError() {
+      document.getElementById('error-msg').classList.remove('visible');
+    }
+
+    function setLoading(loading) {
+      var btn = document.getElementById('btn-add');
+      btn.disabled = loading;
+      btn.textContent = loading ? 'Wird hinzugefügt…' : 'Sensor hinzufügen';
+      setStatus(loading ? 'Konfiguration wird gespeichert…' : '');
+    }
+
+    function addDevice() {
+      var deviceId    = document.getElementById('device_id').value.trim();
+      var hwtypeId    = parseInt(document.getElementById('hwtype_id').value, 10);
+      var pollInterval = parseInt(document.getElementById('poll_interval').value, 10);
+
+      hideError();
+
+      if (!deviceId || deviceId.length < 6) {
+        showError('Bitte eine gültige Geräte-ID eingeben (mindestens 6 Zeichen).');
+        return;
+      }
+      if (!hwtypeId || hwtypeId < 1) {
+        showError('Bitte eine gültige Hardware-Typ-ID eingeben (mind. 1).');
+        return;
+      }
+      if (!pollInterval || pollInterval < 120) {
+        showError('Das Abfrageintervall muss mindestens 120 Sekunden betragen.');
+        return;
+      }
+
+      setLoading(true);
+
+      Homey.emit('validate', { device_id: deviceId, hwtype_id: hwtypeId })
+        .then(function(result) {
+          if (!result || !result.success) {
+            setLoading(false);
+            showError('Geräte-ID oder Hardware-Typ-ID ungültig. Bitte Angaben prüfen.');
+            throw new Error('validation_failed');
+          }
+
+          var device = {
+            name: 'Hagelwarn-Sensor',
+            data: { id: 'hagelschutz-' + deviceId },
+            settings: {
+              device_id:     deviceId,
+              hwtype_id:     hwtypeId,
+              poll_interval: pollInterval
+            }
+          };
+
+          setStatus('Sensor wird hinzugefügt…');
+          return Homey.createDevice(device);
+        })
+        .then(function() {
+          setStatus('Erfolgreich hinzugefügt!');
+          Homey.alert('Hagelwarn-Sensor erfolgreich hinzugefügt!').then(function() {
+            Homey.done();
+          });
+        })
+        .catch(function(err) {
+          if (err && err.message === 'validation_failed') return;
+          setLoading(false);
+          showError('Fehler: ' + (err && err.message ? err.message : String(err)));
+        });
+    }
+  </script>
+
+</body>
+</html>

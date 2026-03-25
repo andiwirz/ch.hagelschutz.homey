@@ -40,6 +40,23 @@ class HagelschutzDriver extends Homey.Driver {
       });
   }
 
+  async onPair(session) {
+    session.setHandler('validate', async ({ device_id, hwtype_id }) => {
+      const https = require('https');
+      const host  = 'meteo.netitservices.com';
+      const path  = `/api/v1/devices/${encodeURIComponent(device_id)}/poll?hwtypeId=${encodeURIComponent(hwtype_id)}`;
+
+      return new Promise((resolve) => {
+        https.get({ hostname: host, path, timeout: 10000 }, (res) => {
+          resolve({ success: res.statusCode === 200 });
+          res.resume();
+        })
+          .on('error', () => resolve({ success: false }))
+          .on('timeout', () => resolve({ success: false }));
+      });
+    });
+  }
+
   async onPairListDevices() {
     return [
       {
