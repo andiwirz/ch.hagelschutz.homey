@@ -10,7 +10,8 @@
   "notifications": {
     "warning_cleared": "Hagelwarnung aufgehoben – Storen können wieder geschlossen werden.",
     "api_error": "API-Verbindung fehlgeschlagen – Hagelstatus kann nicht abgerufen werden.",
-    "api_recovered": "API-Verbindung wiederhergestellt."
+    "api_recovered": "API-Verbindung wiederhergestellt.",
+    "poll_overdue": "Letzte API-Abfrage überfällig – seit mehr als 10 Minuten keine erfolgreiche Verbindung."
   },
   "errors": {
     "api_unreachable": "API nicht erreichbar – bitte Geräte-ID, hwtypeId und Internetverbindung prüfen."

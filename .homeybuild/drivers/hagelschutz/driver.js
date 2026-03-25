@@ -13,6 +13,7 @@ class HagelschutzDriver extends Homey.Driver {
     this._triggerSignalChanged      = this.homey.flow.getDeviceTriggerCard('signal_changed');
     this._triggerApiError           = this.homey.flow.getDeviceTriggerCard('api_error');
     this._triggerApiRecovered       = this.homey.flow.getDeviceTriggerCard('api_recovered');
+    this._triggerPollOverdue        = this.homey.flow.getDeviceTriggerCard('poll_overdue');
 
     // Register Flow conditions
     this.homey.flow.getConditionCard('is_hail_warning_active')
@@ -29,6 +30,13 @@ class HagelschutzDriver extends Homey.Driver {
     this.homey.flow.getConditionCard('is_api_error')
       .registerRunListener(async (args) => {
         return args.device.getCapabilityValue('api_error_state') === true;
+      });
+
+    this.homey.flow.getConditionCard('last_poll_older_than')
+      .registerRunListener(async (args) => {
+        const lastPoll = args.device._lastPollTime;
+        if (!lastPoll) return true;
+        return (Date.now() - lastPoll) > args.minutes * 60 * 1000;
       });
 
     // Register Flow actions

@@ -1,0 +1,25 @@
+{
+  "id": "poll_overdue",
+  "title": {
+    "en": "Last API poll is overdue",
+    "de": "Letzte API-Abfrage überfällig",
+    "fr": "Dernière interrogation API en retard"
+  },
+  "titleFormatted": {
+    "en": "Last API poll is overdue",
+    "de": "Letzte API-Abfrage überfällig",
+    "fr": "Dernière interrogation API en retard"
+  },
+  "hint": {
+    "en": "Triggered when no successful API poll has occurred for more than 10 minutes.",
+    "de": "Wird ausgelöst, wenn seit mehr als 10 Minuten keine erfolgreiche API-Abfrage stattgefunden hat.",
+    "fr": "Déclenché quand aucune interrogation API réussie n'a eu lieu depuis plus de 10 minutes."
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=hagelschutz"
+    }
+  ]
+}

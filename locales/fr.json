@@ -10,7 +10,8 @@
   "notifications": {
     "warning_cleared": "Alerte grêle levée – les stores peuvent être refermés.",
     "api_error": "Connexion API échouée – le statut grêle ne peut pas être récupéré.",
-    "api_recovered": "Connexion API rétablie."
+    "api_recovered": "Connexion API rétablie.",
+    "poll_overdue": "Dernière interrogation API en retard – aucune connexion réussie depuis plus de 10 minutes."
   },
   "errors": {
     "api_unreachable": "API inaccessible – veuillez vérifier l'ID de l'appareil, le hwtypeId et la connexion internet."

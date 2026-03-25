@@ -38,9 +38,12 @@ class HagelschutzDevice extends Homey.Device {
     this.log('HagelschutzDevice initialised:', this.getName());
 
     // Internal state
-    this._lastState = null;   // last currentState value (0 / 1 / 2)
-    this._lastApiError = null; // last API error state (true/false)
+    this._lastState = null;
+    this._lastApiError = null;
+    this._lastPollTime = null;  // timestamp of last successful poll
+    this._pollOverdue = false;  // tracks if overdue warning already fired
     this._pollTimer = null;
+    this._watchdogTimer = null;
 
     // Migrate: ensure capabilities added in later versions exist on older devices
     if (!this.hasCapability('api_error_state')) {
@@ -82,12 +85,43 @@ class HagelschutzDevice extends Homey.Device {
     }, intervalMs);
 
     this.log(`Polling started (interval: ${intervalSec}s)`);
+
+    // Watchdog: check every 60s if last successful poll is overdue (> 10 min)
+    this._watchdogTimer = this.homey.setInterval(() => {
+      this._checkPollOverdue();
+    }, 60 * 1000);
   }
 
   _stopPolling() {
     if (this._pollTimer) {
       this.homey.clearInterval(this._pollTimer);
       this._pollTimer = null;
+    }
+    if (this._watchdogTimer) {
+      this.homey.clearInterval(this._watchdogTimer);
+      this._watchdogTimer = null;
+    }
+  }
+
+  async _checkPollOverdue() {
+    const OVERDUE_MS = 10 * 60 * 1000; // 10 minutes
+    if (!this._lastPollTime) return;
+
+    const isOverdue = (Date.now() - this._lastPollTime) > OVERDUE_MS;
+
+    if (isOverdue && !this._pollOverdue) {
+      this._pollOverdue = true;
+      this.log('⚠️ Poll overdue – last successful poll > 10 minutes ago');
+      await this.driver._triggerPollOverdue
+        .trigger(this)
+        .catch(this.error.bind(this));
+      await this.homey.notifications.createNotification({
+        excerpt: `⚠️ ${this.getName()}: ${this.homey.__('notifications.poll_overdue')}`,
+      }).catch(() => {});
+    }
+
+    if (!isOverdue && this._pollOverdue) {
+      this._pollOverdue = false;
     }
   }
 
@@ -189,6 +223,10 @@ class HagelschutzDevice extends Homey.Device {
 
     // Clear connectivity alarm on successful response
     await this._clearApiError();
+
+    // Record successful poll time
+    this._lastPollTime = Date.now();
+    this._pollOverdue  = false;
 
     // Update last poll timestamp in short format using Homey's timezone
     const now = new Date();
