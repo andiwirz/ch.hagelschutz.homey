@@ -32,6 +32,14 @@
   "bugs": {
     "url": "https://github.com/andiwirz/ch.hagelschutz.homey/issues"
   },
+  "homeyCommunityTopicId": 152992,
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "AndiWirz"
+      }
+    }
+  },
   "flow": {
     "triggers": [
       {
