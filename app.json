@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "ch.hagelschutz.homey",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "compatibility": ">=11.0.0",
   "sdk": 3,
   "brandColor": "#1b5e8c",
@@ -19,6 +19,49 @@
     "security",
     "climate"
   ],
+  "tags": {
+    "en": [
+      "hail",
+      "hail warning",
+      "hail protection",
+      "blinds",
+      "roller shutters",
+      "awning",
+      "weather",
+      "weather warning",
+      "Switzerland",
+      "storm",
+      "automation",
+      "sensor"
+    ],
+    "de": [
+      "Hagel",
+      "Hagelwarnung",
+      "Hagelschutz",
+      "Storen",
+      "Jalousien",
+      "Storenanlagen",
+      "Wetter",
+      "Wetterwarnung",
+      "Schweiz",
+      "Sturm",
+      "Automatisierung",
+      "Sensor"
+    ],
+    "fr": [
+      "grêle",
+      "alerte grêle",
+      "protection grêle",
+      "stores",
+      "volets",
+      "météo",
+      "alerte météo",
+      "Suisse",
+      "tempête",
+      "automatisation",
+      "capteur"
+    ]
+  },
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
