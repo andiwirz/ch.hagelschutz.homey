@@ -143,6 +143,7 @@ DANN:   Push-Benachrichtigung senden → "Hagelschutz API nicht erreichbar!"
 
 ## Links
 
+- 📋 **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - 🐛 **Bug melden:** [GitHub Issues](https://github.com/andiwirz/ch.hagelschutz.homey/issues)
 - 💬 **Community:** [Homey Community Thread #152992](https://community.homey.app/t/152992)
 - ☕ **Spende:** [PayPal](https://paypal.me/AndiWirz)
