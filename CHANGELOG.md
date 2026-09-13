@@ -4,6 +4,25 @@ Alle relevanten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## [1.0.9] – 2026-09-13
+
+### Behoben
+- **Spurious Flow-Trigger** nach Änderung des Abfrageintervalls: `_lastState` wird jetzt nur bei Wechsel der Geräte-ID oder hwtypeId zurückgesetzt
+- **hwtypeId-Validierung** korrigiert (`== null || isNaN` statt fragiler `!value && value !== 0`-Prüfung)
+- **Timer-Leak** bei Einstellungsänderung oder Gerät löschen: `_clearRetryTimer()` wird jetzt in `_stopPolling()` aufgerufen
+
+### Neu
+- **Auto-Retry nach API-Fehler**: 30-Sekunden-Retry vor Wiederaufnahme des normalen Intervalls
+- **Mehrsprachige Einrichtungsseite** (Pairing UI): DE/EN/FR automatisch aus Homey-Spracheinstellung
+- **Spinner und Statusanzeige** während API-Validierung und Gerät-Erstellung in der Pairing UI
+- **Globaler Error-Guard** in `app.js` (unhandledRejection-Logging)
+
+### Verbessert
+- Force-Poll-Hinweistext: hardcoded „120 Sekunden" entfernt → „konfiguriertes Intervall" (DE/EN/FR)
+- App-Version wird beim Start geloggt
+
+---
+
 ## [1.0.8] – 2026-07-01
 
 ### Neu

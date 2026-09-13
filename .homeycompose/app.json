@@ -1,6 +1,6 @@
 {
   "id": "ch.hagelschutz.homey",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "compatibility": ">=11.0.0",
   "sdk": 3,
   "brandColor": "#1b5e8c",

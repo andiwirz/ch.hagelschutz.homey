@@ -22,5 +22,10 @@
   },
   "1.0.8": {
     "en": "tags"
+  },
+  "1.0.9": {
+    "en": "Bug fixes: no more spurious Flow triggers after changing poll interval; 30 s auto-retry after API error; multilingual pairing UI (DE/EN/FR); fixed hwtypeId validation",
+    "de": "Fehlerbehebungen: Keine ungewollten Flow-Trigger mehr nach Änderung des Abfrageintervalls; automatischer 30-s-Retry nach API-Fehler; mehrsprachige Einrichtungsseite (DE/EN/FR); hwtypeId-Validierung korrigiert",
+    "fr": "Corrections: plus de déclenchements Flow non désirés après modification de l'intervalle; relance automatique 30 s après erreur API; page de configuration multilingue (DE/EN/FR); validation hwtypeId corrigée"
   }
 }
