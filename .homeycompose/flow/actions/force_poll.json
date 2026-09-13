@@ -11,9 +11,9 @@
     "fr": "Vérifier le statut grêle maintenant"
   },
   "hint": {
-    "en": "Immediately triggers an API poll without waiting for the next 120-second interval.",
-    "de": "Löst sofort eine API-Abfrage aus, ohne das nächste 120-Sekunden-Intervall abzuwarten.",
-    "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle de 120 secondes."
+    "en": "Immediately triggers an API poll without waiting for the next scheduled interval.",
+    "de": "Löst sofort eine API-Abfrage aus, ohne das konfigurierte Intervall abzuwarten.",
+    "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle configuré."
   },
   "args": [
     {

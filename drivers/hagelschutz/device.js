@@ -23,14 +23,17 @@ const https = require('https');
 //   Header: Content-Type: application/json
 // ─────────────────────────────────────────────────────────────────────────────
 
-const API_HOST = 'meteo.netitservices.com';
+const API_HOST      = 'meteo.netitservices.com';
 const API_POLL_PATH = (deviceId, hwtypeId) =>
   `/api/v1/devices/${encodeURIComponent(deviceId)}/poll?hwtypeId=${encodeURIComponent(hwtypeId)}`;
 const API_ERROR_PATH = (deviceId) =>
   `/api/v1/devices/${encodeURIComponent(deviceId)}/errorLogs`;
 
-// Required by the API spec: poll every 120 seconds
-const REQUIRED_POLL_INTERVAL_MS = 120 * 1000;
+// Required by the API spec: minimum 120 seconds between polls
+const MIN_POLL_INTERVAL_MS = 120 * 1000;
+
+// After an API error: retry after this delay before resuming the normal interval
+const ERROR_RETRY_DELAY_MS = 30 * 1000;
 
 class HagelschutzDevice extends Homey.Device {
 
@@ -38,12 +41,13 @@ class HagelschutzDevice extends Homey.Device {
     this.log('HagelschutzDevice initialised:', this.getName());
 
     // Internal state
-    this._lastState = null;
-    this._lastApiError = null;
-    this._lastPollTime = null;  // timestamp of last successful poll
-    this._pollOverdue = false;  // tracks if overdue warning already fired
-    this._pollTimer = null;
+    this._lastState     = null;
+    this._lastApiError  = null;   // null = unknown, true = error, false = ok
+    this._lastPollTime  = null;   // timestamp of last successful poll
+    this._pollOverdue   = false;  // true once overdue trigger has fired
+    this._pollTimer     = null;
     this._watchdogTimer = null;
+    this._retryTimer    = null;   // short-retry timer after an API error
 
     // Migrate: ensure capabilities added in later versions exist on older devices
     if (!this.hasCapability('api_error_state')) {
@@ -63,16 +67,15 @@ class HagelschutzDevice extends Homey.Device {
       this.log('poll_interval corrected to 120s');
     }
 
-    // Start polling immediately then every 120 s (required by API spec)
     await this._startPolling();
   }
 
   // ─────────────────────────────────────────────────────────────────
-  // Polling  (REQUIRED interval: 120 seconds per API spec)
+  // Polling
   // ─────────────────────────────────────────────────────────────────
 
   async _startPolling() {
-    const raw = this.getSetting('poll_interval');
+    const raw        = this.getSetting('poll_interval');
     const intervalSec = (typeof raw === 'number' && raw >= 120) ? raw : 120;
     const intervalMs  = intervalSec * 1000;
 
@@ -86,7 +89,7 @@ class HagelschutzDevice extends Homey.Device {
 
     this.log(`Polling started (interval: ${intervalSec}s)`);
 
-    // Watchdog: check every 60s if last successful poll is overdue (> 10 min)
+    // Watchdog: check every 60 s whether last successful poll is overdue (> 10 min)
     this._watchdogTimer = this.homey.setInterval(() => {
       this._checkPollOverdue();
     }, 60 * 1000);
@@ -100,6 +103,14 @@ class HagelschutzDevice extends Homey.Device {
     if (this._watchdogTimer) {
       this.homey.clearInterval(this._watchdogTimer);
       this._watchdogTimer = null;
+    }
+    this._clearRetryTimer();
+  }
+
+  _clearRetryTimer() {
+    if (this._retryTimer) {
+      this.homey.clearTimeout(this._retryTimer);
+      this._retryTimer = null;
     }
   }
 
@@ -130,14 +141,15 @@ class HagelschutzDevice extends Homey.Device {
   // ─────────────────────────────────────────────────────────────────
 
   async pollApi() {
-    const deviceId  = this.getSetting('device_id');
-    const hwtypeId  = this.getSetting('hwtype_id');
+    const deviceId = this.getSetting('device_id');
+    const hwtypeId = this.getSetting('hwtype_id');
 
-    if (!deviceId || deviceId.trim() === '') {
+    if (!deviceId || String(deviceId).trim() === '') {
       this.log('No deviceId (serial number) configured – skipping poll');
       return;
     }
-    if (!hwtypeId && hwtypeId !== 0) {
+    // Fix: use == null to catch both null and undefined; isNaN guards non-numeric values
+    if (hwtypeId == null || isNaN(hwtypeId)) {
       this.log('No hwtypeId configured – skipping poll');
       return;
     }
@@ -145,13 +157,23 @@ class HagelschutzDevice extends Homey.Device {
     try {
       const data = await this._httpGet(
         API_HOST,
-        API_POLL_PATH(deviceId.trim(), hwtypeId),
+        API_POLL_PATH(String(deviceId).trim(), hwtypeId),
       );
+      this._clearRetryTimer();
       await this._handlePollResponse(data);
     } catch (err) {
       this.error('Error polling API:', err.message);
-      await this._reportError(deviceId.trim(), err.message).catch(() => {});
+      await this._reportError(String(deviceId).trim(), err.message).catch(() => {});
       await this._handleApiError(err.message);
+
+      // Retry once after ERROR_RETRY_DELAY_MS; the regular interval continues in parallel
+      if (!this._retryTimer) {
+        this._retryTimer = this.homey.setTimeout(async () => {
+          this._retryTimer = null;
+          this.log(`Retrying API poll after ${ERROR_RETRY_DELAY_MS / 1000}s…`);
+          await this.pollApi();
+        }, ERROR_RETRY_DELAY_MS);
+      }
     }
   }
 
@@ -174,7 +196,7 @@ class HagelschutzDevice extends Homey.Device {
           timeout: 8000,
         },
         (res) => {
-          res.resume(); // drain
+          res.resume();
           resolve(res.statusCode);
         },
       );
@@ -228,36 +250,32 @@ class HagelschutzDevice extends Homey.Device {
     this._lastPollTime = Date.now();
     this._pollOverdue  = false;
 
-    // Update last poll timestamp in short format using Homey's timezone
+    // Update last poll timestamp using Homey's timezone
     const now = new Date();
-    const tz = this.homey.clock.getTimezone();
+    const tz  = this.homey.clock.getTimezone();
     const timestamp = now.toLocaleString('de-CH', {
       timeZone: tz,
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
+      day:    '2-digit',
+      month:  '2-digit',
+      hour:   '2-digit',
       minute: '2-digit',
     });
     await this.setCapabilityValue('last_poll', timestamp).catch(this.error.bind(this));
 
     // API returns { currentState: 0 | 1 | 2 }
     // 0 = no hail  |  1 = hail  |  2 = hail (test alarm)
-    // Per spec: treat 0 as safe, any non-zero as hail
-    const currentState = Number(data.currentState);
-    const isHail       = currentState !== 0;
-    const isTestAlarm  = currentState === 2;
+    const currentState  = Number(data.currentState);
+    const isHail        = currentState !== 0;
     const previousState = this._lastState;
 
-    this.log(`API currentState: ${currentState} | hail: ${isHail} | test: ${isTestAlarm}`);
+    this.log(`API currentState: ${currentState} | hail: ${isHail}`);
 
     // Update capabilities
-    // ch.hagelschutz.homey:hail_state holds the raw currentState (0/1/2) for display
-    // alarm_generic is true whenever currentState != 0
-    await this.setCapabilityValue('hail_state', currentState).catch(this.error.bind(this));
-    await this.setCapabilityValue('alarm_generic', isHail).catch(this.error.bind(this));
+    await this.setCapabilityValue('hail_state',    currentState).catch(this.error.bind(this));
+    await this.setCapabilityValue('alarm_generic',  isHail).catch(this.error.bind(this));
 
     // ── Fire Flow triggers only on state changes ──────────────────
-    if (previousState === currentState) return; // nothing changed
+    if (previousState === currentState) return;
     this._lastState = currentState;
 
     // Always fire "signal changed"
@@ -301,7 +319,7 @@ class HagelschutzDevice extends Homey.Device {
     this.setUnavailable(this.homey.__('errors.api_unreachable')).catch(() => {});
     await this.setCapabilityValue('api_error_state', true).catch(this.error.bind(this));
 
-    // Only trigger Flow on first error (not on every repeated failure)
+    // Only trigger Flow on the first error (not on every repeated failure)
     if (this._lastApiError === true) return;
     this._lastApiError = true;
 
@@ -318,7 +336,7 @@ class HagelschutzDevice extends Homey.Device {
   async _clearApiError() {
     await this.setCapabilityValue('api_error_state', false).catch(this.error.bind(this));
 
-    // Only trigger Flow when recovering from an error
+    // Only trigger Flow when recovering from a confirmed error
     if (this._lastApiError !== true) return;
     this._lastApiError = false;
 
@@ -345,16 +363,22 @@ class HagelschutzDevice extends Homey.Device {
   // Settings changed
   // ─────────────────────────────────────────────────────────────────
 
-  async onSettings({ oldSettings, newSettings, changedKeys }) {
+  async onSettings({ changedKeys }) {
     this.log('Settings changed:', changedKeys);
 
-    if (
-      changedKeys.includes('device_id') ||
-      changedKeys.includes('hwtype_id') ||
-      changedKeys.includes('poll_interval')
-    ) {
+    const credentialsChanged = changedKeys.includes('device_id') || changedKeys.includes('hwtype_id');
+    const intervalChanged    = changedKeys.includes('poll_interval');
+
+    if (credentialsChanged || intervalChanged) {
       this._stopPolling();
-      this._lastState = null;
+
+      // Reset known state only when credentials change (new device = fresh start).
+      // A poll_interval change keeps the last known state to avoid spurious Flow triggers.
+      if (credentialsChanged) {
+        this._lastState    = null;
+        this._lastApiError = null;
+      }
+
       await this._startPolling();
     }
   }

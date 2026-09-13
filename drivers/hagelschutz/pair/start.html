@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hagelschutz konfigurieren</title>
+  <title>Hagelschutz</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -83,15 +83,31 @@
       transition: background 0.2s, opacity 0.2s;
       margin-top: 6px;
     }
-    .btn:hover { background: #154d73; }
+    .btn:hover:not(:disabled) { background: #154d73; }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       text-align: center;
       font-size: 12px;
       color: #718096;
       margin-top: 10px;
-      min-height: 18px;
+      min-height: 20px;
     }
+    .spinner {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #cbd5e0;
+      border-top-color: #1b5e8c;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    .spinner.visible { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -99,56 +115,152 @@
   <div class="header">
     <img src="/app/ch.hagelschutz.homey/assets/icon.svg" alt="" onerror="this.style.display='none'">
     <div>
-      <h1>Hagelschutz Schweiz</h1>
-      <p>Sensor konfigurieren</p>
+      <h1 id="title">Hagelschutz Schweiz</h1>
+      <p id="subtitle">Sensor konfigurieren</p>
     </div>
   </div>
 
-  <div class="info-box">
-    ℹ️ Sie benötigen eine Registrierung auf <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>
-    Die Geräte-ID (deviceId) und Hardware-Typ-ID (hwtypeId) erhalten Sie nach der Registrierung per E-Mail.
-  </div>
+  <div class="info-box" id="info-box"></div>
 
   <div class="form-group">
-    <label for="device_id">Geräte-ID (Seriennummer / MAC-Adresse)</label>
-    <input type="text" id="device_id" placeholder="z.B. A1B2C3D4E5F6"
+    <label id="label-device-id" for="device_id">Geräte-ID</label>
+    <input type="text" id="device_id" placeholder="A1B2C3D4E5F6"
            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="12">
-    <p class="hint">12-stellige Seriennummer / MAC-Adresse der Signalbox.</p>
+    <p class="hint" id="hint-device-id"></p>
   </div>
 
   <div class="form-group">
-    <label for="hwtype_id">Hardware-Typ-ID (hwtypeId)</label>
-    <input type="number" id="hwtype_id" placeholder="z.B. 1" min="1" max="9999" step="1">
-    <p class="hint">Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.</p>
+    <label id="label-hwtype-id" for="hwtype_id">Hardware-Typ-ID</label>
+    <input type="number" id="hwtype_id" placeholder="1" min="1" max="9999" step="1">
+    <p class="hint" id="hint-hwtype-id"></p>
   </div>
 
   <div class="form-group">
-    <label for="poll_interval">Abfrageintervall (Sekunden)</label>
+    <label id="label-poll-interval" for="poll_interval">Abfrageintervall (s)</label>
     <input type="number" id="poll_interval" value="120" min="120" max="3600" step="10">
-    <p class="hint">Mindestens 120 Sekunden gemäss API-Spezifikation.</p>
+    <p class="hint" id="hint-poll-interval"></p>
   </div>
 
   <div class="error-msg" id="error-msg"></div>
 
   <button class="btn" id="btn-add" onclick="addDevice()">
-    Sensor hinzufügen
+    <span id="btn-label">Sensor hinzufügen</span>
   </button>
-  <div class="status" id="status"></div>
+  <div class="status" id="status-bar">
+    <div class="spinner" id="spinner"></div>
+    <span id="status-text"></span>
+  </div>
 
   <script>
-    var Homey;
+    // ── i18n strings ──────────────────────────────────────────────
+    const STRINGS = {
+      de: {
+        title:           'Hagelschutz Schweiz',
+        subtitle:        'Sensor konfigurieren',
+        info:            'ℹ️ Sie benötigen eine Registrierung auf <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>Geräte-ID und Hardware-Typ-ID erhalten Sie nach der Registrierung per E-Mail.',
+        labelDeviceId:   'Geräte-ID (Seriennummer / MAC-Adresse)',
+        hintDeviceId:    '12-stellige Seriennummer / MAC-Adresse der Signalbox.',
+        labelHwtypeId:   'Hardware-Typ-ID (hwtypeId)',
+        hintHwtypeId:    'Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.',
+        labelPollInterval: 'Abfrageintervall (Sekunden)',
+        hintPollInterval: 'Mindestens 120 Sekunden gemäss API-Spezifikation.',
+        btnAdd:          'Sensor hinzufügen',
+        btnAdding:       'Wird hinzugefügt…',
+        statusValidating: 'Verbindung wird geprüft…',
+        statusSaving:    'Konfiguration wird gespeichert…',
+        statusSuccess:   'Erfolgreich hinzugefügt!',
+        alertSuccess:    'Hagelwarn-Sensor erfolgreich hinzugefügt!',
+        errDeviceId:     'Bitte eine gültige Geräte-ID eingeben (mindestens 6 Zeichen).',
+        errHwtypeId:     'Bitte eine gültige Hardware-Typ-ID eingeben (mind. 1).',
+        errPollInterval: 'Das Abfrageintervall muss mindestens 120 Sekunden betragen.',
+        errValidation:   'Geräte-ID oder Hardware-Typ-ID ungültig. Bitte Angaben prüfen.',
+        errGeneric:      'Fehler: ',
+        deviceName:      'Hagelwarn-Sensor',
+      },
+      en: {
+        title:           'Hail Protection Switzerland',
+        subtitle:        'Configure sensor',
+        info:            'ℹ️ You need to register at <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>Your Device ID and Hardware Type ID will be sent by e-mail after registration.',
+        labelDeviceId:   'Device ID (Serial Number / MAC Address)',
+        hintDeviceId:    '12-character serial number (MAC address of the Signalbox).',
+        labelHwtypeId:   'Hardware Type ID (hwtypeId)',
+        hintHwtypeId:    'Integer device type identifier from your registration confirmation.',
+        labelPollInterval: 'Poll interval (seconds)',
+        hintPollInterval: 'Minimum 120 seconds as required by the API specification.',
+        btnAdd:          'Add sensor',
+        btnAdding:       'Adding…',
+        statusValidating: 'Checking connection…',
+        statusSaving:    'Saving configuration…',
+        statusSuccess:   'Successfully added!',
+        alertSuccess:    'Hail Warning Sensor successfully added!',
+        errDeviceId:     'Please enter a valid Device ID (at least 6 characters).',
+        errHwtypeId:     'Please enter a valid Hardware Type ID (min. 1).',
+        errPollInterval: 'Poll interval must be at least 120 seconds.',
+        errValidation:   'Device ID or Hardware Type ID invalid. Please check your entries.',
+        errGeneric:      'Error: ',
+        deviceName:      'Hail Warning Sensor',
+      },
+      fr: {
+        title:           'Protection Grêle Suisse',
+        subtitle:        'Configurer le capteur',
+        info:            'ℹ️ Vous devez vous inscrire sur <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>L\'ID de l\'appareil et l\'ID du type matériel vous seront envoyés par e-mail après l\'inscription.',
+        labelDeviceId:   'ID de l\'appareil (numéro de série / adresse MAC)',
+        hintDeviceId:    'Numéro de série à 12 caractères (adresse MAC de la Signalbox).',
+        labelHwtypeId:   'ID type matériel (hwtypeId)',
+        hintHwtypeId:    'Identifiant entier du type d\'appareil de votre confirmation d\'inscription.',
+        labelPollInterval: 'Intervalle d\'interrogation (secondes)',
+        hintPollInterval: 'Minimum 120 secondes selon la spécification API.',
+        btnAdd:          'Ajouter le capteur',
+        btnAdding:       'Ajout en cours…',
+        statusValidating: 'Vérification de la connexion…',
+        statusSaving:    'Enregistrement de la configuration…',
+        statusSuccess:   'Ajouté avec succès !',
+        alertSuccess:    'Capteur d\'alerte grêle ajouté avec succès !',
+        errDeviceId:     'Veuillez entrer un ID d\'appareil valide (au moins 6 caractères).',
+        errHwtypeId:     'Veuillez entrer un ID de type matériel valide (min. 1).',
+        errPollInterval: 'L\'intervalle d\'interrogation doit être d\'au moins 120 secondes.',
+        errValidation:   'ID de l\'appareil ou ID du type matériel invalide. Veuillez vérifier vos données.',
+        errGeneric:      'Erreur : ',
+        deviceName:      'Capteur d\'alerte grêle',
+      },
+    };
+
+    let t = STRINGS.de; // default until Homey sets the language
+    let Homey;
+
+    function applyTranslations() {
+      document.getElementById('title').textContent           = t.title;
+      document.getElementById('subtitle').textContent        = t.subtitle;
+      document.getElementById('info-box').innerHTML          = t.info;
+      document.getElementById('label-device-id').textContent = t.labelDeviceId;
+      document.getElementById('hint-device-id').textContent  = t.hintDeviceId;
+      document.getElementById('label-hwtype-id').textContent = t.labelHwtypeId;
+      document.getElementById('hint-hwtype-id').textContent  = t.hintHwtypeId;
+      document.getElementById('label-poll-interval').textContent = t.labelPollInterval;
+      document.getElementById('hint-poll-interval').textContent  = t.hintPollInterval;
+      document.getElementById('btn-label').textContent       = t.btnAdd;
+    }
 
     function onHomeyReady(HomeyInstance) {
       Homey = HomeyInstance;
+
+      // Pick the right language; fall back to 'de'
+      const lang = (Homey.language || navigator.language || 'de').split('-')[0].toLowerCase();
+      t = STRINGS[lang] || STRINGS.de;
+      applyTranslations();
+
       Homey.ready();
     }
 
-    function setStatus(msg) {
-      document.getElementById('status').textContent = msg;
+    // ── UI helpers ────────────────────────────────────────────────
+
+    function setStatus(msg, spinning) {
+      document.getElementById('status-text').textContent = msg || '';
+      document.getElementById('spinner').classList.toggle('visible', !!spinning);
     }
 
     function showError(msg) {
-      var el = document.getElementById('error-msg');
+      const el = document.getElementById('error-msg');
       el.textContent = msg;
       el.classList.add('visible');
     }
@@ -158,65 +270,69 @@
     }
 
     function setLoading(loading) {
-      var btn = document.getElementById('btn-add');
-      btn.disabled = loading;
-      btn.textContent = loading ? 'Wird hinzugefügt…' : 'Sensor hinzufügen';
-      setStatus(loading ? 'Konfiguration wird gespeichert…' : '');
+      const btn = document.getElementById('btn-add');
+      const lbl = document.getElementById('btn-label');
+      btn.disabled   = loading;
+      lbl.textContent = loading ? t.btnAdding : t.btnAdd;
     }
 
+    // ── Main action ───────────────────────────────────────────────
+
     function addDevice() {
-      var deviceId    = document.getElementById('device_id').value.trim();
-      var hwtypeId    = parseInt(document.getElementById('hwtype_id').value, 10);
-      var pollInterval = parseInt(document.getElementById('poll_interval').value, 10);
+      const deviceId    = document.getElementById('device_id').value.trim();
+      const hwtypeId    = parseInt(document.getElementById('hwtype_id').value, 10);
+      const pollInterval = parseInt(document.getElementById('poll_interval').value, 10);
 
       hideError();
 
       if (!deviceId || deviceId.length < 6) {
-        showError('Bitte eine gültige Geräte-ID eingeben (mindestens 6 Zeichen).');
+        showError(t.errDeviceId);
         return;
       }
       if (!hwtypeId || hwtypeId < 1) {
-        showError('Bitte eine gültige Hardware-Typ-ID eingeben (mind. 1).');
+        showError(t.errHwtypeId);
         return;
       }
       if (!pollInterval || pollInterval < 120) {
-        showError('Das Abfrageintervall muss mindestens 120 Sekunden betragen.');
+        showError(t.errPollInterval);
         return;
       }
 
       setLoading(true);
+      setStatus(t.statusValidating, true);
 
       Homey.emit('validate', { device_id: deviceId, hwtype_id: hwtypeId })
-        .then(function(result) {
+        .then((result) => {
           if (!result || !result.success) {
             setLoading(false);
-            showError('Geräte-ID oder Hardware-Typ-ID ungültig. Bitte Angaben prüfen.');
+            setStatus('');
+            showError(t.errValidation);
             throw new Error('validation_failed');
           }
 
-          var device = {
-            name: 'Hagelwarn-Sensor',
-            data: { id: 'hagelschutz-' + deviceId },
+          const device = {
+            name: t.deviceName,
+            data: { id: `hagelschutz-${deviceId}` },
             settings: {
               device_id:     deviceId,
               hwtype_id:     hwtypeId,
-              poll_interval: pollInterval
-            }
+              poll_interval: pollInterval,
+            },
           };
 
-          setStatus('Sensor wird hinzugefügt…');
+          setStatus(t.statusSaving, true);
           return Homey.createDevice(device);
         })
-        .then(function() {
-          setStatus('Erfolgreich hinzugefügt!');
-          Homey.alert('Hagelwarn-Sensor erfolgreich hinzugefügt!').then(function() {
-            Homey.done();
-          });
+        .then(() => {
+          setLoading(false);
+          setStatus(t.statusSuccess, false);
+          Homey.alert(t.alertSuccess).then(() => Homey.done());
         })
-        .catch(function(err) {
+        .catch((err) => {
           if (err && err.message === 'validation_failed') return;
           setLoading(false);
-          showError('Fehler: ' + (err && err.message ? err.message : String(err)));
+          setStatus('');
+          showError(t.errGeneric + ((err && err.message) ? err.message : String(err)));
         });
     }
   </script>
