@@ -140,7 +140,7 @@ class HagelschutzDevice extends Homey.Device {
   // API – Poll
   // ─────────────────────────────────────────────────────────────────
 
-  async pollApi() {
+  async pollApi({ isRetry = false } = {}) {
     const deviceId = this.getSetting('device_id');
     const hwtypeId = this.getSetting('hwtype_id');
 
@@ -163,15 +163,23 @@ class HagelschutzDevice extends Homey.Device {
       await this._handlePollResponse(data);
     } catch (err) {
       this.error('Error polling API:', err.message);
-      await this._reportError(String(deviceId).trim(), err.message).catch(() => {});
+
+      // Report error to server only on the initial failure, not on the retry,
+      // to avoid flooding the errorLogs endpoint during prolonged outages.
+      if (!isRetry) {
+        await this._reportError(String(deviceId).trim(), err.message).catch(() => {});
+      }
+
       await this._handleApiError(err.message);
 
-      // Retry once after ERROR_RETRY_DELAY_MS; the regular interval continues in parallel
-      if (!this._retryTimer) {
+      // Schedule a single one-shot retry after ERROR_RETRY_DELAY_MS.
+      // isRetry:true prevents the retry from spawning another retry on failure,
+      // so polling stays at the regular interval even during prolonged outages.
+      if (!isRetry && !this._retryTimer) {
         this._retryTimer = this.homey.setTimeout(async () => {
           this._retryTimer = null;
           this.log(`Retrying API poll after ${ERROR_RETRY_DELAY_MS / 1000}s…`);
-          await this.pollApi();
+          await this.pollApi({ isRetry: true });
         }, ERROR_RETRY_DELAY_MS);
       }
     }
