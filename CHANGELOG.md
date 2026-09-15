@@ -4,6 +4,13 @@ Alle relevanten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## [1.0.10] – 2026-09-15
+
+### Behoben
+- **Hotfix Retry-Schleife**: Der 30-s-Retry aus 1.0.9 erzeugte bei anhaltenden API-Ausfällen eine endlose Retry-Schleife (alle 30 s statt 120 s), was das API-Mindestintervall verletzte und den `errorLogs`-Endpunkt mit Fehlerberichten überlastete. Retry ist jetzt wirklich einmalig (`isRetry`-Flag); `_reportError()` wird beim Retry nicht mehr aufgerufen.
+
+---
+
 ## [1.0.9] – 2026-09-13
 
 ### Behoben
