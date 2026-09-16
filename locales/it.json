@@ -1,0 +1,19 @@
+{
+  "pair": {
+    "device_name": "Sensore di allerta grandine"
+  },
+  "state": {
+    "0": "Nessun pericolo di grandine",
+    "1": "Allerta grandine attiva",
+    "2": "Allerta grandine attiva (allarme di prova)"
+  },
+  "notifications": {
+    "warning_cleared": "Allerta grandine revocata – le tapparelle possono essere richiuse.",
+    "api_error": "Connessione API non riuscita – impossibile recuperare lo stato grandine.",
+    "api_recovered": "Connessione API ripristinata.",
+    "poll_overdue": "Ultima interrogazione API in ritardo – nessuna connessione riuscita da più di 10 minuti."
+  },
+  "errors": {
+    "api_unreachable": "API non raggiungibile – verifica l'ID dispositivo, l'hwtypeId e la connessione internet."
+  }
+}

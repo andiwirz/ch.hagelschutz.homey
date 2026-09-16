@@ -3,12 +3,14 @@
   "title": {
     "en": "Last API poll",
     "de": "Letzte API-Abfrage",
-    "fr": "Dernière interrogation API"
+    "fr": "Dernière interrogation API",
+    "it": "Ultima interrogazione API"
   },
   "desc": {
     "en": "Date and time of the last successful API call.",
     "de": "Datum und Uhrzeit der letzten API-Abfrage.",
-    "fr": "Date et heure de la dernière interrogation API."
+    "fr": "Date et heure de la dernière interrogation API.",
+    "it": "Data e ora dell'ultima interrogazione API riuscita."
   },
   "uiComponent": "sensor",
   "uiQuickAction": false,

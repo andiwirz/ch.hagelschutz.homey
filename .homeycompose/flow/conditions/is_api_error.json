@@ -3,12 +3,14 @@
   "title": {
     "en": "API connection !{{has failed|is working}}",
     "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}",
-    "fr": "Connexion API !{{a échoué|fonctionne}}"
+    "fr": "Connexion API !{{a échoué|fonctionne}}",
+    "it": "Connessione API !{{non è riuscita|funziona}}"
   },
   "titleFormatted": {
     "en": "API connection !{{has failed|is working}}",
     "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}",
-    "fr": "Connexion API !{{a échoué|fonctionne}}"
+    "fr": "Connexion API !{{a échoué|fonctionne}}",
+    "it": "Connessione API !{{non è riuscita|funziona}}"
   },
   "args": [
     {

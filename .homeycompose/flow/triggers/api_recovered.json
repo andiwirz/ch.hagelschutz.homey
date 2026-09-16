@@ -3,17 +3,20 @@
   "title": {
     "en": "API connection recovered",
     "de": "API-Verbindung wiederhergestellt",
-    "fr": "Connexion API rétablie"
+    "fr": "Connexion API rétablie",
+    "it": "Connessione API ripristinata"
   },
   "titleFormatted": {
     "en": "API connection recovered",
     "de": "API-Verbindung wiederhergestellt",
-    "fr": "Connexion API rétablie"
+    "fr": "Connexion API rétablie",
+    "it": "Connessione API ripristinata"
   },
   "hint": {
     "en": "Triggered when the API responds successfully again after an error.",
     "de": "Wird ausgelöst, wenn die API nach einem Fehler wieder erfolgreich antwortet.",
-    "fr": "Déclenché quand l'API répond à nouveau avec succès après une erreur."
+    "fr": "Déclenché quand l'API répond à nouveau avec succès après une erreur.",
+    "it": "Attivato quando l'API risponde nuovamente con successo dopo un errore."
   },
   "args": [
     {

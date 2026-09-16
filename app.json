@@ -8,12 +8,14 @@
   "name": {
     "en": "Hail Protection Switzerland",
     "de": "Hagelschutz Schweiz",
-    "fr": "Protection Grêle Suisse"
+    "fr": "Protection Grêle Suisse",
+    "it": "Protezione Grandine Svizzera"
   },
   "description": {
     "en": "Hail protection for your blinds – automatic warning via REST API",
     "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API",
-    "fr": "Protection grêle pour vos stores – alerte automatique via REST API"
+    "fr": "Protection grêle pour vos stores – alerte automatique via REST API",
+    "it": "Protezione dalla grandine per le tue tapparelle – allerta automatica tramite API REST"
   },
   "category": [
     "security",
@@ -60,6 +62,20 @@
       "tempête",
       "automatisation",
       "capteur"
+    ],
+    "it": [
+      "grandine",
+      "allerta grandine",
+      "protezione grandine",
+      "tapparelle",
+      "persiane",
+      "tende da sole",
+      "meteo",
+      "allerta meteo",
+      "Svizzera",
+      "tempesta",
+      "automazione",
+      "sensore"
     ]
   },
   "permissions": [],
@@ -90,17 +106,20 @@
         "title": {
           "en": "API connection failed",
           "de": "API-Verbindung fehlgeschlagen",
-          "fr": "Connexion API échouée"
+          "fr": "Connexion API échouée",
+          "it": "Connessione API non riuscita"
         },
         "titleFormatted": {
           "en": "API connection failed",
           "de": "API-Verbindung fehlgeschlagen",
-          "fr": "Connexion API échouée"
+          "fr": "Connexion API échouée",
+          "it": "Connessione API non riuscita"
         },
         "hint": {
           "en": "Triggered when the API returns a non-200 status or times out.",
           "de": "Wird ausgelöst, wenn die API keinen HTTP 200 zurückgibt oder zeitüberschreitet.",
-          "fr": "Déclenché quand l'API retourne un statut non-200 ou expire."
+          "fr": "Déclenché quand l'API retourne un statut non-200 ou expire.",
+          "it": "Attivato quando l'API restituisce uno stato diverso da 200 o scade il tempo di attesa."
         },
         "tokens": [
           {
@@ -109,7 +128,8 @@
             "title": {
               "en": "Error message",
               "de": "Fehlermeldung",
-              "fr": "Message d'erreur"
+              "fr": "Message d'erreur",
+              "it": "Messaggio di errore"
             },
             "example": "HTTP 503: Service Unavailable"
           }
@@ -127,17 +147,20 @@
         "title": {
           "en": "API connection recovered",
           "de": "API-Verbindung wiederhergestellt",
-          "fr": "Connexion API rétablie"
+          "fr": "Connexion API rétablie",
+          "it": "Connessione API ripristinata"
         },
         "titleFormatted": {
           "en": "API connection recovered",
           "de": "API-Verbindung wiederhergestellt",
-          "fr": "Connexion API rétablie"
+          "fr": "Connexion API rétablie",
+          "it": "Connessione API ripristinata"
         },
         "hint": {
           "en": "Triggered when the API responds successfully again after an error.",
           "de": "Wird ausgelöst, wenn die API nach einem Fehler wieder erfolgreich antwortet.",
-          "fr": "Déclenché quand l'API répond à nouveau avec succès après une erreur."
+          "fr": "Déclenché quand l'API répond à nouveau avec succès après une erreur.",
+          "it": "Attivato quando l'API risponde nuovamente con successo dopo un errore."
         },
         "args": [
           {
@@ -152,17 +175,20 @@
         "title": {
           "en": "Hail warning is active",
           "de": "Hagelwarnung ist aktiv",
-          "fr": "Alerte grêle active"
+          "fr": "Alerte grêle active",
+          "it": "Allerta grandine attiva"
         },
         "titleFormatted": {
           "en": "Hail warning is active",
           "de": "Hagelwarnung ist aktiv",
-          "fr": "Alerte grêle active"
+          "fr": "Alerte grêle active",
+          "it": "Allerta grandine attiva"
         },
         "hint": {
           "en": "Triggered when a hail warning becomes active (currentState changes from 0 to 1 or 2).",
           "de": "Wird ausgelöst, wenn eine Hagelwarnung aktiv wird (currentState wechselt von 0 auf 1 oder 2).",
-          "fr": "Déclenché quand une alerte grêle devient active (currentState passe de 0 à 1 ou 2)."
+          "fr": "Déclenché quand une alerte grêle devient active (currentState passe de 0 à 1 ou 2).",
+          "it": "Attivato quando un'allerta grandine diventa attiva (currentState passa da 0 a 1 o 2)."
         },
         "tokens": [
           {
@@ -171,7 +197,8 @@
             "title": {
               "en": "currentState",
               "de": "currentState",
-              "fr": "currentState"
+              "fr": "currentState",
+              "it": "currentState"
             },
             "example": 1
           },
@@ -181,7 +208,8 @@
             "title": {
               "en": "Description",
               "de": "Beschreibung",
-              "fr": "Description"
+              "fr": "Description",
+              "it": "Descrizione"
             },
             "example": "Hail warning active"
           }
@@ -199,17 +227,20 @@
         "title": {
           "en": "Hail warning cleared",
           "de": "Hagelwarnung aufgehoben",
-          "fr": "Alerte grêle levée"
+          "fr": "Alerte grêle levée",
+          "it": "Allerta grandine revocata"
         },
         "titleFormatted": {
           "en": "Hail warning cleared",
           "de": "Hagelwarnung aufgehoben",
-          "fr": "Alerte grêle levée"
+          "fr": "Alerte grêle levée",
+          "it": "Allerta grandine revocata"
         },
         "hint": {
           "en": "Triggered when a hail warning is no longer active (currentState returns to 0).",
           "de": "Wird ausgelöst, wenn eine Hagelwarnung nicht mehr aktiv ist (currentState kehrt zu 0 zurück).",
-          "fr": "Déclenché quand une alerte grêle n'est plus active (currentState revient à 0)."
+          "fr": "Déclenché quand une alerte grêle n'est plus active (currentState revient à 0).",
+          "it": "Attivato quando un'allerta grandine non è più attiva (currentState torna a 0)."
         },
         "args": [
           {
@@ -224,17 +255,20 @@
         "title": {
           "en": "Last API poll is overdue",
           "de": "Letzte API-Abfrage überfällig",
-          "fr": "Dernière interrogation API en retard"
+          "fr": "Dernière interrogation API en retard",
+          "it": "Ultima interrogazione API in ritardo"
         },
         "titleFormatted": {
           "en": "Last API poll is overdue",
           "de": "Letzte API-Abfrage überfällig",
-          "fr": "Dernière interrogation API en retard"
+          "fr": "Dernière interrogation API en retard",
+          "it": "Ultima interrogazione API in ritardo"
         },
         "hint": {
           "en": "Triggered when no successful API poll has occurred for more than 10 minutes.",
           "de": "Wird ausgelöst, wenn seit mehr als 10 Minuten keine erfolgreiche API-Abfrage stattgefunden hat.",
-          "fr": "Déclenché quand aucune interrogation API réussie n'a eu lieu depuis plus de 10 minutes."
+          "fr": "Déclenché quand aucune interrogation API réussie n'a eu lieu depuis plus de 10 minutes.",
+          "it": "Attivato quando non si verifica alcuna interrogazione API riuscita per più di 10 minuti."
         },
         "args": [
           {
@@ -249,17 +283,20 @@
         "title": {
           "en": "Signal value changed",
           "de": "Signalwert hat sich geändert",
-          "fr": "Valeur du signal modifiée"
+          "fr": "Valeur du signal modifiée",
+          "it": "Valore del segnale modificato"
         },
         "titleFormatted": {
           "en": "Signal value changed",
           "de": "Signalwert hat sich geändert",
-          "fr": "Valeur du signal modifiée"
+          "fr": "Valeur du signal modifiée",
+          "it": "Valore del segnale modificato"
         },
         "hint": {
           "en": "Triggered on every change of currentState.",
           "de": "Wird bei jeder Änderung von currentState ausgelöst.",
-          "fr": "Déclenché à chaque modification de currentState."
+          "fr": "Déclenché à chaque modification de currentState.",
+          "it": "Attivato a ogni modifica di currentState."
         },
         "tokens": [
           {
@@ -268,7 +305,8 @@
             "title": {
               "en": "New currentState",
               "de": "Neuer currentState",
-              "fr": "Nouveau currentState"
+              "fr": "Nouveau currentState",
+              "it": "Nuovo currentState"
             },
             "example": 1
           }
@@ -288,12 +326,14 @@
         "title": {
           "en": "API connection !{{has failed|is working}}",
           "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}",
-          "fr": "Connexion API !{{a échoué|fonctionne}}"
+          "fr": "Connexion API !{{a échoué|fonctionne}}",
+          "it": "Connessione API !{{non è riuscita|funziona}}"
         },
         "titleFormatted": {
           "en": "API connection !{{has failed|is working}}",
           "de": "API-Verbindung !{{ist fehlgeschlagen|funktioniert}}",
-          "fr": "Connexion API !{{a échoué|fonctionne}}"
+          "fr": "Connexion API !{{a échoué|fonctionne}}",
+          "it": "Connessione API !{{non è riuscita|funziona}}"
         },
         "args": [
           {
@@ -308,12 +348,14 @@
         "title": {
           "en": "Hail warning !{{is|is not}} active",
           "de": "Hagelwarnung !{{ist|ist nicht}} aktiv",
-          "fr": "Alerte grêle !{{est|n'est pas}} active"
+          "fr": "Alerte grêle !{{est|n'est pas}} active",
+          "it": "Allerta grandine !{{è|non è}} attiva"
         },
         "titleFormatted": {
           "en": "Hail warning !{{is|is not}} active",
           "de": "Hagelwarnung !{{ist|ist nicht}} aktiv",
-          "fr": "Alerte grêle !{{est|n'est pas}} active"
+          "fr": "Alerte grêle !{{est|n'est pas}} active",
+          "it": "Allerta grandine !{{è|non è}} attiva"
         },
         "args": [
           {
@@ -328,12 +370,14 @@
         "title": {
           "en": "Last API poll !{{is|is not}} older than {{minutes}} minutes",
           "de": "Letzte API-Abfrage !{{ist|ist nicht}} älter als {{minutes}} Minuten",
-          "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que {{minutes}} minutes"
+          "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que {{minutes}} minutes",
+          "it": "Ultima interrogazione API !{{è|non è}} più vecchia di {{minutes}} minuti"
         },
         "titleFormatted": {
           "en": "Last API poll !{{is|is not}} older than [[minutes]] minutes",
           "de": "Letzte API-Abfrage !{{ist|ist nicht}} älter als [[minutes]] Minuten",
-          "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que [[minutes]] minutes"
+          "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que [[minutes]] minutes",
+          "it": "Ultima interrogazione API !{{è|non è}} più vecchia di [[minutes]] minuti"
         },
         "args": [
           {
@@ -347,7 +391,8 @@
             "title": {
               "en": "Minutes",
               "de": "Minuten",
-              "fr": "Minutes"
+              "fr": "Minutes",
+              "it": "Minuti"
             },
             "min": 1,
             "max": 60,
@@ -360,12 +405,14 @@
         "title": {
           "en": "currentState !{{is|is not}} {{level}}",
           "de": "currentState !{{ist|ist nicht}} {{level}}",
-          "fr": "currentState !{{est|n'est pas}} {{level}}"
+          "fr": "currentState !{{est|n'est pas}} {{level}}",
+          "it": "currentState !{{è|non è}} {{level}}"
         },
         "titleFormatted": {
           "en": "currentState !{{is|is not}} [[level]]",
           "de": "currentState !{{ist|ist nicht}} [[level]]",
-          "fr": "currentState !{{est|n'est pas}} [[level]]"
+          "fr": "currentState !{{est|n'est pas}} [[level]]",
+          "it": "currentState !{{è|non è}} [[level]]"
         },
         "args": [
           {
@@ -379,7 +426,8 @@
             "title": {
               "en": "currentState (0 = no hail, 1 = hail, 2 = test alarm)",
               "de": "currentState (0 = kein Hagel, 1 = Hagel, 2 = Testalarm)",
-              "fr": "currentState (0 = pas de grêle, 1 = grêle, 2 = alarme de test)"
+              "fr": "currentState (0 = pas de grêle, 1 = grêle, 2 = alarme de test)",
+              "it": "currentState (0 = nessuna grandine, 1 = grandine, 2 = allarme di prova)"
             },
             "min": 0,
             "max": 2,
@@ -394,17 +442,20 @@
         "title": {
           "en": "Check hail status now",
           "de": "Hagelstatus jetzt prüfen",
-          "fr": "Vérifier le statut grêle maintenant"
+          "fr": "Vérifier le statut grêle maintenant",
+          "it": "Verifica ora lo stato grandine"
         },
         "titleFormatted": {
           "en": "Check hail status now",
           "de": "Hagelstatus jetzt prüfen",
-          "fr": "Vérifier le statut grêle maintenant"
+          "fr": "Vérifier le statut grêle maintenant",
+          "it": "Verifica ora lo stato grandine"
         },
         "hint": {
           "en": "Immediately triggers an API poll without waiting for the next scheduled interval.",
           "de": "Löst sofort eine API-Abfrage aus, ohne das konfigurierte Intervall abzuwarten.",
-          "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle configuré."
+          "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle configuré.",
+          "it": "Avvia immediatamente un'interrogazione API senza attendere l'intervallo configurato."
         },
         "args": [
           {
@@ -421,7 +472,8 @@
       "name": {
         "en": "Hail Warning Sensor",
         "de": "Hagelwarn-Sensor",
-        "fr": "Capteur d'alerte grêle"
+        "fr": "Capteur d'alerte grêle",
+        "it": "Sensore di allerta grandine"
       },
       "class": "sensor",
       "capabilities": [
@@ -435,7 +487,8 @@
           "title": {
             "en": "Hail Warning",
             "de": "Hagelwarnung",
-            "fr": "Alerte grêle"
+            "fr": "Alerte grêle",
+            "it": "Allerta grandine"
           }
         }
       },
@@ -454,7 +507,8 @@
           "label": {
             "en": "API Configuration",
             "de": "API-Konfiguration",
-            "fr": "Configuration API"
+            "fr": "Configuration API",
+            "it": "Configurazione API"
           },
           "children": [
             {
@@ -463,12 +517,14 @@
               "label": {
                 "en": "Device ID (Serial Number)",
                 "de": "Geräte-ID (Seriennummer / MAC-Adresse)",
-                "fr": "ID de l'appareil (numéro de série)"
+                "fr": "ID de l'appareil (numéro de série)",
+                "it": "ID dispositivo (numero di serie)"
               },
               "hint": {
                 "en": "12-character serial number (MAC address of your Signalbox), provided after registration at meteo.netitservices.com",
                 "de": "12-stellige Seriennummer (MAC-Adresse der Signalbox), erhalten nach Registrierung auf meteo.netitservices.com",
-                "fr": "Numéro de série à 12 caractères (adresse MAC de votre Signalbox), fourni après l'inscription sur meteo.netitservices.com"
+                "fr": "Numéro de série à 12 caractères (adresse MAC de votre Signalbox), fourni après l'inscription sur meteo.netitservices.com",
+                "it": "Numero di serie a 12 caratteri (indirizzo MAC della Signalbox), fornito dopo la registrazione su meteo.netitservices.com"
               },
               "value": ""
             },
@@ -478,12 +534,14 @@
               "label": {
                 "en": "Hardware Type ID (hwtypeId)",
                 "de": "Hardware-Typ-ID (hwtypeId)",
-                "fr": "ID type matériel (hwtypeId)"
+                "fr": "ID type matériel (hwtypeId)",
+                "it": "ID tipo hardware (hwtypeId)"
               },
               "hint": {
                 "en": "Integer device type identifier provided at registration (see your registration confirmation).",
                 "de": "Ganzzahliger Gerätetyp-Identifikator, erhalten bei der Registrierung (siehe Registrierungsbestätigung).",
-                "fr": "Identifiant entier du type d'appareil fourni lors de l'inscription (voir votre confirmation d'inscription)."
+                "fr": "Identifiant entier du type d'appareil fourni lors de l'inscription (voir votre confirmation d'inscription).",
+                "it": "Identificatore intero del tipo di dispositivo fornito al momento della registrazione (vedi la conferma di registrazione)."
               },
               "value": 1,
               "min": 1,
@@ -497,7 +555,8 @@
           "label": {
             "en": "Polling",
             "de": "Abfrage",
-            "fr": "Interrogation"
+            "fr": "Interrogation",
+            "it": "Interrogazione"
           },
           "children": [
             {
@@ -506,12 +565,14 @@
               "label": {
                 "en": "Poll interval (seconds)",
                 "de": "Abfrageintervall (Sekunden)",
-                "fr": "Intervalle d'interrogation (secondes)"
+                "fr": "Intervalle d'interrogation (secondes)",
+                "it": "Intervallo di interrogazione (secondi)"
               },
               "hint": {
                 "en": "How often the API is queried. The API specification requires a minimum of 120 seconds. To test immediately, use the Flow action \"Check hail status now\".",
                 "de": "Wie oft die API abgefragt wird. Minimum 120 Sekunden laut API-Spezifikation. Zum sofortigen Testen die Flow-Aktion \"Hagelstatus jetzt prüfen\" verwenden.",
-                "fr": "Fréquence d'interrogation de l'API. La spécification API exige un minimum de 120 secondes. Pour tester immédiatement, utilisez l'action Flow «Vérifier le statut grêle maintenant»."
+                "fr": "Fréquence d'interrogation de l'API. La spécification API exige un minimum de 120 secondes. Pour tester immédiatement, utilisez l'action Flow «Vérifier le statut grêle maintenant».",
+                "it": "Frequenza di interrogazione dell'API. La specifica API richiede un minimo di 120 secondi. Per testare subito, usa l'azione Flow «Verifica ora lo stato grandine»."
               },
               "value": 120,
               "min": 120,
@@ -530,12 +591,14 @@
       "title": {
         "en": "API Connection Error",
         "de": "API-Verbindungsfehler",
-        "fr": "Erreur de connexion API"
+        "fr": "Erreur de connexion API",
+        "it": "Errore di connessione API"
       },
       "desc": {
         "en": "True when the last API request failed (non-200 response or timeout).",
         "de": "Wahr, wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout).",
-        "fr": "Vrai si la dernière requête API a échoué (réponse non-200 ou délai dépassé)."
+        "fr": "Vrai si la dernière requête API a échoué (réponse non-200 ou délai dépassé).",
+        "it": "Vero quando l'ultima richiesta API non è riuscita (risposta diversa da 200 o timeout)."
       },
       "uiComponent": "sensor",
       "uiQuickAction": false,
@@ -549,12 +612,14 @@
       "title": {
         "en": "Hail Signal (currentState)",
         "de": "Hagelsignal (currentState)",
-        "fr": "Signal grêle (currentState)"
+        "fr": "Signal grêle (currentState)",
+        "it": "Segnale grandine (currentState)"
       },
       "desc": {
         "en": "Current state from the hail warning API: 0 = no hail, 1 = hail, 2 = test alarm",
         "de": "Aktueller Status der Hagelwarn-API: 0 = kein Hagel, 1 = Hagel, 2 = Testalarm",
-        "fr": "État actuel de l'API d'alerte grêle: 0 = pas de grêle, 1 = grêle, 2 = alarme de test"
+        "fr": "État actuel de l'API d'alerte grêle: 0 = pas de grêle, 1 = grêle, 2 = alarme de test",
+        "it": "Stato attuale dell'API di allerta grandine: 0 = nessuna grandine, 1 = grandine, 2 = allarme di prova"
       },
       "uiComponent": "sensor",
       "uiQuickAction": false,
@@ -568,12 +633,14 @@
       "title": {
         "en": "Last API poll",
         "de": "Letzte API-Abfrage",
-        "fr": "Dernière interrogation API"
+        "fr": "Dernière interrogation API",
+        "it": "Ultima interrogazione API"
       },
       "desc": {
         "en": "Date and time of the last successful API call.",
         "de": "Datum und Uhrzeit der letzten API-Abfrage.",
-        "fr": "Date et heure de la dernière interrogation API."
+        "fr": "Date et heure de la dernière interrogation API.",
+        "it": "Data e ora dell'ultima interrogazione API riuscita."
       },
       "uiComponent": "sensor",
       "uiQuickAction": false,

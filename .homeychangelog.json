@@ -26,11 +26,13 @@
   "1.0.9": {
     "en": "Bug fixes: no more spurious Flow triggers after changing poll interval; 30 s auto-retry after API error; multilingual pairing UI (DE/EN/FR); fixed hwtypeId validation",
     "de": "Fehlerbehebungen: Keine ungewollten Flow-Trigger mehr nach Änderung des Abfrageintervalls; automatischer 30-s-Retry nach API-Fehler; mehrsprachige Einrichtungsseite (DE/EN/FR); hwtypeId-Validierung korrigiert",
-    "fr": "Corrections: plus de déclenchements Flow non désirés après modification de l'intervalle; relance automatique 30 s après erreur API; page de configuration multilingue (DE/EN/FR); validation hwtypeId corrigée"
+    "fr": "Corrections: plus de déclenchements Flow non désirés après modification de l'intervalle; relance automatique 30 s après erreur API; page de configuration multilingue (DE/EN/FR); validation hwtypeId corrigée",
+    "it": "Correzioni: nessun attivatore Flow indesiderato dopo la modifica dell'intervallo; nuovo tentativo automatico dopo 30 s in caso di errore API; pagina di configurazione multilingue; validazione hwtypeId corretta"
   },
   "1.0.10": {
     "en": "Hotfix: prevented infinite retry loop during API outages that violated the 120 s minimum poll interval and flooded the error log endpoint",
     "de": "Hotfix: Endlos-Retry-Schleife bei API-Ausfällen behoben, die das 120-s-Mindestintervall verletzte und den Fehler-Log-Endpunkt überlastete",
-    "fr": "Hotfix: correction de la boucle de relance infinie lors de pannes API qui violait l'intervalle minimum de 120 s et surchargeait l'endpoint errorLogs"
+    "fr": "Hotfix: correction de la boucle de relance infinie lors de pannes API qui violait l'intervalle minimum de 120 s et surchargeait l'endpoint errorLogs",
+    "it": "Hotfix: risolto il ciclo infinito di tentativi durante le interruzioni API che violava l'intervallo minimo di 120 s e sovraccaricava l'endpoint errorLogs"
   }
 }

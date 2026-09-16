@@ -3,12 +3,14 @@
   "title": {
     "en": "API Connection Error",
     "de": "API-Verbindungsfehler",
-    "fr": "Erreur de connexion API"
+    "fr": "Erreur de connexion API",
+    "it": "Errore di connessione API"
   },
   "desc": {
     "en": "True when the last API request failed (non-200 response or timeout).",
     "de": "Wahr, wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout).",
-    "fr": "Vrai si la dernière requête API a échoué (réponse non-200 ou délai dépassé)."
+    "fr": "Vrai si la dernière requête API a échoué (réponse non-200 ou délai dépassé).",
+    "it": "Vero quando l'ultima richiesta API non è riuscita (risposta diversa da 200 o timeout)."
   },
   "uiComponent": "sensor",
   "uiQuickAction": false,

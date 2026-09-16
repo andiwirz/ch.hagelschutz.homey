@@ -3,17 +3,20 @@
   "title": {
     "en": "Hail warning is active",
     "de": "Hagelwarnung ist aktiv",
-    "fr": "Alerte grêle active"
+    "fr": "Alerte grêle active",
+    "it": "Allerta grandine attiva"
   },
   "titleFormatted": {
     "en": "Hail warning is active",
     "de": "Hagelwarnung ist aktiv",
-    "fr": "Alerte grêle active"
+    "fr": "Alerte grêle active",
+    "it": "Allerta grandine attiva"
   },
   "hint": {
     "en": "Triggered when a hail warning becomes active (currentState changes from 0 to 1 or 2).",
     "de": "Wird ausgelöst, wenn eine Hagelwarnung aktiv wird (currentState wechselt von 0 auf 1 oder 2).",
-    "fr": "Déclenché quand une alerte grêle devient active (currentState passe de 0 à 1 ou 2)."
+    "fr": "Déclenché quand une alerte grêle devient active (currentState passe de 0 à 1 ou 2).",
+    "it": "Attivato quando un'allerta grandine diventa attiva (currentState passa da 0 a 1 o 2)."
   },
   "tokens": [
     {
@@ -22,7 +25,8 @@
       "title": {
         "en": "currentState",
         "de": "currentState",
-        "fr": "currentState"
+        "fr": "currentState",
+        "it": "currentState"
       },
       "example": 1
     },
@@ -32,7 +36,8 @@
       "title": {
         "en": "Description",
         "de": "Beschreibung",
-        "fr": "Description"
+        "fr": "Description",
+        "it": "Descrizione"
       },
       "example": "Hail warning active"
     }

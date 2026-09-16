@@ -3,12 +3,14 @@
   "title": {
     "en": "Hail warning !{{is|is not}} active",
     "de": "Hagelwarnung !{{ist|ist nicht}} aktiv",
-    "fr": "Alerte grêle !{{est|n'est pas}} active"
+    "fr": "Alerte grêle !{{est|n'est pas}} active",
+    "it": "Allerta grandine !{{è|non è}} attiva"
   },
   "titleFormatted": {
     "en": "Hail warning !{{is|is not}} active",
     "de": "Hagelwarnung !{{ist|ist nicht}} aktiv",
-    "fr": "Alerte grêle !{{est|n'est pas}} active"
+    "fr": "Alerte grêle !{{est|n'est pas}} active",
+    "it": "Allerta grandine !{{è|non è}} attiva"
   },
   "args": [
     {

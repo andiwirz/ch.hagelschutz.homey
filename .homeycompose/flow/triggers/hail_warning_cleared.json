@@ -3,17 +3,20 @@
   "title": {
     "en": "Hail warning cleared",
     "de": "Hagelwarnung aufgehoben",
-    "fr": "Alerte grêle levée"
+    "fr": "Alerte grêle levée",
+    "it": "Allerta grandine revocata"
   },
   "titleFormatted": {
     "en": "Hail warning cleared",
     "de": "Hagelwarnung aufgehoben",
-    "fr": "Alerte grêle levée"
+    "fr": "Alerte grêle levée",
+    "it": "Allerta grandine revocata"
   },
   "hint": {
     "en": "Triggered when a hail warning is no longer active (currentState returns to 0).",
     "de": "Wird ausgelöst, wenn eine Hagelwarnung nicht mehr aktiv ist (currentState kehrt zu 0 zurück).",
-    "fr": "Déclenché quand une alerte grêle n'est plus active (currentState revient à 0)."
+    "fr": "Déclenché quand une alerte grêle n'est plus active (currentState revient à 0).",
+    "it": "Attivato quando un'allerta grandine non è più attiva (currentState torna a 0)."
   },
   "args": [
     {

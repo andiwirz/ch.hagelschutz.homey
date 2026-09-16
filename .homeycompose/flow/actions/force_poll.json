@@ -3,17 +3,20 @@
   "title": {
     "en": "Check hail status now",
     "de": "Hagelstatus jetzt prüfen",
-    "fr": "Vérifier le statut grêle maintenant"
+    "fr": "Vérifier le statut grêle maintenant",
+    "it": "Verifica ora lo stato grandine"
   },
   "titleFormatted": {
     "en": "Check hail status now",
     "de": "Hagelstatus jetzt prüfen",
-    "fr": "Vérifier le statut grêle maintenant"
+    "fr": "Vérifier le statut grêle maintenant",
+    "it": "Verifica ora lo stato grandine"
   },
   "hint": {
     "en": "Immediately triggers an API poll without waiting for the next scheduled interval.",
     "de": "Löst sofort eine API-Abfrage aus, ohne das konfigurierte Intervall abzuwarten.",
-    "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle configuré."
+    "fr": "Déclenche immédiatement une interrogation API sans attendre le prochain intervalle configuré.",
+    "it": "Avvia immediatamente un'interrogazione API senza attendere l'intervallo configurato."
   },
   "args": [
     {

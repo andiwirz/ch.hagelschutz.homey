@@ -3,12 +3,14 @@
   "title": {
     "en": "Hail Signal (currentState)",
     "de": "Hagelsignal (currentState)",
-    "fr": "Signal grêle (currentState)"
+    "fr": "Signal grêle (currentState)",
+    "it": "Segnale grandine (currentState)"
   },
   "desc": {
     "en": "Current state from the hail warning API: 0 = no hail, 1 = hail, 2 = test alarm",
     "de": "Aktueller Status der Hagelwarn-API: 0 = kein Hagel, 1 = Hagel, 2 = Testalarm",
-    "fr": "État actuel de l'API d'alerte grêle: 0 = pas de grêle, 1 = grêle, 2 = alarme de test"
+    "fr": "État actuel de l'API d'alerte grêle: 0 = pas de grêle, 1 = grêle, 2 = alarme de test",
+    "it": "Stato attuale dell'API di allerta grandine: 0 = nessuna grandine, 1 = grandine, 2 = allarme di prova"
   },
   "uiComponent": "sensor",
   "uiQuickAction": false,

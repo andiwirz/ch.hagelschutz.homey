@@ -2,7 +2,8 @@
   "name": {
     "en": "Hail Warning Sensor",
     "de": "Hagelwarn-Sensor",
-    "fr": "Capteur d'alerte grêle"
+    "fr": "Capteur d'alerte grêle",
+    "it": "Sensore di allerta grandine"
   },
   "class": "sensor",
   "capabilities": [
@@ -16,7 +17,8 @@
       "title": {
         "en": "Hail Warning",
         "de": "Hagelwarnung",
-        "fr": "Alerte grêle"
+        "fr": "Alerte grêle",
+        "it": "Allerta grandine"
       }
     }
   },
@@ -35,7 +37,8 @@
       "label": {
         "en": "API Configuration",
         "de": "API-Konfiguration",
-        "fr": "Configuration API"
+        "fr": "Configuration API",
+        "it": "Configurazione API"
       },
       "children": [
         {
@@ -44,12 +47,14 @@
           "label": {
             "en": "Device ID (Serial Number)",
             "de": "Geräte-ID (Seriennummer / MAC-Adresse)",
-            "fr": "ID de l'appareil (numéro de série)"
+            "fr": "ID de l'appareil (numéro de série)",
+            "it": "ID dispositivo (numero di serie)"
           },
           "hint": {
             "en": "12-character serial number (MAC address of your Signalbox), provided after registration at meteo.netitservices.com",
             "de": "12-stellige Seriennummer (MAC-Adresse der Signalbox), erhalten nach Registrierung auf meteo.netitservices.com",
-            "fr": "Numéro de série à 12 caractères (adresse MAC de votre Signalbox), fourni après l'inscription sur meteo.netitservices.com"
+            "fr": "Numéro de série à 12 caractères (adresse MAC de votre Signalbox), fourni après l'inscription sur meteo.netitservices.com",
+            "it": "Numero di serie a 12 caratteri (indirizzo MAC della Signalbox), fornito dopo la registrazione su meteo.netitservices.com"
           },
           "value": ""
         },
@@ -59,12 +64,14 @@
           "label": {
             "en": "Hardware Type ID (hwtypeId)",
             "de": "Hardware-Typ-ID (hwtypeId)",
-            "fr": "ID type matériel (hwtypeId)"
+            "fr": "ID type matériel (hwtypeId)",
+            "it": "ID tipo hardware (hwtypeId)"
           },
           "hint": {
             "en": "Integer device type identifier provided at registration (see your registration confirmation).",
             "de": "Ganzzahliger Gerätetyp-Identifikator, erhalten bei der Registrierung (siehe Registrierungsbestätigung).",
-            "fr": "Identifiant entier du type d'appareil fourni lors de l'inscription (voir votre confirmation d'inscription)."
+            "fr": "Identifiant entier du type d'appareil fourni lors de l'inscription (voir votre confirmation d'inscription).",
+            "it": "Identificatore intero del tipo di dispositivo fornito al momento della registrazione (vedi la conferma di registrazione)."
           },
           "value": 1,
           "min": 1,
@@ -78,7 +85,8 @@
       "label": {
         "en": "Polling",
         "de": "Abfrage",
-        "fr": "Interrogation"
+        "fr": "Interrogation",
+        "it": "Interrogazione"
       },
       "children": [
         {
@@ -87,12 +95,14 @@
           "label": {
             "en": "Poll interval (seconds)",
             "de": "Abfrageintervall (Sekunden)",
-            "fr": "Intervalle d'interrogation (secondes)"
+            "fr": "Intervalle d'interrogation (secondes)",
+            "it": "Intervallo di interrogazione (secondi)"
           },
           "hint": {
             "en": "How often the API is queried. The API specification requires a minimum of 120 seconds. To test immediately, use the Flow action \"Check hail status now\".",
             "de": "Wie oft die API abgefragt wird. Minimum 120 Sekunden laut API-Spezifikation. Zum sofortigen Testen die Flow-Aktion \"Hagelstatus jetzt prüfen\" verwenden.",
-            "fr": "Fréquence d'interrogation de l'API. La spécification API exige un minimum de 120 secondes. Pour tester immédiatement, utilisez l'action Flow «Vérifier le statut grêle maintenant»."
+            "fr": "Fréquence d'interrogation de l'API. La spécification API exige un minimum de 120 secondes. Pour tester immédiatement, utilisez l'action Flow «Vérifier le statut grêle maintenant».",
+            "it": "Frequenza di interrogazione dell'API. La specifica API richiede un minimo di 120 secondi. Per testare subito, usa l'azione Flow «Verifica ora lo stato grandine»."
           },
           "value": 120,
           "min": 120,

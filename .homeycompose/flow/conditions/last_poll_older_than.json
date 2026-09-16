@@ -3,12 +3,14 @@
   "title": {
     "en": "Last API poll !{{is|is not}} older than {{minutes}} minutes",
     "de": "Letzte API-Abfrage !{{ist|ist nicht}} älter als {{minutes}} Minuten",
-    "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que {{minutes}} minutes"
+    "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que {{minutes}} minutes",
+    "it": "Ultima interrogazione API !{{è|non è}} più vecchia di {{minutes}} minuti"
   },
   "titleFormatted": {
     "en": "Last API poll !{{is|is not}} older than [[minutes]] minutes",
     "de": "Letzte API-Abfrage !{{ist|ist nicht}} älter als [[minutes]] Minuten",
-    "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que [[minutes]] minutes"
+    "fr": "Dernière interrogation API !{{est|n'est pas}} plus ancienne que [[minutes]] minutes",
+    "it": "Ultima interrogazione API !{{è|non è}} più vecchia di [[minutes]] minuti"
   },
   "args": [
     {
@@ -22,7 +24,8 @@
       "title": {
         "en": "Minutes",
         "de": "Minuten",
-        "fr": "Minutes"
+        "fr": "Minutes",
+        "it": "Minuti"
       },
       "min": 1,
       "max": 60,

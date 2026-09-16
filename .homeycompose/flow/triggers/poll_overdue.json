@@ -3,17 +3,20 @@
   "title": {
     "en": "Last API poll is overdue",
     "de": "Letzte API-Abfrage überfällig",
-    "fr": "Dernière interrogation API en retard"
+    "fr": "Dernière interrogation API en retard",
+    "it": "Ultima interrogazione API in ritardo"
   },
   "titleFormatted": {
     "en": "Last API poll is overdue",
     "de": "Letzte API-Abfrage überfällig",
-    "fr": "Dernière interrogation API en retard"
+    "fr": "Dernière interrogation API en retard",
+    "it": "Ultima interrogazione API in ritardo"
   },
   "hint": {
     "en": "Triggered when no successful API poll has occurred for more than 10 minutes.",
     "de": "Wird ausgelöst, wenn seit mehr als 10 Minuten keine erfolgreiche API-Abfrage stattgefunden hat.",
-    "fr": "Déclenché quand aucune interrogation API réussie n'a eu lieu depuis plus de 10 minutes."
+    "fr": "Déclenché quand aucune interrogation API réussie n'a eu lieu depuis plus de 10 minutes.",
+    "it": "Attivato quando non si verifica alcuna interrogazione API riuscita per più di 10 minuti."
   },
   "args": [
     {

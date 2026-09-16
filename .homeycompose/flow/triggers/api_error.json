@@ -3,17 +3,20 @@
   "title": {
     "en": "API connection failed",
     "de": "API-Verbindung fehlgeschlagen",
-    "fr": "Connexion API échouée"
+    "fr": "Connexion API échouée",
+    "it": "Connessione API non riuscita"
   },
   "titleFormatted": {
     "en": "API connection failed",
     "de": "API-Verbindung fehlgeschlagen",
-    "fr": "Connexion API échouée"
+    "fr": "Connexion API échouée",
+    "it": "Connessione API non riuscita"
   },
   "hint": {
     "en": "Triggered when the API returns a non-200 status or times out.",
     "de": "Wird ausgelöst, wenn die API keinen HTTP 200 zurückgibt oder zeitüberschreitet.",
-    "fr": "Déclenché quand l'API retourne un statut non-200 ou expire."
+    "fr": "Déclenché quand l'API retourne un statut non-200 ou expire.",
+    "it": "Attivato quando l'API restituisce uno stato diverso da 200 o scade il tempo di attesa."
   },
   "tokens": [
     {
@@ -22,7 +25,8 @@
       "title": {
         "en": "Error message",
         "de": "Fehlermeldung",
-        "fr": "Message d'erreur"
+        "fr": "Message d'erreur",
+        "it": "Messaggio di errore"
       },
       "example": "HTTP 503: Service Unavailable"
     }

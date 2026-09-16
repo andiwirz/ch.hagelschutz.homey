@@ -3,17 +3,20 @@
   "title": {
     "en": "Signal value changed",
     "de": "Signalwert hat sich geändert",
-    "fr": "Valeur du signal modifiée"
+    "fr": "Valeur du signal modifiée",
+    "it": "Valore del segnale modificato"
   },
   "titleFormatted": {
     "en": "Signal value changed",
     "de": "Signalwert hat sich geändert",
-    "fr": "Valeur du signal modifiée"
+    "fr": "Valeur du signal modifiée",
+    "it": "Valore del segnale modificato"
   },
   "hint": {
     "en": "Triggered on every change of currentState.",
     "de": "Wird bei jeder Änderung von currentState ausgelöst.",
-    "fr": "Déclenché à chaque modification de currentState."
+    "fr": "Déclenché à chaque modification de currentState.",
+    "it": "Attivato a ogni modifica di currentState."
   },
   "tokens": [
     {
@@ -22,7 +25,8 @@
       "title": {
         "en": "New currentState",
         "de": "Neuer currentState",
-        "fr": "Nouveau currentState"
+        "fr": "Nouveau currentState",
+        "it": "Nuovo currentState"
       },
       "example": 1
     }

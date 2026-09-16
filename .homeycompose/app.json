@@ -7,12 +7,14 @@
   "name": {
     "en": "Hail Protection Switzerland",
     "de": "Hagelschutz Schweiz",
-    "fr": "Protection Grêle Suisse"
+    "fr": "Protection Grêle Suisse",
+    "it": "Protezione Grandine Svizzera"
   },
   "description": {
     "en": "Hail protection for your blinds – automatic warning via REST API",
     "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API",
-    "fr": "Protection grêle pour vos stores – alerte automatique via REST API"
+    "fr": "Protection grêle pour vos stores – alerte automatique via REST API",
+    "it": "Protezione dalla grandine per le tue tapparelle – allerta automatica tramite API REST"
   },
   "category": [
     "security",
@@ -59,6 +61,20 @@
       "tempête",
       "automatisation",
       "capteur"
+    ],
+    "it": [
+      "grandine",
+      "allerta grandine",
+      "protezione grandine",
+      "tapparelle",
+      "persiane",
+      "tende da sole",
+      "meteo",
+      "allerta meteo",
+      "Svizzera",
+      "tempesta",
+      "automazione",
+      "sensore"
     ]
   },
   "permissions": [],
