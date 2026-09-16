@@ -120,25 +120,32 @@
     </div>
   </div>
 
-  <div class="info-box" id="info-box"></div>
+  <!--
+    The German text below is the static fallback. applyTranslations() swaps it
+    for the viewer's language; if that never runs, the page still reads
+    correctly instead of showing empty labels and a blank info box.
+  -->
+  <div class="info-box" id="info-box">
+    ℹ️ Sie benötigen eine Registrierung auf <strong>hagelschutz-einfach-automatisch.ch</strong>.<br>Geräte-ID und Hardware-Typ-ID erhalten Sie nach der Registrierung per E-Mail.
+  </div>
 
   <div class="form-group">
-    <label id="label-device-id" for="device_id">Geräte-ID</label>
+    <label id="label-device-id" for="device_id">Geräte-ID (Seriennummer / MAC-Adresse)</label>
     <input type="text" id="device_id" placeholder="A1B2C3D4E5F6"
            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="12">
-    <p class="hint" id="hint-device-id"></p>
+    <p class="hint" id="hint-device-id">12-stellige Seriennummer / MAC-Adresse der Signalbox.</p>
   </div>
 
   <div class="form-group">
-    <label id="label-hwtype-id" for="hwtype_id">Hardware-Typ-ID</label>
+    <label id="label-hwtype-id" for="hwtype_id">Hardware-Typ-ID (hwtypeId)</label>
     <input type="number" id="hwtype_id" placeholder="1" min="1" max="9999" step="1">
-    <p class="hint" id="hint-hwtype-id"></p>
+    <p class="hint" id="hint-hwtype-id">Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.</p>
   </div>
 
   <div class="form-group">
-    <label id="label-poll-interval" for="poll_interval">Abfrageintervall (s)</label>
+    <label id="label-poll-interval" for="poll_interval">Abfrageintervall (Sekunden)</label>
     <input type="number" id="poll_interval" value="120" min="120" max="3600" step="10">
-    <p class="hint" id="hint-poll-interval"></p>
+    <p class="hint" id="hint-poll-interval">Mindestens 120 Sekunden gemäss API-Spezifikation.</p>
   </div>
 
   <div class="error-msg" id="error-msg"></div>
@@ -241,17 +248,31 @@
     // No backend call may block the UI longer than this
     const REQUEST_TIMEOUT_MS = 20000;
 
+    /** Sets text on an element, skipping it if it is missing or the value is empty. */
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el && value) el.textContent = value;
+    }
+
+    /** Same as setText but for markup (the info box contains a <strong> and a <br>). */
+    function setHtml(id, value) {
+      const el = document.getElementById(id);
+      if (el && value) el.innerHTML = value;
+    }
+
+    // Each field is applied independently, so one missing element cannot
+    // abort the rest and leave the page half-translated.
     function applyTranslations() {
-      document.getElementById('title').textContent           = t.title;
-      document.getElementById('subtitle').textContent        = t.subtitle;
-      document.getElementById('info-box').innerHTML          = t.info;
-      document.getElementById('label-device-id').textContent = t.labelDeviceId;
-      document.getElementById('hint-device-id').textContent  = t.hintDeviceId;
-      document.getElementById('label-hwtype-id').textContent = t.labelHwtypeId;
-      document.getElementById('hint-hwtype-id').textContent  = t.hintHwtypeId;
-      document.getElementById('label-poll-interval').textContent = t.labelPollInterval;
-      document.getElementById('hint-poll-interval').textContent  = t.hintPollInterval;
-      document.getElementById('btn-label').textContent       = t.btnAdd;
+      setText('title',              t.title);
+      setText('subtitle',           t.subtitle);
+      setHtml('info-box',           t.info);
+      setText('label-device-id',    t.labelDeviceId);
+      setText('hint-device-id',     t.hintDeviceId);
+      setText('label-hwtype-id',    t.labelHwtypeId);
+      setText('hint-hwtype-id',     t.hintHwtypeId);
+      setText('label-poll-interval', t.labelPollInterval);
+      setText('hint-poll-interval',  t.hintPollInterval);
+      setText('btn-label',          t.btnAdd);
     }
 
     function onHomeyReady(HomeyInstance) {
