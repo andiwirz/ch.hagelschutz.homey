@@ -11,10 +11,10 @@
     "it": "Protezione Grandine Svizzera"
   },
   "description": {
-    "en": "Hail protection for your blinds – automatic warning via REST API",
-    "de": "Hagelschutz für Ihre Storen – automatische Warnung via REST API",
-    "fr": "Protection grêle pour vos stores – alerte automatique via REST API",
-    "it": "Protezione dalla grandine per le tue tapparelle – allerta automatica tramite API REST"
+    "en": "Hail protection for your blinds",
+    "de": "Hagelschutz für Ihre Storen",
+    "fr": "Protection grêle pour vos stores",
+    "it": "Protezione dalla grandine per le tue tapparelle"
   },
   "category": [
     "security",
