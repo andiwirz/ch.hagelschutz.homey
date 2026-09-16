@@ -3,11 +3,12 @@
 [![Version](https://img.shields.io/badge/version-1.0.10-blue)](https://github.com/andiwirz/ch.hagelschutz.homey/releases)
 [![Homey SDK](https://img.shields.io/badge/Homey%20SDK-v3-green)](https://apps.developer.homey.app/)
 [![Community](https://img.shields.io/badge/Homey%20Community-Thread-orange)](https://community.homey.app/t/152992)
+[![Sprachen](https://img.shields.io/badge/Sprachen-DE%20%7C%20EN%20%7C%20FR%20%7C%20IT-lightgrey)](#)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://paypal.me/AndiWirz)
 
 Diese Homey-App bindet den Hagelwarn-Service von [hagelschutz-einfach-automatisch.ch](https://www.hagelschutz-einfach-automatisch.ch) per REST API ein und ermöglicht es, bei einer Hagelwarnung automatisch Flows auszulösen – z. B. alle Storen (Jalousien) zu öffnen, damit sie keinen Hagelschaden nehmen.
 
-Die App ist auf **Deutsch**, **Englisch** und **Französisch** verfügbar.
+Die App ist vollständig auf **Deutsch**, **Englisch**, **Französisch** und **Italienisch** verfügbar – inklusive Flow-Karten, Geräteeinstellungen und Einrichtungsassistent.
 
 ---
 
@@ -35,12 +36,15 @@ _(Sobald die App veröffentlicht ist, direkt im Homey App Store suchen.)_
 ## Gerät hinzufügen
 
 1. Homey App öffnen → **Geräte** → **+**
-2. Nach „Hagelschutz" suchen
-3. „Hagelwarn-Sensor" hinzufügen
-4. Im Gerät unter **Einstellungen** eintragen:
+2. Nach „Hagelschutz Schweiz" suchen
+3. „Hagelwarn-Sensor" wählen – der Einrichtungsassistent öffnet sich
+4. Dort eintragen:
    - **Geräte-ID (deviceId):** 12-stellige Seriennummer / MAC-Adresse der Signalbox
    - **Hardware-Typ-ID (hwtypeId):** Ganzzahliger Wert aus der Registrierungsbestätigung
    - **Abfrageintervall:** 120–3600 Sekunden (Standard: 120 s, Minimum laut API-Spezifikation)
+5. **Sensor hinzufügen** – die Angaben werden gegen die API geprüft, bevor das Gerät angelegt wird
+
+Alle drei Werte lassen sich später jederzeit unter **Geräteeinstellungen** ändern. Nach einer Änderung startet die Abfrage automatisch neu.
 
 ---
 
@@ -117,7 +121,8 @@ DANN:   Push-Benachrichtigung senden → "Hagelschutz API nicht erreichbar!"
 - **Poll-Intervall:** 120–3600 Sekunden, konfigurierbar in den Geräteeinstellungen (Minimum 120 s, Pflichtanforderung der API-Spezifikation)
 - **Responses:** `{ "currentState": 0 | 1 | 2 }`
 - Flows werden **nur bei Zustandsänderungen** ausgelöst
-- Fehler werden automatisch per POST an den Server gemeldet
+- Schlägt eine Abfrage fehl, wird sie **einmalig nach 30 Sekunden** wiederholt; danach gilt wieder das normale Intervall
+- Fehler werden per POST an den Server gemeldet – **nur beim ersten Fehlschlag**, nicht bei jedem Wiederholungsversuch
 - Ein **Watchdog** erkennt, wenn keine erfolgreiche Abfrage stattgefunden hat, und löst den Trigger „Letzte API-Abfrage überfällig" nach 10 Minuten aus
 
 ### Capabilities (Gerätekarten)
