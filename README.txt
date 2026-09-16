@@ -5,8 +5,9 @@ Features
 * Automatic hail warning via Homey Flow
 * Detection of warning, test alarm and all-clear
 * API connection monitoring with alert on failure
+* Watchdog when the API stops responding
 * Configurable polling interval (default: 120 seconds)
-* Fully available in German, English and French
+* Fully available in German, English, French and Italian
 
 Requirements
 * Homey (Pro) with internet access

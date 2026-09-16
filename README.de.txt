@@ -5,8 +5,9 @@ Funktionen
 * Automatische Hagelwarnung via Homey-Flow
 * Erkennung von Warnung, Testalarm und Entwarnung
 * Überwachung der API-Verbindung mit Alarm bei Ausfall
+* Watchdog bei längerem Ausbleiben der API-Antwort
 * Konfigurierbares Abfrageintervall (Standard: 120 Sekunden)
-* Vollständig auf Deutsch, Englisch und Französisch verfügbar
+* Vollständig auf Deutsch, Englisch, Französisch und Italienisch verfügbar
 
 Voraussetzungen
 * Homey (Pro) mit Internetzugang
