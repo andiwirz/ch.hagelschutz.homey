@@ -34,5 +34,11 @@
     "de": "Hotfix: Endlos-Retry-Schleife bei API-Ausfällen behoben, die das 120-s-Mindestintervall verletzte und den Fehler-Log-Endpunkt überlastete",
     "fr": "Hotfix: correction de la boucle de relance infinie lors de pannes API qui violait l'intervalle minimum de 120 s et surchargeait l'endpoint errorLogs",
     "it": "Hotfix: risolto il ciclo infinito di tentativi durante le interruzioni API che violava l'intervallo minimo di 120 s e sovraccaricava l'endpoint errorLogs"
+  },
+  "1.0.11": {
+    "en": "Fixed setup: the \"Add sensor\" button could stay disabled forever when the service did not respond. New: Italian as the fourth language, throughout the app. The in-app help page has been rebuilt with a new design, all four languages and corrected content.",
+    "de": "Einrichtung repariert: Die Schaltfläche «Sensor hinzufügen» konnte dauerhaft deaktiviert bleiben, wenn der Dienst nicht antwortete. Neu: Italienisch als vierte Sprache, durchgehend in der ganzen App. Die Hilfeseite wurde komplett überarbeitet – neues Design, alle vier Sprachen, korrigierte Inhalte.",
+    "fr": "Configuration corrigée : le bouton « Ajouter le capteur » pouvait rester désactivé indéfiniment lorsque le service ne répondait pas. Nouveau : l'italien comme quatrième langue, dans toute l'app. La page d'aide a été entièrement remaniée – nouveau design, quatre langues, contenu corrigé.",
+    "it": "Configurazione corretta: il pulsante «Aggiungi sensore» poteva restare disattivato a tempo indeterminato se il servizio non rispondeva. Novità: l'italiano come quarta lingua, in tutta l'app. La pagina di guida è stata completamente rinnovata – nuovo design, quattro lingue, contenuti corretti."
   }
 }

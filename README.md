@@ -1,6 +1,6 @@
 # Hagelschutz – einfach automatisch (Homey App)
 
-[![Version](https://img.shields.io/badge/version-1.0.10-blue)](https://github.com/andiwirz/ch.hagelschutz.homey/releases)
+[![Version](https://img.shields.io/badge/version-1.0.11-blue)](https://github.com/andiwirz/ch.hagelschutz.homey/releases)
 [![Homey SDK](https://img.shields.io/badge/Homey%20SDK-v3-green)](https://apps.developer.homey.app/)
 [![Community](https://img.shields.io/badge/Homey%20Community-Thread-orange)](https://community.homey.app/t/152992)
 [![Sprachen](https://img.shields.io/badge/Sprachen-DE%20%7C%20EN%20%7C%20FR%20%7C%20IT-lightgrey)](#)

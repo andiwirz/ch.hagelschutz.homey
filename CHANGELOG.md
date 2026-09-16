@@ -4,6 +4,24 @@ Alle relevanten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## [1.0.11] – 2026-09-16
+
+### Behoben
+- **Einrichtung blockierte dauerhaft**: Antwortete der Dienst nicht, blieb die Schaltfläche „Sensor hinzufügen" für immer deaktiviert. Ursache war ein Promise in der Pairing-Validierung, das nie auflöste – die `timeout`-Option von `https.get` bricht die Anfrage nicht ab. Die Prüfung hat jetzt eine harte Zeitgrenze, die Schaltfläche wird bei jedem Ausgang wieder freigegeben
+- **Einrichtungsseite war ohne JavaScript unlesbar**: Info-Box, Beschriftungen und Hinweistexte wurden erst per Skript gefüllt – schlug das fehl, blieb nur ein leerer blauer Balken. Der vollständige Text steht jetzt im Markup
+- **Hilfeseite zeigte allen Nutzern Deutsch**: `index.html` war eine Kopie von `index.de.html`, und Homey liefert ausschliesslich `index.html` aus – die Sprachvarianten wurden nie verwendet
+- **Fehlendes Logging** im `validate`-Handler des Treibers, wodurch eingereichte Logs keinen Aufschluss über Einrichtungsprobleme gaben
+
+### Neu
+- **Italienisch** als vierte Sprache – durchgehend: Flow-Karten, Capabilities, Geräteeinstellungen, Benachrichtigungen, Einrichtungsassistent und Hilfeseite
+- **Hilfeseite komplett überarbeitet**: iOS-Design mit gruppierten Listen, Segmented Control, aufklappbaren FAQ-Einträgen und vollständigem Dark Mode; alle vier Sprachen in einer Datei mit automatischer Erkennung und manuellem Umschalter
+
+### Verbessert
+- Hilfetexte inhaltlich korrigiert: Abfrageintervall als konfigurierbar (120–3600 s) statt „fixiert", Retry-Verhalten dokumentiert, Fehler-Reporting präzisiert (nur beim ersten Fehlschlag)
+- Neuer FAQ-Eintrag zur blockierten Einrichtung
+
+---
+
 ## [1.0.10] – 2026-09-15
 
 ### Behoben
