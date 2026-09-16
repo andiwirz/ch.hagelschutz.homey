@@ -4,6 +4,18 @@ Alle relevanten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## [1.0.12] – 2026-09-16
+
+### Verbessert
+- **App-Beschreibung gekürzt** auf eine Tagline in allen vier Sprachen (Rückmeldung aus dem Athom-Review): der Zusatz „– automatische Warnung via REST API" ist entfallen
+- **Store-Beschreibung in Französisch und Italienisch** ergänzt (`README.fr.txt`, `README.it.txt`) – bisher fielen beide Sprachen auf den englischen Text zurück
+
+### Behoben
+- `README.txt` und `README.de.txt` warben weiterhin mit „Deutsch, Englisch und Französisch", obwohl Italienisch seit 1.0.11 dazugehört
+- **Watchdog** fehlte in der Funktionsliste der Store-Beschreibung
+
+---
+
 ## [1.0.11] – 2026-09-16
 
 ### Behoben

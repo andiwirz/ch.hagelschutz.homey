@@ -40,5 +40,11 @@
     "de": "Einrichtung repariert: Die Schaltfläche «Sensor hinzufügen» konnte dauerhaft deaktiviert bleiben, wenn der Dienst nicht antwortete. Neu: Italienisch als vierte Sprache, durchgehend in der ganzen App. Die Hilfeseite wurde komplett überarbeitet – neues Design, alle vier Sprachen, korrigierte Inhalte.",
     "fr": "Configuration corrigée : le bouton « Ajouter le capteur » pouvait rester désactivé indéfiniment lorsque le service ne répondait pas. Nouveau : l'italien comme quatrième langue, dans toute l'app. La page d'aide a été entièrement remaniée – nouveau design, quatre langues, contenu corrigé.",
     "it": "Configurazione corretta: il pulsante «Aggiungi sensore» poteva restare disattivato a tempo indeterminato se il servizio non rispondeva. Novità: l'italiano come quarta lingua, in tutta l'app. La pagina di guida è stata completamente rinnovata – nuovo design, quattro lingue, contenuti corretti."
+  },
+  "1.0.12": {
+    "en": "The App Store page is now available in French and Italian too, and the app description has been shortened.",
+    "de": "Die App-Store-Seite ist neu auch auf Französisch und Italienisch verfügbar, die App-Beschreibung wurde gekürzt.",
+    "fr": "La page de l'App Store est désormais disponible aussi en français et en italien, et la description de l'app a été raccourcie.",
+    "it": "La pagina dell'App Store è ora disponibile anche in francese e italiano e la descrizione dell'app è stata abbreviata."
   }
 }
