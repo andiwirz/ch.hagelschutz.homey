@@ -1,6 +1,13 @@
 'use strict';
 
 const Homey = require('homey');
+const https = require('https');
+
+// Socket idle timeout for the pairing validation request
+const SOCKET_TIMEOUT_MS = 10 * 1000;
+
+// Hard upper bound – the validation promise always settles within this window
+const VALIDATE_TIMEOUT_MS = 12 * 1000;
 
 class HagelschutzDriver extends Homey.Driver {
 
@@ -50,18 +57,51 @@ class HagelschutzDriver extends Homey.Driver {
 
   async onPair(session) {
     session.setHandler('validate', async ({ device_id, hwtype_id }) => {
-      const https = require('https');
-      const host  = 'meteo.netitservices.com';
-      const path  = `/api/v1/devices/${encodeURIComponent(device_id)}/poll?hwtypeId=${encodeURIComponent(hwtype_id)}`;
+      this.log(`Pair: validating credentials (hwtypeId=${hwtype_id})…`);
+      const result = await this._validateCredentials(device_id, hwtype_id);
+      this.log('Pair: validation result:', JSON.stringify(result));
+      return result;
+    });
+  }
 
-      return new Promise((resolve) => {
-        https.get({ hostname: host, path, timeout: 10000 }, (res) => {
-          resolve({ success: res.statusCode === 200 });
-          res.resume();
-        })
-          .on('error', () => resolve({ success: false }))
-          .on('timeout', () => resolve({ success: false }));
+  /**
+   * Verifies the given credentials against the poll endpoint.
+   *
+   * Always resolves – never rejects and never stays pending. A hung socket
+   * (DNS stall, TLS handshake stall, black-holed connection) would otherwise
+   * leave the pairing page waiting forever with a disabled button.
+   */
+  _validateCredentials(deviceId, hwtypeId) {
+    const host = 'meteo.netitservices.com';
+    const path = `/api/v1/devices/${encodeURIComponent(deviceId)}/poll?hwtypeId=${encodeURIComponent(hwtypeId)}`;
+
+    return new Promise((resolve) => {
+      let settled = false;
+      let guard   = null;
+
+      const done = (value) => {
+        if (settled) return;
+        settled = true;
+        if (guard) this.homey.clearTimeout(guard);
+        resolve(value);
+      };
+
+      const req = https.get({ hostname: host, path, timeout: SOCKET_TIMEOUT_MS }, (res) => {
+        res.resume(); // drain so the socket can be released
+        done({ success: res.statusCode === 200, statusCode: res.statusCode });
       });
+
+      req.on('error', (err) => done({ success: false, error: err.message }));
+      req.on('timeout', () => {
+        req.destroy(); // 'timeout' alone does NOT abort the request
+        done({ success: false, error: 'socket timeout' });
+      });
+
+      // Hard guard: resolve even if no socket event ever fires
+      guard = this.homey.setTimeout(() => {
+        req.destroy();
+        done({ success: false, error: 'validation timed out' });
+      }, VALIDATE_TIMEOUT_MS);
     });
   }
 
