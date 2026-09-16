@@ -1,425 +1,950 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
-  <title>Hagelschutz Schweiz – Hilfe</title>
+  <title>Hagelschutz Schweiz</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ═══════════════════════════════════════════════════════════════
+       iOS-style design tokens. Light values on :root, dark values
+       overridden below, so the page follows the system appearance.
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --bg:          #F2F2F7;
+      --card:        #FFFFFF;
+      --card-press:  #D1D1D6;
+      --label:       #000000;
+      --label-2:     rgba(60, 60, 67, 0.60);
+      --label-3:     rgba(60, 60, 67, 0.30);
+      --separator:   rgba(60, 60, 67, 0.29);
+      --brand:       #1B5E8C;
+      --blue:        #007AFF;
+      --green:       #34C759;
+      --orange:      #FF9500;
+      --red:         #FF3B30;
+      --fill:        rgba(118, 118, 128, 0.12);
+      --seg-bg:      rgba(118, 118, 128, 0.12);
+      --seg-thumb:   #FFFFFF;
+      --tint-info:   rgba(0, 122, 255, 0.10);
+      --tint-warn:   rgba(255, 149, 0, 0.12);
+      --shadow:      0 1px 3px rgba(0, 0, 0, 0.08);
+      --radius:      12px;
+      --gutter:      16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:         #000000;
+        --card:       #1C1C1E;
+        --card-press: #2C2C2E;
+        --label:      #FFFFFF;
+        --label-2:    rgba(235, 235, 245, 0.60);
+        --label-3:    rgba(235, 235, 245, 0.30);
+        --separator:  rgba(84, 84, 88, 0.65);
+        --brand:      #5AB0E8;
+        --blue:       #0A84FF;
+        --green:      #30D158;
+        --orange:     #FF9F0A;
+        --red:        #FF453A;
+        --fill:       rgba(118, 118, 128, 0.24);
+        --seg-bg:     rgba(118, 118, 128, 0.24);
+        --seg-thumb:  #636366;
+        --tint-info:  rgba(10, 132, 255, 0.18);
+        --tint-warn:  rgba(255, 159, 10, 0.20);
+        --shadow:     none;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f7fafc;
-      color: #2d3748;
-      font-size: 14px;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--label);
+      font-size: 17px;
+      line-height: 1.47;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* ── Header ── */
-    .header {
-      background: #1b5e8c;
-      color: #fff;
-      padding: 18px 24px;
+    /* ── Navigation bar with iOS large title ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      padding: 12px var(--gutter) 0;
+    }
+    .nav-top {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
+      margin-bottom: 2px;
     }
-    .header h1 { font-size: 18px; font-weight: 700; }
-    .header p  { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-
-    /* ── Tabs ── */
-    .tabs {
-      display: flex;
-      background: #fff;
-      border-bottom: 2px solid #e2e8f0;
-      overflow-x: auto;
-      padding: 0 16px;
-      gap: 2px;
+    .nav-icon {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      background: linear-gradient(160deg, #2E7FB8, #14456A);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
     }
-    .tab {
-      padding: 12px 16px;
-      cursor: pointer;
+    .nav h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    }
+    .nav-sub {
       font-size: 13px;
-      font-weight: 500;
-      color: #718096;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      white-space: nowrap;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .tab:hover { color: #1b5e8c; }
-    .tab.active { color: #1b5e8c; border-bottom-color: #1b5e8c; }
-
-    /* ── Content ── */
-    .content {
-      padding: 24px;
-      max-width: 720px;
-    }
-    .panel { display: none; }
-    .panel.active { display: block; }
-
-    h2 { font-size: 16px; font-weight: 700; color: #1a202c; margin-bottom: 12px; margin-top: 24px; }
-    h2:first-child { margin-top: 0; }
-    h3 { font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 6px; margin-top: 18px; }
-    p  { margin-bottom: 10px; color: #4a5568; }
-    ul { padding-left: 20px; margin-bottom: 12px; color: #4a5568; }
-    li { margin-bottom: 4px; }
-
-    .info-box {
-      background: #ebf8ff;
-      border: 1px solid #bee3f8;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #2b6cb0;
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-    .warn-box {
-      background: #fffbeb;
-      border: 1px solid #f6e05e;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #744210;
-      margin-bottom: 16px;
-    }
-
-    /* ── Cards ── */
-    .card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 16px;
+      color: var(--label-2);
       margin-bottom: 12px;
     }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1b5e8c;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .card p { margin-bottom: 0; font-size: 13px; }
 
-    /* ── Flow examples ── */
-    .flow {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
+    /* ── Segmented control ── */
+    .seg {
+      display: flex;
+      background: var(--seg-bg);
+      border-radius: 9px;
+      padding: 2px;
+      gap: 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
       margin-bottom: 14px;
     }
-    .flow-row {
+    .seg::-webkit-scrollbar { display: none; }
+    .seg-item {
+      flex: 1 0 auto;
+      text-align: center;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--label);
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.18s ease, font-weight 0.18s ease;
+    }
+    .seg-item.on {
+      background: var(--seg-thumb);
+      font-weight: 600;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Panels ── */
+    .wrap { padding: 0 var(--gutter) 40px; }
+    .panel { display: none; animation: fade 0.22s ease; }
+    .panel.on { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    /* ── Grouped list section ── */
+    .sec-head {
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--label-2);
+      padding: 22px 16px 7px;
+    }
+    .group {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .row {
       display: flex;
       align-items: flex-start;
-      padding: 10px 14px;
       gap: 12px;
-      border-bottom: 1px solid #f0f4f8;
-      font-size: 13px;
+      padding: 11px 16px;
+      position: relative;
     }
-    .flow-row:last-child { border-bottom: none; }
-    .flow-label {
-      min-width: 50px;
-      font-weight: 700;
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-align: center;
-      margin-top: 1px;
+    /* Hairline separator, inset from the left like iOS table views */
+    .row + .row::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 16px; right: 0;
+      height: 1px;
+      background: var(--separator);
+      transform: scaleY(0.5);
     }
-    .lbl-when  { background: #c6f6d5; color: #22543d; }
-    .lbl-if    { background: #fefcbf; color: #744210; }
-    .lbl-then  { background: #bee3f8; color: #2a4365; }
+    .row-ico {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      background: var(--fill);
+    }
+    .row-body { flex: 1; min-width: 0; }
+    .row-title { font-size: 16px; font-weight: 500; letter-spacing: -0.2px; }
+    .row-sub {
+      font-size: 14px;
+      color: var(--label-2);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .row-val {
+      font-size: 16px;
+      color: var(--label-2);
+      flex-shrink: 0;
+      margin-left: auto;
+      padding-left: 8px;
+    }
+    .row-sub ul { padding-left: 18px; margin-top: 5px; }
+    .row-sub li { margin-bottom: 2px; }
 
-    /* ── Settings table ── */
-    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
-    th { text-align: left; padding: 8px 10px; background: #edf2f7; color: #4a5568; font-weight: 600; }
-    td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #4a5568; vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
+    /* ── Tinted note ── */
+    .note {
+      display: flex;
+      gap: 10px;
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-top: 14px;
+    }
+    .note-ico { font-size: 15px; flex-shrink: 0; line-height: 1.3; }
+    .note.info { background: var(--tint-info); color: var(--label); }
+    .note.warn { background: var(--tint-warn); color: var(--label); }
+
+    /* ── Flow example ── */
+    .flow { background: var(--card); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; box-shadow: var(--shadow); }
+    .flow-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; font-size: 15px; position: relative; }
+    .flow-row + .flow-row::before {
+      content: ''; position: absolute; top: 0; left: 14px; right: 0;
+      height: 1px; background: var(--separator); transform: scaleY(0.5);
+    }
+    .pill {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      min-width: 52px;
+      text-align: center;
+    }
+    .pill.when { background: rgba(52, 199, 89, 0.16);  color: var(--green); }
+    .pill.then { background: rgba(0, 122, 255, 0.16);  color: var(--blue); }
+
+    /* ── Collapsible FAQ ── */
+    .faq-q {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      position: relative;
+      user-select: none;
+    }
+    .faq-q + .faq-a { display: none; }
+    .faq-item.open .faq-a { display: block; }
+    .chev {
+      margin-left: auto;
+      flex-shrink: 0;
+      color: var(--label-3);
+      font-size: 13px;
+      transition: transform 0.22s ease;
+    }
+    .faq-item.open .chev { transform: rotate(90deg); }
+    .faq-a {
+      padding: 0 16px 14px;
+      font-size: 15px;
+      color: var(--label-2);
+      line-height: 1.5;
+    }
+    .faq-a ul { padding-left: 18px; margin-top: 6px; }
+    .faq-a li { margin-bottom: 3px; }
+    .faq-item + .faq-item::before {
+      content: ''; position: absolute; left: 16px; right: 0;
+      height: 1px; background: var(--separator); transform: scaleY(0.5);
+    }
+    .faq-item { position: relative; }
+
+    /* ── Link rows ── */
+    .link-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      color: var(--blue);
+      font-size: 16px;
+      text-decoration: none;
+      position: relative;
+    }
+    .link-row + .link-row::before {
+      content: ''; position: absolute; top: 0; left: 16px; right: 0;
+      height: 1px; background: var(--separator); transform: scaleY(0.5);
+    }
+    .link-row .chev { color: var(--label-3); font-size: 14px; }
 
     code {
-      background: #edf2f7;
-      border-radius: 4px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 13px;
+      background: var(--fill);
+      border-radius: 5px;
       padding: 1px 5px;
-      font-family: monospace;
+      color: var(--brand);
+    }
+    a { color: var(--blue); text-decoration: none; }
+
+    /* ── Language picker ── */
+    .lang {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 26px 0 8px;
+    }
+    .lang button {
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: none;
+      background: var(--fill);
+      color: var(--label-2);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .lang button.on { background: var(--brand); color: #fff; }
+
+    .foot {
+      text-align: center;
       font-size: 12px;
-      color: #1b5e8c;
+      color: var(--label-3);
+      padding-bottom: 8px;
     }
-
-    .badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 10px;
-      background: #1b5e8c;
-      color: #fff;
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-
-    a { color: #1b5e8c; text-decoration: none; }
-    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div>
-      <h1>🌨️ Hagelschutz Schweiz</h1>
-      <p>Hilfe &amp; Dokumentation</p>
+  <div class="nav">
+    <div class="nav-top">
+      <div class="nav-icon">🌨️</div>
+      <h1 id="nav-title">Hagelschutz</h1>
     </div>
+    <div class="nav-sub" id="nav-sub">Hilfe &amp; Dokumentation</div>
+    <div class="seg" id="seg"></div>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" onclick="show('app', this)">App</div>
-    <div class="tab" onclick="show('sensors', this)">Sensoren</div>
-    <div class="tab" onclick="show('flows', this)">Flows</div>
-    <div class="tab" onclick="show('settings', this)">Einstellungen</div>
-    <div class="tab" onclick="show('faq', this)">FAQ</div>
-  </div>
+  <div class="wrap" id="wrap"></div>
 
-  <div class="content">
+  <div class="lang" id="lang"></div>
+  <div class="foot" id="foot"></div>
 
-    <!-- ══════════════════ APP ══════════════════ -->
-    <div id="panel-app" class="panel active">
-      <h2>Was macht diese App?</h2>
-      <p>
-        Die App verbindet Ihren Homey mit dem Hagelwarnsystem
-        <a href="https://www.hagelschutz-einfach-automatisch.ch" target="_blank">hagelschutz-einfach-automatisch.ch</a>
-        der Vereinigung Kantonaler Feuerversicherungen (VKF) und SRF Meteo.
-        Sie fragt alle 120 Sekunden die METEO REST API ab und löst automatisch Homey-Flows aus,
-        sobald eine Hagelwarnung für Ihren Standort aktiv wird.
-      </p>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   All four languages live in this one file. Homey serves only
+   settings/index.html, so per-language files would never be delivered.
+   ═══════════════════════════════════════════════════════════════════ */
 
-      <div class="info-box">
-        ℹ️ Der Dienst ist ausschliesslich in der <strong>Schweiz</strong> verfügbar und erfordert eine
-        vorgängige Registrierung auf hagelschutz-einfach-automatisch.ch.
-      </div>
+var LINKS = {
+  site:  'https://www.hagelschutz-einfach-automatisch.ch',
+  reg:   'https://www.hagelschutz-einfach-automatisch.ch/eigentuemer-verwaltungen/produkt/ich-habe-interesse.html',
+  portal:'https://meteo.netitservices.com',
+  github:'https://github.com/andiwirz/ch.hagelschutz.homey',
+  issues:'https://github.com/andiwirz/ch.hagelschutz.homey/issues',
+  forum: 'https://community.homey.app/t/152992',
+  api:   'https://www.hagelschutz-einfach-automatisch.ch/files/media/hagelschutz-einfach-automatisch/hagelschutz-einfach-automatisch-anleitung-schnittstelle-api.pdf'
+};
 
-      <h2>Funktionen</h2>
-      <div class="card">
-        <div class="card-title">🌨️ Automatische Hagelwarnung</div>
-        <p>Sobald eine Hagelwarnung aktiv wird, löst die App einen Flow aus – z.B. zum Hochfahren aller Storen.</p>
-      </div>
-      <div class="card">
-        <div class="card-title">✅ Entwarnung</div>
-        <p>Bei Entwarnung wird ein separater Flow ausgelöst, damit die Storen wieder geschlossen werden können.</p>
-      </div>
-      <div class="card">
-        <div class="card-title">🔌 API-Verbindungsüberwachung</div>
-        <p>Schlägt eine API-Abfrage fehl, wird sofort ein Alarm ausgelöst und ein Flow getriggert.</p>
-      </div>
-      <div class="card">
-        <div class="card-title">⏱️ Watchdog</div>
-        <p>Wenn seit mehr als 10 Minuten keine erfolgreiche API-Abfrage stattgefunden hat, wird automatisch ein Flow ausgelöst.</p>
-      </div>
+var T = {};
 
-      <h2>Voraussetzungen</h2>
-      <ul>
-        <li>Homey Pro mit Internetzugang</li>
-        <li>Registrierung auf <a href="https://www.hagelschutz-einfach-automatisch.ch/eigentuemer-verwaltungen/produkt/ich-habe-interesse.html" target="_blank">hagelschutz-einfach-automatisch.ch</a></li>
-        <li>Gültige <strong>Geräte-ID</strong> (deviceId / Seriennummer) und <strong>Hardware-Typ-ID</strong> (hwtypeId)</li>
-      </ul>
+/* ───────────────────────────── DEUTSCH ───────────────────────────── */
+T.de = {
+  title: 'Hagelschutz', sub: 'Hilfe & Dokumentation',
+  tabs: { app: 'App', sensors: 'Sensoren', flows: 'Flows', settings: 'Einstellungen', faq: 'FAQ' },
+  app: {
+    introHead: 'Über die App',
+    intro: 'Die App verbindet Homey mit dem Hagelwarnsystem <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> der Vereinigung Kantonaler Feuerversicherungen (VKF) und SRF Meteo. Sie fragt die METEO REST API im eingestellten Intervall ab – standardmässig alle 120 Sekunden – und löst Flows aus, sobald eine Hagelwarnung für Ihren Standort aktiv wird.',
+    notice: 'Der Dienst ist ausschliesslich in der <strong>Schweiz</strong> verfügbar und erfordert eine vorgängige Registrierung.',
+    featHead: 'Funktionen',
+    feats: [
+      { i: '🌨️', t: 'Automatische Hagelwarnung', s: 'Wird eine Hagelwarnung aktiv, löst die App einen Flow aus – etwa zum Hochfahren aller Storen.' },
+      { i: '✅', t: 'Entwarnung', s: 'Bei Entwarnung folgt ein separater Flow, damit die Storen wieder geschlossen werden können.' },
+      { i: '🔌', t: 'Verbindungsüberwachung', s: 'Schlägt eine Abfrage fehl, wird sie einmalig nach 30 Sekunden wiederholt. Bleibt sie erfolglos, werden Alarm und Flow ausgelöst.' },
+      { i: '⏱️', t: 'Watchdog', s: 'Liegt die letzte erfolgreiche Abfrage mehr als 10 Minuten zurück, meldet die App das über einen eigenen Flow.' },
+      { i: '🌍', t: 'Viersprachig', s: 'Deutsch, Englisch, Französisch und Italienisch – inklusive Flow-Karten und Einrichtungsassistent.' }
+    ],
+    reqHead: 'Voraussetzungen',
+    reqs: [
+      { t: 'Homey Pro', s: 'Mit bestehender Internetverbindung.' },
+      { t: 'Registrierung', s: 'Ein Konto auf hagelschutz-einfach-automatisch.ch.' },
+      { t: 'Zugangsdaten', s: 'Geräte-ID (Seriennummer) und Hardware-Typ-ID aus der Registrierungsbestätigung.' }
+    ],
+    linkHead: 'Links',
+    links: [
+      { t: 'hagelschutz-einfach-automatisch.ch', u: LINKS.site },
+      { t: 'Portal meteo.netitservices.com', u: LINKS.portal },
+      { t: 'Quellcode auf GitHub', u: LINKS.github },
+      { t: 'API-Dokumentation (PDF)', u: LINKS.api }
+    ]
+  },
+  sensors: {
+    head: 'Gerätewerte',
+    intro: 'Der «Hagelwarn-Sensor» stellt diese Werte auf dem Geräte-Tile bereit.',
+    items: [
+      { i: '🚨', t: 'Hagelwarnung', c: 'alarm_generic', s: 'Boolescher Alarm – <code>true</code>, sobald <code>currentState</code> nicht 0 ist. Homey zeigt ihn als roten Alarm-Indikator.' },
+      { i: '📶', t: 'Hagelsignal', c: 'hail_state', s: 'Rohwert der API:<ul><li><code>0</code> – kein Hagel</li><li><code>1</code> – Hagelwarnung aktiv</li><li><code>2</code> – Hagelwarnung aktiv (Testalarm)</li></ul>' },
+      { i: '🔌', t: 'API-Verbindungsfehler', c: 'api_error_state', s: 'Boolescher Alarm – <code>true</code>, wenn die letzte Abfrage fehlgeschlagen ist (kein HTTP 200 oder Zeitüberschreitung).' },
+      { i: '🕐', t: 'Letzte API-Abfrage', c: 'last_poll', s: 'Zeitpunkt der letzten erfolgreichen Abfrage im Format <code>TT.MM, HH:MM</code>.' }
+    ]
+  },
+  flows: {
+    trigHead: 'Trigger – «Wenn»',
+    trigs: [
+      { t: 'Hagelwarnung ist aktiv', s: '<code>currentState</code> wechselt von 0 auf 1 oder 2. Token: <code>signal</code>, <code>description</code>' },
+      { t: 'Hagelwarnung aufgehoben', s: '<code>currentState</code> kehrt auf 0 zurück.' },
+      { t: 'Signalwert hat sich geändert', s: 'Bei jeder Änderung von <code>currentState</code>. Token: <code>signal</code>' },
+      { t: 'API-Verbindung fehlgeschlagen', s: 'Beim ersten Fehlschlag – nicht bei jedem Folgefehler. Token: <code>error</code>' },
+      { t: 'API-Verbindung wiederhergestellt', s: 'Erste erfolgreiche Abfrage nach einem Fehler.' },
+      { t: 'Letzte API-Abfrage überfällig', s: 'Seit über 10 Minuten keine erfolgreiche Abfrage.' }
+    ],
+    condHead: 'Bedingungen – «Und»',
+    conds: [
+      { t: 'Hagelwarnung ist [nicht] aktiv', s: 'Prüft, ob <code>currentState</code> ungleich 0 ist.' },
+      { t: 'currentState ist [nicht] X', s: 'Prüft auf einen konkreten Wert (0, 1 oder 2).' },
+      { t: 'API-Verbindung ist fehlgeschlagen / funktioniert', s: 'Prüft <code>api_error_state</code>.' },
+      { t: 'Letzte API-Abfrage ist [nicht] älter als X Minuten', s: 'Wählbar von 1 bis 60 Minuten.' }
+    ],
+    actHead: 'Aktionen – «Dann»',
+    acts: [
+      { t: 'Hagelstatus jetzt prüfen', s: 'Startet sofort eine Abfrage, ohne das konfigurierte Intervall abzuwarten.' }
+    ],
+    exHead: 'Beispiel-Flows',
+    ex: [
+      [['when', 'Hagelwarnung ist aktiv'], ['then', 'Flow starten → «Alle Storen öffnen»']],
+      [['when', 'Hagelwarnung aufgehoben'], ['then', 'Flow starten → «Alle Storen schliessen»'], ['then', 'Benachrichtigung: «Hagelgefahr vorbei»']],
+      [['when', 'API-Verbindung fehlgeschlagen'], ['then', 'Benachrichtigung: «Hagelschutz API nicht erreichbar»']],
+      [['when', 'Letzte API-Abfrage überfällig'], ['then', 'Benachrichtigung senden']]
+    ]
+  },
+  settings: {
+    head: 'Geräte-Einstellungen',
+    intro: 'Diese Werte werden beim Hinzufügen abgefragt und lassen sich danach jederzeit unter <strong>Geräte → Hagelwarn-Sensor → Einstellungen</strong> ändern. Nach einer Änderung startet die Abfrage automatisch neu.',
+    items: [
+      { t: 'Geräte-ID', c: 'device_id', s: '12-stellige Seriennummer bzw. MAC-Adresse der Signalbox, erhalten nach der Registrierung.', v: '–' },
+      { t: 'Hardware-Typ-ID', c: 'hwtype_id', s: 'Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.', v: '1' },
+      { t: 'Abfrageintervall', c: 'poll_interval', s: 'Abstand zwischen zwei Abfragen. Einstellbar von 120 bis 3600 Sekunden.', v: '120 s' }
+    ],
+    warn: 'Das Abfrageintervall darf gemäss API-Spezifikation der VKF <strong>nicht kürzer als 120 Sekunden</strong> sein.',
+    testHead: 'Testalarm',
+    test: 'Die Verbindung lässt sich direkt auf <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> prüfen: nach dem Login den <strong>Testalarm</strong> aktivieren. Innerhalb des eingestellten Intervalls meldet der Sensor <code>currentState = 2</code> und der Flow löst aus. Danach den Testalarm wieder deaktivieren.',
+    testAlt: 'Wer nicht warten möchte, nutzt die Flow-Aktion <strong>«Hagelstatus jetzt prüfen»</strong> für eine sofortige Abfrage.'
+  },
+  faq: {
+    head: 'Häufige Fragen',
+    items: [
+      { q: 'Wo bekomme ich Geräte-ID und hwtypeId?', a: 'Nach der Registrierung auf <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> erhalten Sie die Zugangsdaten per E-Mail. Die Geräte-ID ist die 12-stellige MAC-Adresse Ihrer Signalbox, die hwtypeId ein ganzzahliger Identifikator des Gerätetyps.' },
+      { q: 'Wie oft fragt die App die API ab?', a: 'Standardmässig alle 120 Sekunden. Das Intervall ist in den Geräteeinstellungen zwischen 120 und 3600 Sekunden frei wählbar. Kürzer als 120 Sekunden lässt die API-Spezifikation der VKF nicht zu – das Hagelwarnsystem berechnet die Prognose ohnehin nur alle 5 Minuten neu.' },
+      { q: 'Was passiert, wenn die API nicht erreichbar ist?', a: 'Die Abfrage wird einmalig nach 30 Sekunden wiederholt. Bleibt auch sie erfolglos, setzt die App den Alarm <code>api_error_state</code>, löst den Flow «API-Verbindung fehlgeschlagen» aus und meldet den Fehler an den Server – dies nur beim ersten Fehlschlag, nicht bei jedem Folgefehler. Danach gilt wieder das normale Intervall.' },
+      { q: 'Was bedeutet currentState = 2?', a: 'Das ist ein <strong>Testalarm</strong>, der manuell über <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> ausgelöst wird. Die App behandelt ihn genau wie einen echten Alarm – jeder Wert ungleich 0 gilt als Hagel.' },
+      { q: 'Der Sensor zeigt «nicht verfügbar» – was tun?', a: '<ul><li>Internetverbindung des Homey prüfen</li><li>Geräte-ID und hwtypeId in den Einstellungen kontrollieren</li><li>Auf <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> einloggen und den Status prüfen</li><li>Flow-Aktion «Hagelstatus jetzt prüfen» ausführen und das Log beobachten</li></ul>' },
+      { q: 'Beim Einrichten passiert nichts, wenn ich auf «Sensor hinzufügen» tippe.', a: 'Dieser Fehler betraf Versionen bis 1.0.10: reagierte der Dienst nicht, blieb die Schaltfläche dauerhaft deaktiviert. Ab 1.0.11 wird die Prüfung nach 20 Sekunden abgebrochen und eine verständliche Meldung angezeigt. Bei älteren Versionen hilft es, die Einrichtungsseite zu schliessen und erneut zu öffnen.' },
+      { q: 'Funktioniert die App ohne Signalbox?', a: 'Ja. Die App spricht die METEO REST API direkt an und benötigt keine physische Signalbox (VKF-Box). Sie ersetzt diese für Systeme mit eigener Gebäudesteuerung.' },
+      { q: 'Wo melde ich Fehler oder Wünsche?', a: 'Auf <a href="' + LINKS.issues + '" target="_blank">GitHub Issues</a> oder im <a href="' + LINKS.forum + '" target="_blank">Homey Community Forum</a>.' }
+    ]
+  }
+};
 
-      <h2>Links</h2>
-      <ul>
-        <li><a href="https://www.hagelschutz-einfach-automatisch.ch" target="_blank">hagelschutz-einfach-automatisch.ch</a></li>
-        <li><a href="https://meteo.netitservices.com" target="_blank">meteo.netitservices.com</a> (Portal)</li>
-        <li><a href="https://github.com/andiwirz/ch.hagelschutz.homey" target="_blank">GitHub – Quellcode</a></li>
-        <li><a href="https://www.hagelschutz-einfach-automatisch.ch/files/media/hagelschutz-einfach-automatisch/hagelschutz-einfach-automatisch-anleitung-schnittstelle-api.pdf" target="_blank">API-Dokumentation (PDF)</a></li>
-      </ul>
-    </div>
+/* ───────────────────────────── ENGLISH ───────────────────────────── */
+T.en = {
+  title: 'Hail Protection', sub: 'Help & documentation',
+  tabs: { app: 'App', sensors: 'Sensors', flows: 'Flows', settings: 'Settings', faq: 'FAQ' },
+  app: {
+    introHead: 'About this app',
+    intro: 'This app connects Homey to the hail warning system <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a>, run by the Association of Cantonal Fire Insurers (VKF) together with SRF Meteo. It polls the METEO REST API at the configured interval – every 120 seconds by default – and triggers Flows as soon as a hail warning becomes active for your location.',
+    notice: 'The service is available in <strong>Switzerland</strong> only and requires prior registration.',
+    featHead: 'Features',
+    feats: [
+      { i: '🌨️', t: 'Automatic hail warning', s: 'When a hail warning becomes active, the app triggers a Flow – for example to raise every blind.' },
+      { i: '✅', t: 'All clear', s: 'Once the warning is lifted a separate Flow runs, so the blinds can be lowered again.' },
+      { i: '🔌', t: 'Connection monitoring', s: 'A failed poll is retried once after 30 seconds. If that fails too, the alarm and Flow are triggered.' },
+      { i: '⏱️', t: 'Watchdog', s: 'If the last successful poll is more than 10 minutes old, the app reports it through its own Flow.' },
+      { i: '🌍', t: 'Four languages', s: 'German, English, French and Italian – including Flow cards and the setup wizard.' }
+    ],
+    reqHead: 'Requirements',
+    reqs: [
+      { t: 'Homey Pro', s: 'With a working internet connection.' },
+      { t: 'Registration', s: 'An account at hagelschutz-einfach-automatisch.ch.' },
+      { t: 'Credentials', s: 'Device ID (serial number) and Hardware Type ID from your registration confirmation.' }
+    ],
+    linkHead: 'Links',
+    links: [
+      { t: 'hagelschutz-einfach-automatisch.ch', u: LINKS.site },
+      { t: 'Portal meteo.netitservices.com', u: LINKS.portal },
+      { t: 'Source code on GitHub', u: LINKS.github },
+      { t: 'API documentation (PDF)', u: LINKS.api }
+    ]
+  },
+  sensors: {
+    head: 'Device values',
+    intro: 'The "Hail Warning Sensor" exposes these values on the device tile.',
+    items: [
+      { i: '🚨', t: 'Hail warning', c: 'alarm_generic', s: 'Boolean alarm – <code>true</code> whenever <code>currentState</code> is not 0. Homey shows it as a red alarm indicator.' },
+      { i: '📶', t: 'Hail signal', c: 'hail_state', s: 'Raw API value:<ul><li><code>0</code> – no hail</li><li><code>1</code> – hail warning active</li><li><code>2</code> – hail warning active (test alarm)</li></ul>' },
+      { i: '🔌', t: 'API connection error', c: 'api_error_state', s: 'Boolean alarm – <code>true</code> when the last poll failed (no HTTP 200, or a timeout).' },
+      { i: '🕐', t: 'Last API poll', c: 'last_poll', s: 'Time of the last successful poll, formatted <code>DD.MM, HH:MM</code>.' }
+    ]
+  },
+  flows: {
+    trigHead: 'Triggers – "When"',
+    trigs: [
+      { t: 'Hail warning is active', s: '<code>currentState</code> changes from 0 to 1 or 2. Tokens: <code>signal</code>, <code>description</code>' },
+      { t: 'Hail warning cleared', s: '<code>currentState</code> returns to 0.' },
+      { t: 'Signal value changed', s: 'On every change of <code>currentState</code>. Token: <code>signal</code>' },
+      { t: 'API connection failed', s: 'On the first failure – not on every subsequent one. Token: <code>error</code>' },
+      { t: 'API connection recovered', s: 'First successful poll after an error.' },
+      { t: 'Last API poll is overdue', s: 'No successful poll for more than 10 minutes.' }
+    ],
+    condHead: 'Conditions – "And"',
+    conds: [
+      { t: 'Hail warning is [not] active', s: 'Checks whether <code>currentState</code> differs from 0.' },
+      { t: 'currentState is [not] X', s: 'Checks for a specific value (0, 1 or 2).' },
+      { t: 'API connection has failed / is working', s: 'Checks <code>api_error_state</code>.' },
+      { t: 'Last API poll is [not] older than X minutes', s: 'Selectable from 1 to 60 minutes.' }
+    ],
+    actHead: 'Actions – "Then"',
+    acts: [
+      { t: 'Check hail status now', s: 'Starts a poll immediately, without waiting for the configured interval.' }
+    ],
+    exHead: 'Example Flows',
+    ex: [
+      [['when', 'Hail warning is active'], ['then', 'Start Flow → "Open all blinds"']],
+      [['when', 'Hail warning cleared'], ['then', 'Start Flow → "Close all blinds"'], ['then', 'Notification: "Hail danger over"']],
+      [['when', 'API connection failed'], ['then', 'Notification: "Hail protection API unreachable"']],
+      [['when', 'Last API poll is overdue'], ['then', 'Send notification']]
+    ]
+  },
+  settings: {
+    head: 'Device settings',
+    intro: 'These values are requested while adding the device and can be changed at any time under <strong>Devices → Hail Warning Sensor → Settings</strong>. Polling restarts automatically after a change.',
+    items: [
+      { t: 'Device ID', c: 'device_id', s: '12-character serial number, i.e. the MAC address of the Signalbox, received after registration.', v: '–' },
+      { t: 'Hardware Type ID', c: 'hwtype_id', s: 'Integer device type identifier from your registration confirmation.', v: '1' },
+      { t: 'Poll interval', c: 'poll_interval', s: 'Time between two polls. Adjustable from 120 to 3600 seconds.', v: '120 s' }
+    ],
+    warn: 'Per the VKF API specification the poll interval must <strong>not be shorter than 120 seconds</strong>.',
+    testHead: 'Test alarm',
+    test: 'You can verify the connection directly at <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a>: sign in and switch on the <strong>test alarm</strong>. Within the configured interval the sensor reports <code>currentState = 2</code> and the Flow fires. Switch the test alarm off again afterwards.',
+    testAlt: 'To avoid waiting, use the Flow action <strong>"Check hail status now"</strong> for an immediate poll.'
+  },
+  faq: {
+    head: 'Frequently asked',
+    items: [
+      { q: 'Where do I get the Device ID and hwtypeId?', a: 'After registering at <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> you receive the credentials by e-mail. The Device ID is the 12-character MAC address of your Signalbox; the hwtypeId is an integer identifying the device type.' },
+      { q: 'How often does the app poll the API?', a: 'Every 120 seconds by default. The interval can be set anywhere between 120 and 3600 seconds in the device settings. Anything below 120 seconds is not permitted by the VKF API specification – and the hail warning system only recalculates its forecast every 5 minutes anyway.' },
+      { q: 'What happens when the API is unreachable?', a: 'The poll is retried once after 30 seconds. If that fails as well, the app sets the <code>api_error_state</code> alarm, triggers the "API connection failed" Flow and reports the error to the server – on the first failure only, not on every subsequent one. Polling then continues at the normal interval.' },
+      { q: 'What does currentState = 2 mean?', a: 'It is a <strong>test alarm</strong>, triggered manually via <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a>. The app treats it exactly like a real alarm – any value other than 0 counts as hail.' },
+      { q: 'The sensor shows "unavailable" – what now?', a: '<ul><li>Check your Homey\'s internet connection</li><li>Verify Device ID and hwtypeId in the settings</li><li>Sign in at <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> and check the status</li><li>Run the Flow action "Check hail status now" and watch the log</li></ul>' },
+      { q: 'Nothing happens when I tap "Add sensor" during setup.', a: 'This affected versions up to 1.0.10: if the service did not respond, the button stayed disabled indefinitely. From 1.0.11 the check times out after 20 seconds and shows a clear message. On older versions, closing and reopening the setup page helps.' },
+      { q: 'Does the app work without a Signalbox?', a: 'Yes. The app talks to the METEO REST API directly and needs no physical Signalbox (VKF box). It replaces one for systems with their own building control.' },
+      { q: 'Where do I report bugs or requests?', a: 'On <a href="' + LINKS.issues + '" target="_blank">GitHub Issues</a> or in the <a href="' + LINKS.forum + '" target="_blank">Homey Community Forum</a>.' }
+    ]
+  }
+};
 
-    <!-- ══════════════════ SENSOREN ══════════════════ -->
-    <div id="panel-sensors" class="panel">
-      <h2>Capabilities / Sensoren</h2>
-      <p>Das Gerät «Hagelwarn-Sensor» stellt folgende Werte auf dem Geräte-Tile bereit:</p>
+/* ───────────────────────────── FRANÇAIS ──────────────────────────── */
+T.fr = {
+  title: 'Protection Grêle', sub: 'Aide & documentation',
+  tabs: { app: 'App', sensors: 'Capteurs', flows: 'Flows', settings: 'Réglages', faq: 'FAQ' },
+  app: {
+    introHead: 'À propos',
+    intro: 'Cette app relie Homey au système d\'alerte grêle <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> de l\'Association des établissements cantonaux d\'assurance incendie (AEAI) et de SRF Meteo. Elle interroge l\'API REST METEO à l\'intervalle configuré – toutes les 120 secondes par défaut – et déclenche des Flows dès qu\'une alerte grêle devient active pour votre emplacement.',
+    notice: 'Le service est disponible uniquement en <strong>Suisse</strong> et nécessite une inscription préalable.',
+    featHead: 'Fonctions',
+    feats: [
+      { i: '🌨️', t: 'Alerte grêle automatique', s: 'Lorsqu\'une alerte devient active, l\'app déclenche un Flow – par exemple pour remonter tous les stores.' },
+      { i: '✅', t: 'Fin d\'alerte', s: 'À la levée de l\'alerte, un Flow distinct permet de refermer les stores.' },
+      { i: '🔌', t: 'Surveillance de la connexion', s: 'Une interrogation échouée est relancée une fois après 30 secondes. Si elle échoue encore, l\'alarme et le Flow sont déclenchés.' },
+      { i: '⏱️', t: 'Chien de garde', s: 'Si la dernière interrogation réussie remonte à plus de 10 minutes, l\'app le signale via un Flow dédié.' },
+      { i: '🌍', t: 'Quatre langues', s: 'Allemand, anglais, français et italien – cartes Flow et assistant de configuration compris.' }
+    ],
+    reqHead: 'Prérequis',
+    reqs: [
+      { t: 'Homey Pro', s: 'Avec une connexion internet active.' },
+      { t: 'Inscription', s: 'Un compte sur hagelschutz-einfach-automatisch.ch.' },
+      { t: 'Identifiants', s: 'ID de l\'appareil (numéro de série) et ID type matériel figurant dans la confirmation d\'inscription.' }
+    ],
+    linkHead: 'Liens',
+    links: [
+      { t: 'hagelschutz-einfach-automatisch.ch', u: LINKS.site },
+      { t: 'Portail meteo.netitservices.com', u: LINKS.portal },
+      { t: 'Code source sur GitHub', u: LINKS.github },
+      { t: 'Documentation API (PDF)', u: LINKS.api }
+    ]
+  },
+  sensors: {
+    head: 'Valeurs de l\'appareil',
+    intro: 'Le « Capteur d\'alerte grêle » expose ces valeurs sur la tuile de l\'appareil.',
+    items: [
+      { i: '🚨', t: 'Alerte grêle', c: 'alarm_generic', s: 'Alarme booléenne – <code>true</code> dès que <code>currentState</code> est différent de 0. Homey l\'affiche en rouge.' },
+      { i: '📶', t: 'Signal grêle', c: 'hail_state', s: 'Valeur brute de l\'API :<ul><li><code>0</code> – pas de grêle</li><li><code>1</code> – alerte grêle active</li><li><code>2</code> – alerte grêle active (alarme de test)</li></ul>' },
+      { i: '🔌', t: 'Erreur de connexion API', c: 'api_error_state', s: 'Alarme booléenne – <code>true</code> si la dernière interrogation a échoué (pas de HTTP 200 ou délai dépassé).' },
+      { i: '🕐', t: 'Dernière interrogation API', c: 'last_poll', s: 'Horodatage de la dernière interrogation réussie, au format <code>JJ.MM, HH:MM</code>.' }
+    ]
+  },
+  flows: {
+    trigHead: 'Déclencheurs – « Quand »',
+    trigs: [
+      { t: 'Alerte grêle active', s: '<code>currentState</code> passe de 0 à 1 ou 2. Jetons : <code>signal</code>, <code>description</code>' },
+      { t: 'Alerte grêle levée', s: '<code>currentState</code> revient à 0.' },
+      { t: 'Valeur du signal modifiée', s: 'À chaque changement de <code>currentState</code>. Jeton : <code>signal</code>' },
+      { t: 'Connexion API échouée', s: 'Au premier échec – pas à chaque échec suivant. Jeton : <code>error</code>' },
+      { t: 'Connexion API rétablie', s: 'Première interrogation réussie après une erreur.' },
+      { t: 'Dernière interrogation API en retard', s: 'Aucune interrogation réussie depuis plus de 10 minutes.' }
+    ],
+    condHead: 'Conditions – « Et »',
+    conds: [
+      { t: 'Alerte grêle [n\']est [pas] active', s: 'Vérifie si <code>currentState</code> diffère de 0.' },
+      { t: 'currentState [n\']est [pas] X', s: 'Vérifie une valeur précise (0, 1 ou 2).' },
+      { t: 'Connexion API a échoué / fonctionne', s: 'Vérifie <code>api_error_state</code>.' },
+      { t: 'Dernière interrogation API [n\']est [pas] plus ancienne que X minutes', s: 'Réglable de 1 à 60 minutes.' }
+    ],
+    actHead: 'Actions – « Alors »',
+    acts: [
+      { t: 'Vérifier le statut grêle maintenant', s: 'Lance immédiatement une interrogation, sans attendre l\'intervalle configuré.' }
+    ],
+    exHead: 'Exemples de Flows',
+    ex: [
+      [['when', 'Alerte grêle active'], ['then', 'Démarrer Flow → « Ouvrir tous les stores »']],
+      [['when', 'Alerte grêle levée'], ['then', 'Démarrer Flow → « Fermer tous les stores »'], ['then', 'Notification : « Danger de grêle passé »']],
+      [['when', 'Connexion API échouée'], ['then', 'Notification : « API protection grêle injoignable »']],
+      [['when', 'Dernière interrogation API en retard'], ['then', 'Envoyer une notification']]
+    ]
+  },
+  settings: {
+    head: 'Réglages de l\'appareil',
+    intro: 'Ces valeurs sont demandées lors de l\'ajout et modifiables ensuite sous <strong>Appareils → Capteur d\'alerte grêle → Réglages</strong>. L\'interrogation redémarre automatiquement après une modification.',
+    items: [
+      { t: 'ID de l\'appareil', c: 'device_id', s: 'Numéro de série à 12 caractères, soit l\'adresse MAC de la Signalbox, reçu après l\'inscription.', v: '–' },
+      { t: 'ID type matériel', c: 'hwtype_id', s: 'Identifiant entier du type d\'appareil figurant dans la confirmation d\'inscription.', v: '1' },
+      { t: 'Intervalle d\'interrogation', c: 'poll_interval', s: 'Délai entre deux interrogations. Réglable de 120 à 3600 secondes.', v: '120 s' }
+    ],
+    warn: 'Selon la spécification API de l\'AEAI, l\'intervalle <strong>ne doit pas être inférieur à 120 secondes</strong>.',
+    testHead: 'Alarme de test',
+    test: 'La connexion se vérifie directement sur <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> : après connexion, activez l\'<strong>alarme de test</strong>. Dans l\'intervalle configuré, le capteur signale <code>currentState = 2</code> et le Flow se déclenche. Désactivez ensuite l\'alarme de test.',
+    testAlt: 'Pour éviter l\'attente, utilisez l\'action Flow <strong>« Vérifier le statut grêle maintenant »</strong>.'
+  },
+  faq: {
+    head: 'Questions fréquentes',
+    items: [
+      { q: 'Où obtenir l\'ID de l\'appareil et le hwtypeId ?', a: 'Après inscription sur <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a>, vous recevez les identifiants par e-mail. L\'ID de l\'appareil est l\'adresse MAC à 12 caractères de votre Signalbox ; le hwtypeId est un entier identifiant le type d\'appareil.' },
+      { q: 'À quelle fréquence l\'app interroge-t-elle l\'API ?', a: 'Toutes les 120 secondes par défaut. L\'intervalle est réglable entre 120 et 3600 secondes dans les réglages de l\'appareil. En dessous de 120 secondes, la spécification API de l\'AEAI l\'interdit – et le système ne recalcule sa prévision que toutes les 5 minutes.' },
+      { q: 'Que se passe-t-il si l\'API est injoignable ?', a: 'L\'interrogation est relancée une fois après 30 secondes. Si elle échoue encore, l\'app active l\'alarme <code>api_error_state</code>, déclenche le Flow « Connexion API échouée » et signale l\'erreur au serveur – uniquement au premier échec, pas à chaque échec suivant. L\'intervalle normal reprend ensuite.' },
+      { q: 'Que signifie currentState = 2 ?', a: 'C\'est une <strong>alarme de test</strong>, déclenchée manuellement via <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a>. L\'app la traite exactement comme une alarme réelle – toute valeur différente de 0 compte comme grêle.' },
+      { q: 'Le capteur affiche « indisponible » – que faire ?', a: '<ul><li>Vérifier la connexion internet du Homey</li><li>Contrôler l\'ID de l\'appareil et le hwtypeId dans les réglages</li><li>Se connecter sur <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> et vérifier le statut</li><li>Exécuter l\'action Flow « Vérifier le statut grêle maintenant » et observer le journal</li></ul>' },
+      { q: 'Rien ne se passe quand je touche « Ajouter le capteur ».', a: 'Ce problème concernait les versions jusqu\'à 1.0.10 : si le service ne répondait pas, le bouton restait désactivé indéfiniment. Depuis la 1.0.11, la vérification expire après 20 secondes et affiche un message clair. Sur les versions antérieures, fermez puis rouvrez la page de configuration.' },
+      { q: 'L\'app fonctionne-t-elle sans Signalbox ?', a: 'Oui. L\'app s\'adresse directement à l\'API REST METEO et ne nécessite aucune Signalbox physique (boîtier AEAI). Elle la remplace pour les systèmes disposant de leur propre gestion technique du bâtiment.' },
+      { q: 'Où signaler un bug ou une suggestion ?', a: 'Sur <a href="' + LINKS.issues + '" target="_blank">GitHub Issues</a> ou dans le <a href="' + LINKS.forum + '" target="_blank">forum Homey Community</a>.' }
+    ]
+  }
+};
 
-      <div class="card">
-        <div class="card-title">🚨 Hagelwarnung <code>alarm_generic</code></div>
-        <p>Boolescher Alarm – <code>true</code> wenn <code>currentState ≠ 0</code>. Wird von Homey als roter Alarm-Indikator dargestellt.</p>
-      </div>
-      <div class="card">
-        <div class="card-title"># Hagelsignal <code>hail_state</code></div>
-        <p>Numerischer Rohwert der API:</p>
-        <ul>
-          <li><code>0</code> – Kein Hagel</li>
-          <li><code>1</code> – Hagelwarnung aktiv</li>
-          <li><code>2</code> – Hagelwarnung aktiv (Testalarm)</li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-title">🔌 API-Verbindungsfehler <code>api_error_state</code></div>
-        <p>Boolescher Alarm – <code>true</code> wenn die letzte API-Abfrage fehlgeschlagen ist (kein HTTP 200 oder Timeout).</p>
-      </div>
-      <div class="card">
-        <div class="card-title">🕐 Letzte API-Abfrage <code>last_poll</code></div>
-        <p>Datum und Uhrzeit der letzten erfolgreichen API-Abfrage im Format <code>TT.MM, HH:MM</code>.</p>
-      </div>
-    </div>
+/* ───────────────────────────── ITALIANO ──────────────────────────── */
+T.it = {
+  title: 'Protezione Grandine', sub: 'Guida e documentazione',
+  tabs: { app: 'App', sensors: 'Sensori', flows: 'Flows', settings: 'Impostazioni', faq: 'FAQ' },
+  app: {
+    introHead: 'Informazioni',
+    intro: 'Questa app collega Homey al sistema di allerta grandine <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> dell\'Associazione degli istituti cantonali di assicurazione antincendio (AICAA) e di SRF Meteo. Interroga l\'API REST METEO all\'intervallo configurato – ogni 120 secondi di default – e attiva i Flow non appena un\'allerta grandine diventa attiva per la tua posizione.',
+    notice: 'Il servizio è disponibile solo in <strong>Svizzera</strong> e richiede una registrazione preventiva.',
+    featHead: 'Funzioni',
+    feats: [
+      { i: '🌨️', t: 'Allerta grandine automatica', s: 'Quando un\'allerta diventa attiva, l\'app attiva un Flow – ad esempio per sollevare tutte le tapparelle.' },
+      { i: '✅', t: 'Cessato allarme', s: 'Alla revoca dell\'allerta parte un Flow separato, così le tapparelle possono essere richiuse.' },
+      { i: '🔌', t: 'Monitoraggio connessione', s: 'Un\'interrogazione fallita viene ripetuta una volta dopo 30 secondi. Se fallisce di nuovo, scattano allarme e Flow.' },
+      { i: '⏱️', t: 'Watchdog', s: 'Se l\'ultima interrogazione riuscita risale a oltre 10 minuti, l\'app lo segnala con un Flow dedicato.' },
+      { i: '🌍', t: 'Quattro lingue', s: 'Tedesco, inglese, francese e italiano – comprese le carte Flow e la procedura guidata.' }
+    ],
+    reqHead: 'Requisiti',
+    reqs: [
+      { t: 'Homey Pro', s: 'Con connessione internet attiva.' },
+      { t: 'Registrazione', s: 'Un account su hagelschutz-einfach-automatisch.ch.' },
+      { t: 'Credenziali', s: 'ID dispositivo (numero di serie) e ID tipo hardware dalla conferma di registrazione.' }
+    ],
+    linkHead: 'Link',
+    links: [
+      { t: 'hagelschutz-einfach-automatisch.ch', u: LINKS.site },
+      { t: 'Portale meteo.netitservices.com', u: LINKS.portal },
+      { t: 'Codice sorgente su GitHub', u: LINKS.github },
+      { t: 'Documentazione API (PDF)', u: LINKS.api }
+    ]
+  },
+  sensors: {
+    head: 'Valori del dispositivo',
+    intro: 'Il «Sensore di allerta grandine» espone questi valori sulla tile del dispositivo.',
+    items: [
+      { i: '🚨', t: 'Allerta grandine', c: 'alarm_generic', s: 'Allarme booleano – <code>true</code> quando <code>currentState</code> è diverso da 0. Homey lo mostra come indicatore rosso.' },
+      { i: '📶', t: 'Segnale grandine', c: 'hail_state', s: 'Valore grezzo dell\'API:<ul><li><code>0</code> – nessuna grandine</li><li><code>1</code> – allerta grandine attiva</li><li><code>2</code> – allerta grandine attiva (allarme di prova)</li></ul>' },
+      { i: '🔌', t: 'Errore di connessione API', c: 'api_error_state', s: 'Allarme booleano – <code>true</code> se l\'ultima interrogazione non è riuscita (nessun HTTP 200 o timeout).' },
+      { i: '🕐', t: 'Ultima interrogazione API', c: 'last_poll', s: 'Data e ora dell\'ultima interrogazione riuscita, nel formato <code>GG.MM, HH:MM</code>.' }
+    ]
+  },
+  flows: {
+    trigHead: 'Attivatori – «Quando»',
+    trigs: [
+      { t: 'Allerta grandine attiva', s: '<code>currentState</code> passa da 0 a 1 o 2. Token: <code>signal</code>, <code>description</code>' },
+      { t: 'Allerta grandine revocata', s: '<code>currentState</code> torna a 0.' },
+      { t: 'Valore del segnale modificato', s: 'A ogni modifica di <code>currentState</code>. Token: <code>signal</code>' },
+      { t: 'Connessione API non riuscita', s: 'Al primo fallimento – non a ogni fallimento successivo. Token: <code>error</code>' },
+      { t: 'Connessione API ripristinata', s: 'Prima interrogazione riuscita dopo un errore.' },
+      { t: 'Ultima interrogazione API in ritardo', s: 'Nessuna interrogazione riuscita da oltre 10 minuti.' }
+    ],
+    condHead: 'Condizioni – «E»',
+    conds: [
+      { t: 'Allerta grandine [non] è attiva', s: 'Verifica se <code>currentState</code> è diverso da 0.' },
+      { t: 'currentState [non] è X', s: 'Verifica un valore specifico (0, 1 o 2).' },
+      { t: 'Connessione API non è riuscita / funziona', s: 'Verifica <code>api_error_state</code>.' },
+      { t: 'Ultima interrogazione API [non] è più vecchia di X minuti', s: 'Selezionabile da 1 a 60 minuti.' }
+    ],
+    actHead: 'Azioni – «Allora»',
+    acts: [
+      { t: 'Verifica ora lo stato grandine', s: 'Avvia subito un\'interrogazione, senza attendere l\'intervallo configurato.' }
+    ],
+    exHead: 'Esempi di Flow',
+    ex: [
+      [['when', 'Allerta grandine attiva'], ['then', 'Avvia Flow → «Apri tutte le tapparelle»']],
+      [['when', 'Allerta grandine revocata'], ['then', 'Avvia Flow → «Chiudi tutte le tapparelle»'], ['then', 'Notifica: «Pericolo grandine passato»']],
+      [['when', 'Connessione API non riuscita'], ['then', 'Notifica: «API protezione grandine non raggiungibile»']],
+      [['when', 'Ultima interrogazione API in ritardo'], ['then', 'Invia notifica']]
+    ]
+  },
+  settings: {
+    head: 'Impostazioni del dispositivo',
+    intro: 'Questi valori vengono richiesti durante l\'aggiunta e sono modificabili in qualsiasi momento in <strong>Dispositivi → Sensore di allerta grandine → Impostazioni</strong>. Dopo una modifica l\'interrogazione riparte automaticamente.',
+    items: [
+      { t: 'ID dispositivo', c: 'device_id', s: 'Numero di serie a 12 caratteri, ovvero l\'indirizzo MAC della Signalbox, ricevuto dopo la registrazione.', v: '–' },
+      { t: 'ID tipo hardware', c: 'hwtype_id', s: 'Identificatore intero del tipo di dispositivo dalla conferma di registrazione.', v: '1' },
+      { t: 'Intervallo di interrogazione', c: 'poll_interval', s: 'Tempo tra due interrogazioni. Regolabile da 120 a 3600 secondi.', v: '120 s' }
+    ],
+    warn: 'Secondo la specifica API dell\'AICAA l\'intervallo <strong>non deve essere inferiore a 120 secondi</strong>.',
+    testHead: 'Allarme di prova',
+    test: 'La connessione si verifica direttamente su <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a>: dopo l\'accesso attiva l\'<strong>allarme di prova</strong>. Entro l\'intervallo configurato il sensore segnala <code>currentState = 2</code> e il Flow si attiva. Disattiva poi l\'allarme di prova.',
+    testAlt: 'Per non attendere, usa l\'azione Flow <strong>«Verifica ora lo stato grandine»</strong>.'
+  },
+  faq: {
+    head: 'Domande frequenti',
+    items: [
+      { q: 'Dove trovo l\'ID dispositivo e l\'hwtypeId?', a: 'Dopo la registrazione su <a href="' + LINKS.site + '" target="_blank">hagelschutz-einfach-automatisch.ch</a> ricevi le credenziali per e-mail. L\'ID dispositivo è l\'indirizzo MAC a 12 caratteri della Signalbox; l\'hwtypeId è un intero che identifica il tipo di dispositivo.' },
+      { q: 'Con quale frequenza l\'app interroga l\'API?', a: 'Ogni 120 secondi di default. L\'intervallo è regolabile tra 120 e 3600 secondi nelle impostazioni del dispositivo. Sotto i 120 secondi la specifica API dell\'AICAA non lo consente – e il sistema ricalcola la previsione solo ogni 5 minuti.' },
+      { q: 'Cosa succede se l\'API non è raggiungibile?', a: 'L\'interrogazione viene ripetuta una volta dopo 30 secondi. Se fallisce di nuovo, l\'app attiva l\'allarme <code>api_error_state</code>, avvia il Flow «Connessione API non riuscita» e segnala l\'errore al server – solo al primo fallimento, non a ogni successivo. Poi riprende l\'intervallo normale.' },
+      { q: 'Cosa significa currentState = 2?', a: 'È un <strong>allarme di prova</strong>, attivato manualmente tramite <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a>. L\'app lo tratta esattamente come un allarme reale – qualsiasi valore diverso da 0 vale come grandine.' },
+      { q: 'Il sensore mostra «non disponibile» – cosa fare?', a: '<ul><li>Verificare la connessione internet di Homey</li><li>Controllare ID dispositivo e hwtypeId nelle impostazioni</li><li>Accedere a <a href="' + LINKS.portal + '" target="_blank">meteo.netitservices.com</a> e verificare lo stato</li><li>Eseguire l\'azione Flow «Verifica ora lo stato grandine» e osservare il log</li></ul>' },
+      { q: 'Non succede nulla quando tocco «Aggiungi sensore».', a: 'Il problema riguardava le versioni fino alla 1.0.10: se il servizio non rispondeva, il pulsante restava disattivato a tempo indeterminato. Dalla 1.0.11 la verifica scade dopo 20 secondi e mostra un messaggio comprensibile. Sulle versioni precedenti, chiudi e riapri la pagina di configurazione.' },
+      { q: 'L\'app funziona senza Signalbox?', a: 'Sì. L\'app si rivolge direttamente all\'API REST METEO e non richiede alcuna Signalbox fisica (box AICAA). La sostituisce per impianti con una propria gestione dell\'edificio.' },
+      { q: 'Dove segnalo errori o suggerimenti?', a: 'Su <a href="' + LINKS.issues + '" target="_blank">GitHub Issues</a> oppure nel <a href="' + LINKS.forum + '" target="_blank">forum Homey Community</a>.' }
+    ]
+  }
+};
 
-    <!-- ══════════════════ FLOWS ══════════════════ -->
-    <div id="panel-flows" class="panel">
-      <h2>Verfügbare Flow-Karten</h2>
+/* ═══════════════════════ rendering helpers ═══════════════════════ */
 
-      <h3>Trigger (Wenn…)</h3>
-      <table>
-        <tr><th>Karte</th><th>Beschreibung</th></tr>
-        <tr><td><strong>Hagelwarnung ist aktiv</strong></td><td>currentState wechselt von 0 auf 1 oder 2. Token: <code>signal</code>, <code>description</code></td></tr>
-        <tr><td><strong>Hagelwarnung aufgehoben</strong></td><td>currentState kehrt zu 0 zurück.</td></tr>
-        <tr><td><strong>Signalwert hat sich geändert</strong></td><td>Bei jeder Änderung von currentState. Token: <code>signal</code></td></tr>
-        <tr><td><strong>API-Verbindung fehlgeschlagen</strong></td><td>Erste fehlgeschlagene API-Abfrage. Token: <code>error</code></td></tr>
-        <tr><td><strong>API-Verbindung wiederhergestellt</strong></td><td>Nach erfolgreicher Abfrage auf einen Fehler.</td></tr>
-        <tr><td><strong>Letzte API-Abfrage überfällig</strong></td><td>Keine erfolgreiche Abfrage seit mehr als 10 Minuten.</td></tr>
-      </table>
+var LANGS = ['de', 'en', 'fr', 'it'];
+var lang = 'de';
+var tab  = 'app';
 
-      <h3>Bedingungen (Wenn…)</h3>
-      <table>
-        <tr><th>Karte</th><th>Beschreibung</th></tr>
-        <tr><td><strong>Hagelwarnung ist [nicht] aktiv</strong></td><td>Prüft ob currentState ≠ 0.</td></tr>
-        <tr><td><strong>currentState ist [nicht] X</strong></td><td>Prüft auf einen konkreten Wert (0/1/2).</td></tr>
-        <tr><td><strong>API-Verbindung [ist fehlgeschlagen / funktioniert]</strong></td><td>Prüft api_error_state.</td></tr>
-        <tr><td><strong>Letzte API-Abfrage ist älter als X Minuten</strong></td><td>Prüft ob last_poll älter als X Minuten ist.</td></tr>
-      </table>
+function el(tag, cls, html) {
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (html != null) n.innerHTML = html;
+  return n;
+}
 
-      <h3>Aktionen (Dann…)</h3>
-      <table>
-        <tr><th>Karte</th><th>Beschreibung</th></tr>
-        <tr><td><strong>Hagelstatus jetzt prüfen</strong></td><td>Löst sofort eine API-Abfrage aus.</td></tr>
-      </table>
+function head(text) { return el('div', 'sec-head', text); }
 
-      <h2>Beispiel-Flows</h2>
+/** Grouped card built from rows of { i?, t, c?, s?, v? }. */
+function group(items) {
+  var g = el('div', 'group');
+  items.forEach(function (it) {
+    var row = el('div', 'row');
+    if (it.i) row.appendChild(el('div', 'row-ico', it.i));
+    var body = el('div', 'row-body');
+    var title = it.t + (it.c ? ' <code>' + it.c + '</code>' : '');
+    body.appendChild(el('div', 'row-title', title));
+    if (it.s) body.appendChild(el('div', 'row-sub', it.s));
+    row.appendChild(body);
+    if (it.v) row.appendChild(el('div', 'row-val', it.v));
+    g.appendChild(row);
+  });
+  return g;
+}
 
-      <div class="flow">
-        <div class="flow-row"><span class="flow-label lbl-when">WENN</span><span>Hagelwarnung ist aktiv</span></div>
-        <div class="flow-row"><span class="flow-label lbl-then">DANN</span><span>Flow starten → «Alle Storen öffnen»</span></div>
-      </div>
+function note(kind, text) {
+  var n = el('div', 'note ' + kind);
+  n.appendChild(el('div', 'note-ico', kind === 'warn' ? '⚠️' : 'ℹ️'));
+  n.appendChild(el('div', null, text));
+  return n;
+}
 
-      <div class="flow">
-        <div class="flow-row"><span class="flow-label lbl-when">WENN</span><span>Hagelwarnung aufgehoben</span></div>
-        <div class="flow-row"><span class="flow-label lbl-then">DANN</span><span>Flow starten → «Alle Storen schliessen»</span></div>
-        <div class="flow-row"><span class="flow-label lbl-then">DANN</span><span>Push-Benachrichtigung senden: «Hagelgefahr vorbei»</span></div>
-      </div>
+function prose(text) {
+  var g = el('div', 'group');
+  var row = el('div', 'row');
+  row.appendChild(el('div', 'row-body', '<div class="row-sub" style="margin-top:0">' + text + '</div>'));
+  g.appendChild(row);
+  return g;
+}
 
-      <div class="flow">
-        <div class="flow-row"><span class="flow-label lbl-when">WENN</span><span>API-Verbindung fehlgeschlagen</span></div>
-        <div class="flow-row"><span class="flow-label lbl-then">DANN</span><span>Push-Benachrichtigung senden: «Hagelschutz API nicht erreichbar»</span></div>
-      </div>
+function linkGroup(links) {
+  var g = el('div', 'group');
+  links.forEach(function (l) {
+    var a = el('a', 'link-row', l.t + '<span class="chev">›</span>');
+    a.href = l.u;
+    a.target = '_blank';
+    g.appendChild(a);
+  });
+  return g;
+}
 
-      <div class="flow">
-        <div class="flow-row"><span class="flow-label lbl-when">WENN</span><span>Letzte API-Abfrage überfällig</span></div>
-        <div class="flow-row"><span class="flow-label lbl-then">DANN</span><span>Push-Benachrichtigung senden</span></div>
-      </div>
-    </div>
+function flowCard(rows, labels) {
+  var f = el('div', 'flow');
+  rows.forEach(function (r) {
+    var row = el('div', 'flow-row');
+    row.appendChild(el('span', 'pill ' + r[0], labels[r[0]]));
+    row.appendChild(el('span', null, r[1]));
+    f.appendChild(row);
+  });
+  return f;
+}
 
-    <!-- ══════════════════ EINSTELLUNGEN ══════════════════ -->
-    <div id="panel-settings" class="panel">
-      <h2>Geräte-Einstellungen</h2>
-      <p>Die folgenden Einstellungen können nach dem Hinzufügen des Geräts unter <strong>Geräte → Hagelwarn-Sensor → Einstellungen</strong> angepasst werden.</p>
+function faqGroup(items) {
+  var g = el('div', 'group');
+  items.forEach(function (it) {
+    var item = el('div', 'faq-item');
+    var q = el('div', 'faq-q', it.q + '<span class="chev">›</span>');
+    q.onclick = function () { item.classList.toggle('open'); };
+    item.appendChild(q);
+    item.appendChild(el('div', 'faq-a', it.a));
+    g.appendChild(item);
+  });
+  return g;
+}
 
-      <table>
-        <tr>
-          <th>Einstellung</th>
-          <th>Beschreibung</th>
-          <th>Standard</th>
-        </tr>
-        <tr>
-          <td><strong>Geräte-ID</strong><br><code>device_id</code></td>
-          <td>12-stellige Seriennummer / MAC-Adresse der Signalbox. Erhalten nach Registrierung.</td>
-          <td>–</td>
-        </tr>
-        <tr>
-          <td><strong>Hardware-Typ-ID</strong><br><code>hwtype_id</code></td>
-          <td>Ganzzahliger Gerätetyp-Identifikator aus der Registrierungsbestätigung.</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td><strong>Abfrageintervall</strong><br><code>poll_interval</code></td>
-          <td>Wie oft die API abgefragt wird (in Sekunden). Minimum: 120 s gemäss API-Spezifikation.</td>
-          <td>120 s</td>
-        </tr>
-      </table>
+/* ═══════════════════════════ panels ═══════════════════════════ */
 
-      <div class="warn-box">
-        ⚠️ Das Abfrageintervall darf gemäss API-Spezifikation der VKF <strong>nicht kürzer als 120 Sekunden</strong> eingestellt werden.
-      </div>
+function buildApp(t) {
+  var p = el('div', 'panel');
+  p.appendChild(head(t.app.introHead));
+  p.appendChild(prose(t.app.intro));
+  p.appendChild(note('info', t.app.notice));
+  p.appendChild(head(t.app.featHead));
+  p.appendChild(group(t.app.feats));
+  p.appendChild(head(t.app.reqHead));
+  p.appendChild(group(t.app.reqs));
+  p.appendChild(head(t.app.linkHead));
+  p.appendChild(linkGroup(t.app.links));
+  return p;
+}
 
-      <h2>Testalarm</h2>
-      <p>
-        Die API-Verbindung lässt sich direkt auf
-        <a href="https://meteo.netitservices.com" target="_blank">meteo.netitservices.com</a>
-        testen. Nach dem Login den <strong>Testalarm</strong>-Schalter aktivieren – innerhalb von
-        120 Sekunden sollte der Sensor <code>currentState = 2</code> melden und der Flow auslösen.
-        Den Testalarm danach wieder deaktivieren.
-      </p>
-      <p>Alternativ kann die Flow-Aktion <strong>«Hagelstatus jetzt prüfen»</strong> genutzt werden, um sofort eine manuelle Abfrage auszulösen.</p>
-    </div>
+function buildSensors(t) {
+  var p = el('div', 'panel');
+  p.appendChild(head(t.sensors.head));
+  p.appendChild(prose(t.sensors.intro));
+  p.appendChild(el('div', 'sec-head', ''));
+  p.appendChild(group(t.sensors.items));
+  return p;
+}
 
-    <!-- ══════════════════ FAQ ══════════════════ -->
-    <div id="panel-faq" class="panel">
-      <h2>Häufige Fragen</h2>
+function buildFlows(t) {
+  var p = el('div', 'panel');
+  var f = t.flows;
+  p.appendChild(head(f.trigHead));
+  p.appendChild(group(f.trigs));
+  p.appendChild(head(f.condHead));
+  p.appendChild(group(f.conds));
+  p.appendChild(head(f.actHead));
+  p.appendChild(group(f.acts));
+  p.appendChild(head(f.exHead));
+  var labels = {
+    when: { de: 'WENN', en: 'WHEN', fr: 'QUAND', it: 'QUANDO' }[lang],
+    then: { de: 'DANN', en: 'THEN', fr: 'ALORS', it: 'ALLORA' }[lang]
+  };
+  f.ex.forEach(function (rows) { p.appendChild(flowCard(rows, labels)); });
+  return p;
+}
 
-      <h3>Wo bekomme ich die Geräte-ID und hwtypeId?</h3>
-      <p>
-        Nach der Registrierung auf
-        <a href="https://www.hagelschutz-einfach-automatisch.ch" target="_blank">hagelschutz-einfach-automatisch.ch</a>
-        erhalten Sie die Zugangsdaten per E-Mail. Die Geräte-ID ist die 12-stellige MAC-Adresse
-        Ihrer Signalbox, die hwtypeId ein ganzzahliger Identifikator des Gerätetyps.
-      </p>
+function buildSettings(t) {
+  var p = el('div', 'panel');
+  var s = t.settings;
+  p.appendChild(head(s.head));
+  p.appendChild(prose(s.intro));
+  p.appendChild(el('div', 'sec-head', ''));
+  p.appendChild(group(s.items));
+  p.appendChild(note('warn', s.warn));
+  p.appendChild(head(s.testHead));
+  p.appendChild(prose(s.test));
+  p.appendChild(note('info', s.testAlt));
+  return p;
+}
 
-      <h3>Warum ist das Abfrageintervall auf 120 Sekunden fixiert?</h3>
-      <p>
-        Die API-Spezifikation der VKF schreibt ein Mindestintervall von 120 Sekunden vor. Das Hagelwarnsystem
-        berechnet die Prognose ohnehin nur alle 5 Minuten neu – häufigere Abfragen bringen keinen Mehrwert.
-      </p>
+function buildFaq(t) {
+  var p = el('div', 'panel');
+  p.appendChild(head(t.faq.head));
+  p.appendChild(faqGroup(t.faq.items));
+  return p;
+}
 
-      <h3>Was bedeutet currentState = 2?</h3>
-      <p>
-        <code>currentState = 2</code> ist ein <strong>Testalarm</strong>, der manuell über
-        <a href="https://meteo.netitservices.com" target="_blank">meteo.netitservices.com</a>
-        ausgelöst werden kann. Die App behandelt ihn identisch wie einen echten Alarm (non-zero = Hagel).
-      </p>
+var BUILDERS = { app: buildApp, sensors: buildSensors, flows: buildFlows, settings: buildSettings, faq: buildFaq };
 
-      <h3>Der Sensor zeigt «nicht verfügbar» an – was tun?</h3>
-      <ul>
-        <li>Internetverbindung des Homey prüfen</li>
-        <li>Geräte-ID und hwtypeId in den Einstellungen kontrollieren</li>
-        <li>Auf <a href="https://meteo.netitservices.com" target="_blank">meteo.netitservices.com</a> einloggen und Status prüfen</li>
-        <li>Flow-Aktion «Hagelstatus jetzt prüfen» ausführen und Log beobachten</li>
-      </ul>
+/* ═══════════════════════════ render ═══════════════════════════ */
 
-      <h3>Funktioniert die App ohne Signalbox?</h3>
-      <p>
-        Ja – die App nutzt die METEO REST API direkt und benötigt keine physische Signalbox (VKF-Box).
-        Sie ersetzt diese für Systeme mit eigener Gebäudesteuerung.
-      </p>
+function render() {
+  var t = T[lang] || T.de;
 
-      <h3>Wo melde ich Fehler oder Verbesserungsvorschläge?</h3>
-      <p>
-        Auf <a href="https://github.com/andiwirz/ch.hagelschutz.homey/issues" target="_blank">GitHub Issues</a>
-        oder im <a href="https://community.homey.app/t/152992" target="_blank">Homey Community Forum</a>.
-      </p>
-    </div>
+  document.getElementById('nav-title').textContent = t.title;
+  document.getElementById('nav-sub').textContent   = t.sub;
+  document.title = t.title;
 
-  </div>
+  // Segmented control
+  var seg = document.getElementById('seg');
+  seg.innerHTML = '';
+  Object.keys(t.tabs).forEach(function (key) {
+    var item = el('div', 'seg-item' + (key === tab ? ' on' : ''), t.tabs[key]);
+    item.onclick = function () { tab = key; render(); };
+    seg.appendChild(item);
+  });
 
-  <script>
-    function onHomeyReady(Homey) {
-      Homey.ready();
-    }
+  // Active panel only – keeps the DOM small and the switch instant
+  var wrap = document.getElementById('wrap');
+  wrap.innerHTML = '';
+  var panel = BUILDERS[tab](t);
+  panel.classList.add('on');
+  wrap.appendChild(panel);
 
-    function show(tab, el) {
-      document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
-      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-      document.getElementById('panel-' + tab).classList.add('active');
-      el.classList.add('active');
-    }
-  </script>
+  // Language picker
+  var lp = document.getElementById('lang');
+  lp.innerHTML = '';
+  LANGS.forEach(function (l) {
+    var b = el('button', l === lang ? 'on' : null, l.toUpperCase());
+    b.onclick = function () { lang = l; render(); };
+    lp.appendChild(b);
+  });
+
+  document.getElementById('foot').textContent = 'ch.hagelschutz.homey';
+}
+
+/* ═══════════════════════════ boot ═══════════════════════════ */
+
+function onHomeyReady(Homey) {
+  // Language detection must never keep Homey.ready() from running.
+  try {
+    var l = (Homey.language || navigator.language || 'de').split('-')[0].toLowerCase();
+    if (LANGS.indexOf(l) !== -1) lang = l;
+  } catch (e) { /* keep the default */ }
+
+  try { render(); } catch (e) { /* leave whatever rendered */ }
+
+  Homey.ready();
+}
+
+// Render immediately too, so the page is never blank if onHomeyReady is late.
+render();
+</script>
 
 </body>
 </html>
