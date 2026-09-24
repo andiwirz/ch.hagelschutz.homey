@@ -1,5 +1,6 @@
 # Hagelschutz – einfach automatisch (Homey App)
 
+[![Homey App Store](https://img.shields.io/badge/Homey%20App%20Store-installieren-1b5e8c)](https://homey.app/a/ch.hagelschutz.homey/)
 [![Version](https://img.shields.io/badge/version-1.0.12-blue)](https://github.com/andiwirz/ch.hagelschutz.homey/releases)
 [![Homey SDK](https://img.shields.io/badge/Homey%20SDK-v3-green)](https://apps.developer.homey.app/)
 [![Community](https://img.shields.io/badge/Homey%20Community-Thread-orange)](https://community.homey.app/t/152992)
@@ -22,14 +23,19 @@ Die App ist vollständig auf **Deutsch**, **Englisch**, **Französisch** und **I
 
 ## Installation
 
-### Option A – Homey CLI (Entwickler)
+### Option A – Homey App Store (empfohlen)
+
+Die App ist im Homey App Store veröffentlicht:
+
+**[→ Hagelschutz Schweiz installieren](https://homey.app/a/ch.hagelschutz.homey/)**
+
+Alternativ in der Homey App unter **Mehr → Apps** nach „Hagelschutz Schweiz" suchen.
+
+### Option B – Homey CLI (Entwickler)
 ```bash
 npm install -g homey
 homey app install
 ```
-
-### Option B – Homey App Store
-_(Sobald die App veröffentlicht ist, direkt im Homey App Store suchen.)_
 
 ---
 
@@ -139,15 +145,24 @@ DANN:   Push-Benachrichtigung senden → "Hagelschutz API nicht erreichbar!"
 ## Funktionskontrolle (Testalarm)
 
 1. Auf [meteo.netitservices.com](https://meteo.netitservices.com) einloggen
-2. **Testalarm** aktivieren → innerhalb von 2 Minuten wird `currentState = 2` zurückgegeben
+2. **Testalarm** aktivieren → bei der nächsten Abfrage wird `currentState = 2` zurückgegeben
 3. Homey löst den Flow aus → Storen fahren hoch ✓
 4. Testalarm deaktivieren → `currentState = 0` → Hagelwarnung aufgehoben ✓
 5. Danach **Alarmkette** auf der Website aktivieren
+
+> Wer nicht bis zur nächsten planmässigen Abfrage warten möchte, nutzt die Flow-Aktion **„Hagelstatus jetzt prüfen"** für eine sofortige Abfrage.
+
+---
+
+## Hilfe in der App
+
+Die App bringt eine eigene Hilfeseite mit – in der Homey App unter **Mehr → Apps → Hagelschutz Schweiz → Konfigurieren**. Sie ist in fünf Bereiche gegliedert (App, Sensoren, Flows, Einstellungen, FAQ), passt sich automatisch der Homey-Sprache an und unterstützt Hell- und Dunkelmodus.
 
 ---
 
 ## Links
 
+- 🛒 **Homey App Store:** [Hagelschutz Schweiz](https://homey.app/a/ch.hagelschutz.homey/)
 - 📋 **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - 🐛 **Bug melden:** [GitHub Issues](https://github.com/andiwirz/ch.hagelschutz.homey/issues)
 - 💬 **Community:** [Homey Community Thread #152992](https://community.homey.app/t/152992)
